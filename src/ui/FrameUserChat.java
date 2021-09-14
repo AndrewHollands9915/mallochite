@@ -35,6 +35,7 @@ public class FrameUserChat extends JFrame {
 	JTextArea txtChatArea;
 	JTextArea textArea_1;
 	JButton btnSendMsg;
+	JLabel lblFriendName;
 	boolean test = false;
 	/**
 	 * Launch the application.
@@ -165,7 +166,7 @@ public class FrameUserChat extends JFrame {
 		lblClose.setBounds(776, 0, 24, 35);
 		contentPane.add(lblClose);
 		
-		JLabel lblFriendName = new JLabel("Talking with a Friend");
+	    lblFriendName = new JLabel("Talking with a Friend");
 		lblFriendName.setBounds(210, 3, 556, 31);
 		contentPane.add(lblFriendName);
 		lblFriendName.setForeground(Color.WHITE);
@@ -199,6 +200,14 @@ public class FrameUserChat extends JFrame {
 	{
 		return test;
 	}
+	
+	public void settxtChatArea(String imp) {
+        txtChatArea.setText(imp);
+    }
+	
+	public void setlblFriendName(String imp) {
+        lblFriendName.setText("Talking with a Friend "+imp);
+    }
 
 
 	

@@ -17,7 +17,7 @@ import mallochite.models.classes.nodes.SubNode;
 
 public class Mallochite 
 {
-	public static void main ( String [] args ) throws IOException, NoSuchAlgorithmException, InterruptedException
+	public static void main ( String [] args ) throws Exception
 	{
 		
 		Scanner scanner = new Scanner( System.in );
@@ -33,9 +33,9 @@ public class Mallochite
 			remoteUser = new User();
 			
 			remoteUser.setIP( inetAddress.getHostAddress() );
-			remoteUser.setPort( 23457 );
+			remoteUser.setPort(23457);
 			remoteUser.setUsername( "user1" );
-			remoteUser.setUUID( "asdf-321" );
+			remoteUser.setUUID( "asdf-123" );
 			
 		
 		
@@ -43,29 +43,39 @@ public class Mallochite
 		
 		thisUser.setUsername( "user2" );
 		thisUser.setIP( inetAddress.getHostAddress() );
-		thisUser.setPort( 42422 );
-		thisUser.setUUID( "asdf-123" );
+		thisUser.setPort(12121);
+		thisUser.setUUID( "asdf-321" );
 		
 		thisUser.getUserList().add(remoteUser);
 
+		subNode1 = new SubNode( thisUser );
+		
 		try
 		{
-			subNode1 = new SubNode( thisUser );
+			
+			
 			subNode1.openServerSocket( subNode1.getThisUser().getPort());
 			subNode1.start();
 			ChatManager manager  = new ChatManager(subNode1);
-			
 			while( subNode1.isListening() )
 			{
 				manager.menu();
 			}   
       
 		}
+		catch(IOException ex) 
+		{
+			ex.printStackTrace();
+		}
+		
 		finally
 		{
+			System.out.println(subNode1.getServerSocket().toString());
 			if ( subNode1.getServerSocket() != null )
 			{
+				
 				subNode1.closeServerSocket();
+				
 			}
 		}
         

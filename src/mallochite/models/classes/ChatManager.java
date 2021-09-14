@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
 import ui.FrameUserChat;
 
@@ -29,7 +30,7 @@ public class ChatManager
 	}
 	
 	
-	public void menu() throws IOException, InterruptedException
+	public void menu() throws Exception
 	{
 		Scanner scanner = new Scanner ( System.in );
 		
@@ -58,6 +59,7 @@ public class ChatManager
 					//frameChat.setTextArea_1();
 					userToContact = user;
 					this.sendMessage( userToContact );
+					frameChat.setlblFriendName(userName+"");
 				}
 				else
 				{
@@ -109,7 +111,7 @@ public class ChatManager
 	}
 	String messageToSend = "";
 	
-	private void sendMessage(User userToContact) throws IOException  ///////////////////////////////////////rgdeftqjnklmdflesrnmawk jewfrashjn ikijuhbnfswdea hjuikm,.n bdfseaw hybjnu, kmdfsea
+	private void sendMessage(User userToContact) throws Exception
 	{
 		messageToSend = "";
 		System.out.println("Enter message to send: ");	
@@ -121,7 +123,12 @@ public class ChatManager
 			@Override
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
-		    	messageToSend = frameChat.gettxtChatArea()+"";		
+		    	try {
+					messageToSend = RSAEncryption.rsaEncrypt(frameChat.gettxtChatArea()+"");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}		
 		    	System.out.println("workd");
 		    	
 		    }
@@ -134,7 +141,8 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextArea_1("You: "+messageToSend);
+				 frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
+				 frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
 			 }
