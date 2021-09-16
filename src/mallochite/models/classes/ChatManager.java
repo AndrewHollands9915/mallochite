@@ -54,9 +54,7 @@ public class ChatManager
 			
 			for(User user: userList ){
 				if(user.getUsername().equals( userName )) {
-				
-					
-					//frameChat.setTextArea_1();
+														
 					userToContact = user;
 					this.sendMessage( userToContact );
 					frameChat.setlblFriendName(userName+"");
@@ -169,13 +167,16 @@ public class ChatManager
 		}
 	}
 	
-	public void addContact() 
+	public void addContact() //throws Exception 
 	{
+		
+		
 		User contact = new User();
 		
 		
 			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
 			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
+		
 			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
 			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
 		
@@ -199,6 +200,10 @@ public class ChatManager
 		
 		this.subNode.getThisUser().addUser( contact );
 		this.subNode.getThisUser().addConversation( contact );
+		
+		//Exception e = new Exception();
+		//throw e;
+		
 	}
 }
 

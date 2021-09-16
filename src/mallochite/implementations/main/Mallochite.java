@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import java.net.Socket;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -26,10 +27,7 @@ public class Mallochite
 		User thisUser = new User();
 		User remoteUser = new User();
 		
-		
-		
-		
-			
+				
 			remoteUser = new User();
 			
 			remoteUser.setIP( inetAddress.getHostAddress() );
@@ -37,9 +35,7 @@ public class Mallochite
 			remoteUser.setUsername( "user1" );
 			remoteUser.setUUID( "asdf-123" );
 			
-		
-		
-		
+
 		
 		thisUser.setUsername( "user2" );
 		thisUser.setIP( inetAddress.getHostAddress() );
@@ -53,8 +49,23 @@ public class Mallochite
 		try
 		{
 			
+			if (available(subNode1.getThisUser().getPort()))
+			{
+				System.out.println("is open");
+				subNode1.openServerSocket( subNode1.getThisUser().getPort());
+			}
+			else
+			{
+				System.out.println("is in use");
+			}
 			
-			subNode1.openServerSocket( subNode1.getThisUser().getPort());
+			
+			
+			
+			
+			
+			
+			
 			subNode1.start();
 			ChatManager manager  = new ChatManager(subNode1);
 			while( subNode1.isListening() )
@@ -70,7 +81,7 @@ public class Mallochite
 		
 		finally
 		{
-			System.out.println(subNode1.getServerSocket().toString());
+			//System.out.println(subNode1.getServerSocket().toString());
 			if ( subNode1.getServerSocket() != null )
 			{
 				
@@ -78,6 +89,17 @@ public class Mallochite
 				
 			}
 		}
-        
+		
+		
+	}   
+	
+	
+	private static boolean available(int port) {
+	    try (Socket ignored = new Socket("localhost", port)) {
+	        return false;
+	    } catch (IOException ignored) {
+	    	return true;
+	    }
 	}
 }
+	    

@@ -149,6 +149,7 @@ public class FrameUserChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
+					System.exit(0); //close the program
 					 FrameUserChat.this.dispose();
 			}
 			@Override
