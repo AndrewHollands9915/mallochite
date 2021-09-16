@@ -52,11 +52,14 @@ public abstract class Node extends Thread
         try
         {
             this.serverSocket = new ServerSocket( portNumberToUse );
-            this.portNumberToUse = portNumberToUse;
+            //this.portNumberToUse = portNumberToUse;
             this.listening = true;  
         }
         
-        catch ( IOException ex ) { ex.printStackTrace(); }
+        catch ( IOException ex ) 
+        { 
+        	throw ex;
+        }
         
     }
     
@@ -77,7 +80,7 @@ public abstract class Node extends Thread
 	}
     
 	
-    public void makeConnection( User userToConnectWith, String messageToSend  )
+    public void makeConnection( User userToConnectWith, String messageToSend  ) throws Exception
     {
    
 		try
@@ -141,7 +144,7 @@ public abstract class Node extends Thread
 	
     public ServerSocket getServerSocket()
 	{
-		return serverSocket;
+		return this.serverSocket;
 	}
 
 	public void setServerSocket(ServerSocket serverSocket)

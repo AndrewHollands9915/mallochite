@@ -115,11 +115,11 @@ public class MallochiteMessageManager
 		return response;
 	}
 	
-	public String formatMessageToSend ( String uuid , String ipAddress , String messageToSend )
+	public String formatMessageToSend ( String uuid , String ipAddress , String messageToSend ) throws Exception
 	{
 		String messageToSendFormated;
 		
-		messageToSendFormated = String.format( "%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress , messageToSend );
+		messageToSendFormated = String.format( "%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress , RSAEncryption.rsaDecrypt(messageToSend));
 		
 		return messageToSendFormated;
 	}

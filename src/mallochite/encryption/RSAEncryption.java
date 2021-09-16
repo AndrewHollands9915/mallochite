@@ -20,6 +20,10 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -29,9 +33,15 @@ import javax.crypto.NoSuchPaddingException;
 public class RSAEncryption {
 	
 
-public static KeyPair keyGenerator() throws NoSuchAlgorithmException{
+public static KeyPair keyGenerator() {
 	//Generating a key pair using public key
-			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA"); // this is how JAVA knows which algorithm to use for the encryption.
+			KeyPairGenerator generator = null;
+			try {
+				generator = KeyPairGenerator.getInstance("RSA");
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // this is how JAVA knows which algorithm to use for the encryption.
 			generator.initialize(2048);
 			KeyPair keyPair = generator.generateKeyPair();
 			
@@ -141,26 +151,28 @@ public static byte[] encrypt(Key pubKey, String message) throws NoSuchAlgorithmE
 		  }
 	
 
-	public static byte[] rsaEncrypt(byte[] data) throws Exception {
-		  PublicKey pubKey = getpublicKey("public.key");
-		  Cipher cipher = Cipher.getInstance("RSA");
-		  cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-		  byte[] cipherData = cipher.doFinal(data);
-		  return cipherData;
-		}
-	
-	public static String rsaDecrypt(byte[] data) throws Exception {
-		  PrivateKey privKey = getprivateKey("private.key");
-		  Cipher cipher = Cipher.getInstance("RSA");
-		  cipher.init(Cipher.DECRYPT_MODE, privKey);
-		  byte[] cipherData = cipher.doFinal(data);
-		  String output = "";
-		  for(byte b: cipherData) {
-				output = output + (char)b;
+	 static String encryptedText;
+		public static String rsaEncrypt(String data) throws Exception {
+			  PublicKey pubKey = getpublicKey("public.key");
+			  Cipher cipher = Cipher.getInstance("RSA");
+			  cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			  byte[] cipherData = cipher.doFinal(data.getBytes());
+			  Encoder encoder = Base64.getEncoder();
+			  encryptedText = encoder.encodeToString(cipherData);
+			  return encryptedText;
 			}
-			return output;
-		}
-	
-	
+		
+		public static  String rsaDecrypt(String data) throws Exception {
+			  PrivateKey privKey = getprivateKey("private.key");
+			  Cipher cipher = Cipher.getInstance("RSA");
+			  cipher.init(Cipher.DECRYPT_MODE, privKey);
+			  Decoder decoder = Base64.getDecoder();
+			  byte[] cipherData = cipher.doFinal(decoder.decode(data));
+			  String output = "";
+			  for(byte b: cipherData) {
+					output = output + (char)b;
+				}
+				return output;
+			}
 
 }

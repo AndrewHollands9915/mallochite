@@ -100,7 +100,7 @@ public class ConnectionManager extends Thread {
 	 * Creates a socket with the intent of sending a "GREET" header with public key
 	 * Waits for response from socket and reacts accordingly
 	 */
-	public void sendMessage(User userToContact, String messageToSend) throws IOException {
+	public void sendMessage(User userToContact, String messageToSend) throws Exception {
 		
 		if ( this.debugging )
 		{
