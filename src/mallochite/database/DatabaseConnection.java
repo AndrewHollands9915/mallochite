@@ -42,7 +42,7 @@ public class DatabaseConnection
 	
 	
 	//find contacts
-	public ArrayList<Contact> getContacts() throws Exception{
+/*	public ArrayList<Contact> getContacts() throws Exception{
 	//public ResultSet getContacts() throws Exception
 	{
    
@@ -99,7 +99,7 @@ public class DatabaseConnection
 		
 	
 	
-	
+	*/
 	
 }
 
