@@ -15,6 +15,7 @@ import javax.crypto.NoSuchPaddingException;
 
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
+import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
 
 public class Mallochite 
@@ -22,6 +23,8 @@ public class Mallochite
 	public static void main ( String [] args ) throws Exception
 	{
 		DatabaseCrud.connect(); //connect to the database
+		//DatabaseConnection.readAllData();
+		DatabaseConnection.readMessagesEveryUser();
 		
 		Scanner scanner = new Scanner( System.in );
 		InetAddress inetAddress = InetAddress.getLocalHost();
