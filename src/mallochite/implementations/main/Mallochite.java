@@ -25,6 +25,8 @@ public class Mallochite
 		DatabaseCrud.connect(); //connect to the database
 		//DatabaseConnection.readAllData();
 		DatabaseConnection.readMessagesEveryUser();
+		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
+		
 		
 		Scanner scanner = new Scanner( System.in );
 		InetAddress inetAddress = InetAddress.getLocalHost();

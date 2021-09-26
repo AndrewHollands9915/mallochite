@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mallochite.database.DatabaseConnection;
 import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
 import ui.FrameUserChat;
@@ -197,6 +198,16 @@ public class ChatManager
 			contact.setUUID(contactUUID);
 			//contact.setPort(contactPort);*/
 		
+			//works but its not int sooooooo???
+			System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
+			//add contact to the database
+			DatabaseConnection.UserInsert(this.subNode.getThisUser().getUserList().get( 0 ).getUUID()+"" , 
+					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
+					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
+			
+			
+			
+			
 		
 		this.subNode.getThisUser().addUser( contact );
 		this.subNode.getThisUser().addConversation( contact );
