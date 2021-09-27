@@ -15,11 +15,18 @@ import javax.crypto.NoSuchPaddingException;
 
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
+import mallochite.database.DatabaseConnection;
+import mallochite.database.DatabaseCrud;
 
 public class Mallochite 
 {
 	public static void main ( String [] args ) throws Exception
 	{
+		DatabaseCrud.connect(); //connect to the database
+		//DatabaseConnection.readAllData();
+		DatabaseConnection.readMessagesEveryUser();
+		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
+		
 		
 		Scanner scanner = new Scanner( System.in );
 		InetAddress inetAddress = InetAddress.getLocalHost();
@@ -60,11 +67,7 @@ public class Mallochite
 			}
 			
 			
-			
-			
-			
-			
-			
+		
 			
 			subNode1.start();
 			ChatManager manager  = new ChatManager(subNode1);
