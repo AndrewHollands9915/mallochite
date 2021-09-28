@@ -17,7 +17,8 @@ public class User
 	private ArrayList<String> conversation;
 	Hashtable<String , ArrayList<String> > conversations = new Hashtable<String , ArrayList<String> >();
 	private ArrayList<User> userList = new ArrayList<User>();
-	
+
+
 	private boolean debugging = false;
 
 	//placeholder?
@@ -144,5 +145,9 @@ public class User
 	public void setUsername(String username)
 	{
 		this.username = username;
+	}
+	
+	public void setUserList(ArrayList<User> userList) {
+		this.userList = userList;
 	}
 }

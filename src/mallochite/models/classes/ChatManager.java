@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import mallochite.database.DatabaseConnection;
 import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
+import mallochite.models.classes.nodes.SuperNode;
 import ui.FrameUserChat;
 
 public class ChatManager
@@ -29,8 +30,8 @@ public class ChatManager
 		
 		
 	}
-	
-	
+
+
 	public void menu() throws Exception
 	{
 		Scanner scanner = new Scanner ( System.in );

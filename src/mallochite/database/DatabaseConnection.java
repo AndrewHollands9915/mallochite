@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import mallochite.models.classes.Contact;
+import mallochite.models.classes.User;
 
-public class DatabaseConnection 
+public static class DatabaseConnection 
 {
 	//read data
 		public static void readMessagesEveryUser() {
@@ -128,6 +129,59 @@ public class DatabaseConnection
 		            }catch (SQLException e) {
 		                System.out.println(e.toString());
 		            } 		            
+				}
+				
+				
+				public static ArrayList<User> getArrayListOfUsers() {
+					Connection con = DatabaseCrud.connect();
+					ArrayList<User> users = new ArrayList<User>();
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					
+					try {
+						String sql = "SELECT * FROM Contact";
+						ps = con.prepareStatement(sql);
+						rs = ps.executeQuery();
+						
+						int forKey = 0;
+						
+						while(rs.next()) {
+							
+							User user = new User();			
+							
+							String UUID = rs.getString("UUID");
+							String userName = rs.getString("UserName");
+							String IPAddress = rs.getString("IPAddress");
+							
+							user.setUUID( UUID );
+							user.setUsername( userName );
+							user.setIP( IPAddress );
+							
+							users.add( user );
+						}
+						rs.close();
+						ps.close();
+								
+					} 
+					catch (SQLException e) 
+					{ 
+						System.out.println(e.toString()); 
+					} 
+					finally 
+					{
+						try 
+						{
+							rs.close();
+							ps.close();
+							con.close();
+						} 
+						catch(SQLException e) 
+						{ 
+							System.out.println(e.toString()); 
+						}
+					}
+					return users;
+					
 				}
 
 
