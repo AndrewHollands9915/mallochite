@@ -24,6 +24,7 @@ public class Mallochite
 	{
 		DatabaseCrud.connect(); //connect to the database
 		//DatabaseConnection.readAllData();
+		DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
 		DatabaseConnection.readMessagesEveryUser();
 		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
 		

@@ -90,22 +90,28 @@ public class DatabaseConnection
 					
 					}
 					
-				//user update prob dont need
-			/*	public void UserUpdate() {
-					 Scanner scan = new Scanner(System.in);  // Create a Scanner object
+				//user update only updates UserName right now
+				public static void updateUser(String UserName) {
+					 //Scanner scan = new Scanner(System.in);  // Create a Scanner object
 					    System.out.println("Enter UUID: ");
 
-					    String UUID = scan.nextLine();  // Read user input
-					    //userId.close();
+					   Connection con = DatabaseCrud.connect();
+					PreparedStatement ps = null;
+					   
+				try {
+					String sql = "UPDATE Contact set UserName = ? WHERE UUID = ?";
+					ps = con.prepareStatement(sql);
+					//ps.setString(1, "GOD PLEASE WORK PLEASE"); 
+					ps.setString(1, UserName);
+					ps.setString(2, "3"); //ID
+					ps.execute();
+					System.out.println("Data has been updated");
 					
-					UserModel userModel = new UserModel();
-					Contact contact= userModel.find(UUID);
-					contact.setUsername("jose");
-					contact.setIpAddress("jose");				
-					boolean result = userModel.Update(contact);
-					System.out.println(result);
-					scan.close();
-				}*/
+				} catch (SQLException e){
+					System.out.print(e.toString());
+				}
+					
+				}
 				
 				//insert user into database
 				public static void UserInsert(String UUID, String UserName, String IPAddress) {

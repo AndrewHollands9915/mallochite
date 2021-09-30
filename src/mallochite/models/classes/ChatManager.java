@@ -201,7 +201,7 @@ public class ChatManager
 			//works but its not int sooooooo???
 			System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
 			//add contact to the database
-			DatabaseConnection.UserInsert("86" , 
+			DatabaseConnection.UserInsert("67" , 
 					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
 					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
 			
