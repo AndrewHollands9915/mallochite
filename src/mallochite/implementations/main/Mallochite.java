@@ -26,6 +26,8 @@ public class Mallochite
 		//DatabaseConnection.readAllData();
 		DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
 		DatabaseConnection.readMessagesEveryUser();
+		DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
+		DatabaseConnection.deleteUserDB("67");
 		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
 		
 		
