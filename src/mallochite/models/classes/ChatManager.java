@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mallochite.database.DatabaseConnection;
+import mallochite.encryption.EncryptionMain;
 import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
 import ui.FrameUserChat;
@@ -123,7 +124,7 @@ public class ChatManager
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
 		    	try {
-					messageToSend = RSAEncryption.rsaEncrypt(frameChat.gettxtChatArea()+"");
+					messageToSend = EncryptionMain.encrypt(frameChat.gettxtChatArea()+"");
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -140,7 +141,7 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
+				 frameChat.setTextArea_1("You: "+ EncryptionMain.decrypt(messageToSend));
 				 frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
