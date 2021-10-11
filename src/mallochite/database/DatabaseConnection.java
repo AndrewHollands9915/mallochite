@@ -13,7 +13,7 @@ import java.util.Scanner;
 import mallochite.models.classes.Contact;
 import mallochite.models.classes.User;
 
-public static class DatabaseConnection 
+public class DatabaseConnection 
 {
 	//read data
 		public static void readMessagesEveryUser() {

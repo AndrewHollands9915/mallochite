@@ -11,4 +11,10 @@ public class SuperNode extends Node
 	{
 		super ( thisUser );
 	}
+
+	public boolean contactUser( UUID uuid , User userToContact , User userToCheck )
+	{
+		socket
+		ConnectionManager connection = new ConnectionManager( 
+	}
 }
