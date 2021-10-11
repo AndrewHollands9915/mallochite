@@ -118,8 +118,6 @@ public class ChatManager
 				
 		frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
  
-		 
-
 			@Override
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
