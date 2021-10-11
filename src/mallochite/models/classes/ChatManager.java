@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import mallochite.database.DatabaseConnection;
 import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
-import ui.FrameUserChat;
+import mallochite.ui.FrameUserChat;
 
 public class ChatManager
 {

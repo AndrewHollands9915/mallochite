@@ -2,7 +2,7 @@
  * Joseph Escober
  */
 
-package ui;
+package mallochite.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -26,7 +26,10 @@ import javax.swing.border.TitledBorder;
 
 public class FrameAddMember extends JFrame {
 	private JPanel contentPane;
-	private JTextField txtUniqueId;
+	private JTextField txtUUID, txtUserName, IPAddress;
+	private JTextField txtIPAddress;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -51,10 +54,16 @@ public class FrameAddMember extends JFrame {
 		setBounds(300, 100, 400, 550);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 100, 0));
-		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(50, 205, 50), new Color(50, 205, 50), null, null));
+		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(50, 105, 50), new Color(50, 105, 50), null, null));
 		setContentPane(contentPane);
 		setUndecorated(true);
 		contentPane.setLayout(null);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBackground(new Color(60, 179, 113));
+		panel_2.setBounds(0, 84, 400, 20);
+		contentPane.add(panel_2);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.BLACK, 3));
@@ -62,35 +71,22 @@ public class FrameAddMember extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		txtUniqueId = new JTextField();
-		txtUniqueId.setBorder(null);
-		txtUniqueId.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtUniqueId.setText("unique id");
-		txtUniqueId.setBounds(10, 10, 244, 33);
-		panel.add(txtUniqueId);
-		txtUniqueId.setColumns(10);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		panel_1.setBounds(65, 250, 264, 115);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JTextArea txtMessageToNew = new JTextArea();
-		txtMessageToNew.setBorder(null);
-		txtMessageToNew.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtMessageToNew.setText("message to new member...");
-		txtMessageToNew.setBounds(10, 10, 244, 95);
-		panel_1.add(txtMessageToNew);
+		txtUUID = new JTextField();
+		txtUUID.setBorder(null);
+		txtUUID.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtUUID.setText("UUID");
+		txtUUID.setBounds(10, 10, 244, 33);
+		panel.add(txtUUID);
+		txtUUID.setColumns(10);
 		
 		JPanel pnlBtnAddNew = new JPanel();
 		pnlBtnAddNew.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		pnlBtnAddNew.setBackground(new Color(60, 179, 113));
-		pnlBtnAddNew.setBounds(65, 409, 264, 63);
+		pnlBtnAddNew.setBounds(65, 471, 116, 53);
 		contentPane.add(pnlBtnAddNew);
 		pnlBtnAddNew.setLayout(null);
 		
-		JLabel lblConnect = new JLabel("Connect");
+		JLabel lblConnect = new JLabel("Add");
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -108,12 +104,13 @@ public class FrameAddMember extends JFrame {
 				lblConnect.setForeground(Color.BLACK);
 			}
 		});
-		lblConnect.setForeground(new Color(0, 0, 0));
-		lblConnect.setFont(new Font("Arial", Font.BOLD, 24));
-		lblConnect.setBounds(81, 10, 152, 43);
+		
+		lblConnect.setForeground(new Color(255, 255, 255));
+		lblConnect.setFont(new Font("Arial", Font.BOLD, 18));
+		lblConnect.setBounds(43, 10, 52, 33);
 		pnlBtnAddNew.add(lblConnect);
 		
-		JLabel lblAddNewMember = new JLabel("Add New Member");
+		JLabel lblAddNewMember = new JLabel("Add New Contact");
 		lblAddNewMember.setForeground(Color.WHITE);
 		lblAddNewMember.setFont(new Font("Arial", Font.BOLD, 30));
 		lblAddNewMember.setBounds(64, 21, 287, 53);
@@ -141,14 +138,50 @@ public class FrameAddMember extends JFrame {
 		lblClose.setBounds(376, 0, 24, 35);
 		contentPane.add(lblClose);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBackground(new Color(60, 179, 113));
-		panel_2.setBounds(0, 84, 400, 20);
-		contentPane.add(panel_2);
+		
+		JPanel panel_UserName = new JPanel();
+		panel_UserName.setBorder(new LineBorder(Color.BLACK, 3));
+		panel_UserName.setBounds(65, 259, 264, 53);
+		contentPane.add(panel_UserName);
+		panel_UserName.setLayout(null);
+		
+		txtUserName = new JTextField();
+		txtUserName.setBorder(null);
+		txtUserName.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtUserName.setText("UserName");
+		txtUserName.setBounds(10, 5, 244, 38);
+		panel_UserName.add(txtUserName);
+		txtUserName.setColumns(10);
+		
+		JPanel panel_IPAddress = new JPanel();
+		panel_IPAddress.setBorder(new LineBorder(Color.BLACK, 3));
+		panel_IPAddress.setBounds(65, 345, 263, 53);
+		contentPane.add(panel_IPAddress);
+		panel_IPAddress.setLayout(null);
+		
+		txtIPAddress = new JTextField();
+		txtIPAddress.setBorder(null);
+		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtIPAddress.setText("IPAddress");
+		txtIPAddress.setBounds(10, 10, 243, 33);
+		panel_IPAddress.add(txtIPAddress);
+		txtIPAddress.setColumns(10);
+		
+		JPanel pnlBtnAddNew_1 = new JPanel();
+		pnlBtnAddNew_1.setLayout(null);
+		pnlBtnAddNew_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		pnlBtnAddNew_1.setBackground(new Color(60, 179, 113));
+		pnlBtnAddNew_1.setBounds(220, 471, 109, 53);
+		contentPane.add(pnlBtnAddNew_1);
+		
+		JLabel lblConnect_1 = new JLabel("Cancel");
+		lblConnect_1.setForeground(Color.WHITE);
+		lblConnect_1.setFont(new Font("Arial", Font.BOLD, 18));
+		lblConnect_1.setBounds(26, 10, 73, 33);
+		pnlBtnAddNew_1.add(lblConnect_1);
 	}
 	
-	public String getTxtUniqueId() {
-		return txtUniqueId.getText();
+	public String getTxtUUID() {
+		return txtUUID.getText();
 	}
 }

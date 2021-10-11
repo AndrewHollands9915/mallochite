@@ -4,11 +4,13 @@
  */
 
 
-package ui;
+package mallochite.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
@@ -82,10 +85,11 @@ public class FrameUserChat extends JFrame {
 		txtChatArea.setBounds(10, 479, 445, 58);
 		panel.add(txtChatArea);
 		
-		btnSendMsg = new JButton("SEND");
+		btnSendMsg = new JButton();
+		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		btnSendMsg.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		btnSendMsg.setForeground(Color.WHITE);
-		btnSendMsg.setBackground(new Color(0, 100, 0));
+		//btnSendMsg.setForeground(Color.WHITE);
+		btnSendMsg.setBackground(new Color(192, 192, 192));
 		btnSendMsg.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnSendMsg.setBounds(453, 479, 106, 58);
 		panel.add(btnSendMsg);
@@ -96,8 +100,7 @@ public class FrameUserChat extends JFrame {
 			       //FrameAddMember.newAddMemberScreen(null);
 			       test = true;
 			      
-			}
-			
+			}				
 
 		});
 		
@@ -108,12 +111,11 @@ public class FrameUserChat extends JFrame {
 		panel.add(textArea_1);
 		
 		JButton btnAddNew = new JButton("+");
-		btnAddNew.setToolTipText("Add New Member");
+		btnAddNew.setToolTipText("Click to add new contact..");
 		btnAddNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-			       FrameAddMember.newAddMemberScreen(null);
-			       
+			       FrameAddMember.newAddMemberScreen(null);			       
 			      
 			}
 			
@@ -149,7 +151,6 @@ public class FrameUserChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
-					System.exit(0); //close the program
 					 FrameUserChat.this.dispose();
 			}
 			@Override
