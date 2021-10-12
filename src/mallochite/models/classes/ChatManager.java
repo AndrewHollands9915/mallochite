@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,6 +24,7 @@ public class ChatManager
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
 	FrameUserChat frameChat = new FrameUserChat();
+	private Key key;
 	
 	public ChatManager( SubNode subNode )
 	{
@@ -178,7 +180,7 @@ public class ChatManager
 		
 			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
 			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
-		
+		    contact.setPublicKey(key);
 			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
 			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
 		

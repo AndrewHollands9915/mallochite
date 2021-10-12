@@ -4,6 +4,8 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import mallochite.encryption.SecretKeyGenerator;
+
 public class User 
 {
 	//make everything string for now...
