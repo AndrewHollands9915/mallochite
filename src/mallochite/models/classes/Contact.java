@@ -1,5 +1,6 @@
 package mallochite.models.classes;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 public class Contact {
@@ -8,6 +9,15 @@ public class Contact {
 	private String Username;
 	private String ipAddress;
 	private ArrayList<Message> messages = new ArrayList<Message>();
+    private Key publicKey;
+    
+    public Key getPublicKey() {
+    	return publicKey;
+    }
+    
+    public void setPublicKey(Key key) {
+    	publicKey = key;
+    }
 	
 	
 	public String getUUID() {

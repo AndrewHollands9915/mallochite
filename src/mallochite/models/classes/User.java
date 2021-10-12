@@ -1,5 +1,6 @@
 package mallochite.models.classes;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -13,6 +14,7 @@ public class User
 	private String AddressBook;
 	private String DuressPassword;
 	private String username;
+	private Key key;
 	int port;
 	private ArrayList<String> conversation;
 	Hashtable<String , ArrayList<String> > conversations = new Hashtable<String , ArrayList<String> >();
@@ -145,4 +147,12 @@ public class User
 	{
 		this.username = username;
 	}
+	
+	public Key getPublicKey() {
+    	return key;
+    }
+    
+    public void setPublicKey(Key key) {
+    	this.key = key;
+    }
 }
