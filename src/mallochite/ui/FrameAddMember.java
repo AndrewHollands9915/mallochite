@@ -7,6 +7,7 @@ package mallochite.ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -28,8 +29,8 @@ public class FrameAddMember extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUUID, txtUserName, IPAddress;
 	private JTextField txtIPAddress;
-	
-	
+	JButton pnlBtnAddNew_1;
+	JButton lblConnect;
 	/**
 	 * Launch the application.
 	 */
@@ -86,12 +87,13 @@ public class FrameAddMember extends JFrame {
 		contentPane.add(pnlBtnAddNew);
 		pnlBtnAddNew.setLayout(null);
 		
-		JLabel lblConnect = new JLabel("Add");
+		//change to button-----------------------------------------------------------------
+		lblConnect = new JButton("Add");
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameAddMember.this.dispose();			
-			       FrameUserChat.newUserChatScreen(null);			
+				//FrameAddMember.this.dispose();			
+			    //   FrameUserChat.newUserChatScreen(null);			
 				
 			}
 			@Override
@@ -167,7 +169,8 @@ public class FrameAddMember extends JFrame {
 		panel_IPAddress.add(txtIPAddress);
 		txtIPAddress.setColumns(10);
 		
-		JPanel pnlBtnAddNew_1 = new JPanel();
+		//test change to button
+	 pnlBtnAddNew_1 = new JButton();
 		pnlBtnAddNew_1.setLayout(null);
 		pnlBtnAddNew_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		pnlBtnAddNew_1.setBackground(new Color(60, 179, 113));
@@ -180,6 +183,12 @@ public class FrameAddMember extends JFrame {
 		lblConnect_1.setBounds(26, 10, 73, 33);
 		pnlBtnAddNew_1.add(lblConnect_1);
 	}
+	
+	
+	public JButton getPnlBtnAddNew_1() {
+		return lblConnect;
+	}
+	
 	
 	public String getTxtUUID() {
 		return txtUUID.getText();

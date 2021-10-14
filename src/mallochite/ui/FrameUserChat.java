@@ -31,6 +31,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.CompoundBorder;
+import mallochite.models.*;
+import mallochite.models.classes.ChatManager;
 
 public class FrameUserChat extends JFrame {
 
@@ -38,6 +40,7 @@ public class FrameUserChat extends JFrame {
 	JTextArea txtChatArea;
 	JTextArea textArea_1;
 	JButton btnSendMsg;
+	JButton btnAddNew;
 	JLabel lblFriendName;
 	boolean test = false;
 	/**
@@ -109,13 +112,14 @@ public class FrameUserChat extends JFrame {
 		textArea_1.setBackground(new Color(60, 179, 113));
 		textArea_1.setBounds(10, 10, 563, 459);
 		panel.add(textArea_1);
-		
-		JButton btnAddNew = new JButton("+");
+		///////--------------------------------------------------
+		//JButton btnAddNew = new JButton("+");
+		btnAddNew = new JButton("+");
 		btnAddNew.setToolTipText("Click to add new contact..");
 		btnAddNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-			       FrameAddMember.newAddMemberScreen(null);			       
+			       //FrameAddMember.newAddMemberScreen(null);			       
 			      
 			}
 			
@@ -129,6 +133,17 @@ public class FrameUserChat extends JFrame {
 				btnAddNew.setForeground(Color.BLACK);
 			}
 		});
+		
+		
+		
+		//testing add user
+		btnAddNew.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	
+		    	//addContactui();
+		    } 
+		});
+		
 		btnAddNew.setBackground(new Color(60, 179, 113));
 		btnAddNew.setBorder(new TitledBorder(new CompoundBorder(new LineBorder(new Color(171, 173, 179)), new EmptyBorder(2, 2, 2, 2)), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		btnAddNew.addActionListener(new ActionListener() {
@@ -178,8 +193,17 @@ public class FrameUserChat extends JFrame {
 	public JButton getBtnSendMsg() {
 		return btnSendMsg;
 	}
+	
+	//retunr
+	public JButton getbtnAddNew() {
+		return btnAddNew;
+	}
 
-
+	//public FrameAddMember getframeAddMember() {
+	//	return FrameAddMember;
+	//}
+	
+	
 	public void setBtnSendMsg(JButton btnSendMsg) {
 		this.btnSendMsg = btnSendMsg;
 	}
