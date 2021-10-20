@@ -43,7 +43,7 @@ public class MallochiteMessageManager
     		// TODO decrypt message as GREETINGS is the only one allowed not to be encrypted
     		//Encrypt here with PK
     		messageSegment = this.parseDataFromHeader( message );
-    		//RSAEncryption.encrypt(pubKey, message);
+    		
     	}
     	
     	return messageSegment;

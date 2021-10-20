@@ -65,6 +65,11 @@ public class AESEncryption {
         }
         return null;
     }
+    
+    
+    public static SecretKeySpec getSecretKey() {
+    	return secretKey;
+    }
 	
 	
 }

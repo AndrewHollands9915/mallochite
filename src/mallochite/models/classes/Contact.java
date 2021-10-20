@@ -11,13 +11,7 @@ public class Contact {
 	private ArrayList<Message> messages = new ArrayList<Message>();
     private Key publicKey;
     
-    public Key getPublicKey() {
-    	return publicKey;
-    }
     
-    public void setPublicKey(Key key) {
-    	publicKey = key;
-    }
 	
 	
 	public String getUUID() {

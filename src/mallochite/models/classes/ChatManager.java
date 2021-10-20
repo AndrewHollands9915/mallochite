@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import mallochite.database.DatabaseConnection;
 import mallochite.encryption.EncryptionMain;
 import mallochite.encryption.RSAEncryption;
+import mallochite.encryption.SecretKeyGenerator;
 import mallochite.models.classes.nodes.SubNode;
 import ui.FrameUserChat;
 
@@ -24,7 +25,7 @@ public class ChatManager
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
 	FrameUserChat frameChat = new FrameUserChat();
-	private Key key;
+
 	
 	public ChatManager( SubNode subNode )
 	{
@@ -115,6 +116,7 @@ public class ChatManager
 	
 	private void sendMessage(User userToContact) throws Exception
 	{
+		
 		messageToSend = "";
 		System.out.println("Enter message to send: ");	
 				
@@ -171,7 +173,7 @@ public class ChatManager
 		}
 	}
 	
-	public void addContact() //throws Exception 
+	public void addContact() throws Exception //throws Exception 
 	{
 		
 		
@@ -180,9 +182,12 @@ public class ChatManager
 		
 			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
 			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
-		    contact.setPublicKey(key);
 			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
 			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
+			contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
+			contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());
+			
+			System.out.println(contact.getSecretKey());
 		
 			/*//System.out.println("Enter the username:");
 			String contactUsername = this.sc.nextLine();

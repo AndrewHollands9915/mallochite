@@ -12,16 +12,23 @@ import java.net.Socket;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
 import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
+import mallochite.encryption.AESEncryption;
+import mallochite.encryption.RSAEncryption;
+import mallochite.encryption.SecretKeyGenerator;
 
 public class Mallochite 
 {
 	public static void main ( String [] args ) throws Exception
 	{
+		
+		
+		
 		DatabaseCrud.connect(); //connect to the database
 		//DatabaseConnection.readAllData();
 		DatabaseConnection.readMessagesEveryUser();
@@ -41,6 +48,8 @@ public class Mallochite
 			remoteUser.setPort(23457);
 			remoteUser.setUsername( "user1" );
 			remoteUser.setUUID( "asdf-123" );
+			remoteUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+			remoteUser.setSecretKey(SecretKeyGenerator.GenerateKey());
 			
 
 		
@@ -48,6 +57,8 @@ public class Mallochite
 		thisUser.setIP( inetAddress.getHostAddress() );
 		thisUser.setPort(12121);
 		thisUser.setUUID( "asdf-321" );
+		thisUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+	
 		
 		thisUser.getUserList().add(remoteUser);
 
