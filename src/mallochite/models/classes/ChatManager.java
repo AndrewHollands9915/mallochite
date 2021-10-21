@@ -40,6 +40,7 @@ public class ChatManager
 		Scanner scanner = new Scanner ( System.in );
 		
 		System.out.println( "What would you like to do?" );
+		System.out.println( "\t 0. send key" );
 		System.out.println( "\t 1. send message" );
 		System.out.println( "\t 2. check messages" );
 		System.out.println( "\t 3. add contact" );
@@ -47,7 +48,30 @@ public class ChatManager
 		
 		String response = scanner.nextLine();
 		
-		if ( response.equals( "1" ) ) 
+		if ( response.equals("0")) {
+			frameChat.setVisible(true);
+			User userToContact = null;
+			System.out.println( "Who would you like to send the key to?" );
+			String userName = this.sc.nextLine();
+			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+			
+			for(User user: userList ){
+				if(user.getUsername().equals( userName )) {
+														
+					userToContact = user;
+					this.sendMessage( userToContact );
+					frameChat.setlblFriendName(userName+"");
+				}
+				else
+				{
+					System.out.println( "user not found" );
+				}
+			}
+
+			
+		}
+		
+		else if ( response.equals( "1" ) ) 
 		{
 			frameChat.setVisible(true);
 			
@@ -128,7 +152,7 @@ public class ChatManager
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
 		    	try {
-					messageToSend = EncryptionMain.encrypt(frameChat.gettxtChatArea()+"");
+					messageToSend =frameChat.gettxtChatArea()+"";
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -145,7 +169,11 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextArea_1("You: "+ EncryptionMain.decrypt(messageToSend));
+				 if(this.subNode.getThisUser().getUserList().get(0).getConversation().isEmpty()) {
+					 this.subNode.makeConnection(userToContact, RSAEncryption.getpublicKey("public.key").toString());
+				 }
+				 
+				 frameChat.setTextArea_1("You: "+ messageToSend);
 				 frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
@@ -209,10 +237,10 @@ public class ChatManager
 			//works but its not int sooooooo???
 			System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
 			//add contact to the database
-			DatabaseConnection.UserInsert("86" , 
+			/*DatabaseConnection.UserInsert("86" , 
 					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
 					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
-			
+			*/
 			
 			
 			

@@ -119,7 +119,7 @@ public class MallochiteMessageManager
 	{
 		String messageToSendFormated;
 		
-		messageToSendFormated = String.format( "%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress , RSAEncryption.rsaDecrypt(messageToSend));
+		messageToSendFormated = String.format( "%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress , messageToSend);
 		
 		return messageToSendFormated;
 	}
