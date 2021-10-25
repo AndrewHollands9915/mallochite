@@ -8,14 +8,18 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTextArea;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -24,6 +28,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -39,6 +44,7 @@ public class FrameUserChat extends JFrame {
 	JTextArea textArea_1;
 	JButton btnSendMsg;
 	JLabel lblFriendName;
+	JScrollPane scrollFrame;
 	boolean test = false;
 	/**
 	 * Launch the application.
@@ -106,9 +112,18 @@ public class FrameUserChat extends JFrame {
 		
 		
 		textArea_1 = new JTextArea();
+		scrollFrame = new JScrollPane(textArea_1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//setLayout(new FlowLayout());
+		//add(scrollFrame);
 		textArea_1.setBackground(new Color(60, 179, 113));
 		textArea_1.setBounds(10, 10, 563, 459);
-		panel.add(textArea_1);
+		panel.add(scrollFrame);
+		
+		//JScrollPane scrollFrame = new JScrollPane(textArea_1);
+        //textArea_1.setAutoscrolls(true);
+        //scrollFrame.setPreferredSize(new Dimension( 800,300));
+        //scrollFrame.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
+        //this.add(scrollFrame);
 		
 		JButton btnAddNew = new JButton("+");
 		btnAddNew.setToolTipText("Click to add new contact..");
