@@ -13,9 +13,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTextArea;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -112,6 +115,25 @@ public class FrameUserChat extends JFrame {
 		textArea_1.setBackground(new Color(60, 179, 113));
 		textArea_1.setBounds(10, 10, 563, 459);
 		panel.add(textArea_1);
+		
+		
+
+
+
+
+
+		//scroll pane
+		/*JScrollPane scrollFrame = new JScrollPane(textArea_1);
+		textArea_1.setAutoscrolls(true);
+		scrollFrame.setPreferredSize(new Dimension( 800,300));
+		this.add(scrollFrame);*/
+		
+		
+		/*JScrollPane scrollFrame = new JScrollPane(panel);
+		panel.setAutoscrolls(true);
+		scrollFrame.setPreferredSize(new Dimension( 800,300));
+		this.add(scrollFrame);*/
+		
 		///////--------------------------------------------------
 		//JButton btnAddNew = new JButton("+");
 		btnAddNew = new JButton("+");

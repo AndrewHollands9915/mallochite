@@ -24,9 +24,10 @@ public class Mallochite
 	public static void main ( String [] args ) throws Exception
 	{
 		DatabaseCrud.connect(); //connect to the database
+		DatabaseCrud.CreateTablesIfNewlaunch();
 		
 		//DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
-		DatabaseConnection.readMessagesEveryUser();
+		//DatabaseConnection.readMessagesEveryUser();
 		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
 		//DatabaseConnection.deleteUserDB("67");
 		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
