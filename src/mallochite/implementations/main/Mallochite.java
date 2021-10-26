@@ -23,14 +23,17 @@ public class Mallochite
 {
 	public static void main ( String [] args ) throws Exception
 	{
-		DatabaseCrud.connect(); //connect to the database
-		DatabaseCrud.CreateTablesIfNewlaunch();
 		
+		//DatabaseCrud.CreateTablesIfNewlaunch();
+		
+		//DatabaseCrud.CreateTableMessage();
+		DatabaseCrud.CreateTableContact();
+		DatabaseCrud.connect(); //connect to the database
 		//DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
 		//DatabaseConnection.readMessagesEveryUser();
 		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
 		//DatabaseConnection.deleteUserDB("67");
-		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
+		DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
 	
 		
 		//call ui
