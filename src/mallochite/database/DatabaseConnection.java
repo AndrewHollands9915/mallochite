@@ -50,11 +50,8 @@ public class DatabaseConnection
 					con.close();
 				} catch(SQLException e) {
 					System.out.println(e.toString());
-				}
-				
-				
-			}
-			
+				}					
+			}	
 		}
 
 

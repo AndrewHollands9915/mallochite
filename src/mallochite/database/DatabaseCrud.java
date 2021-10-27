@@ -8,69 +8,73 @@ import java.sql.ResultSet;
 
 public class DatabaseCrud {
 	
+	
+	
+	public static int item = 0;
 public static Connection connect() {
 		
 		Connection con = null;
 		
 		try {
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase1.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		} catch (ClassNotFoundException | SQLException e) {
 			
 			System.out.println(e+"");
+			item = 1; //check if created 
 		}
 		
 		return con;
 	}
 
-//create new table if the table does not exsist
-/*public static void CreateTablesIfNewlaunch()
-{
+
+//check if the data exists by calling all contacts from the tables
+//we return error if tables don;t exist
+public static void readMessagesEveryUser() {
 	Connection con = DatabaseCrud.connect();
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-            
-	try {	
-		String sql = "CREATE TABLE COMPANY"+"(ID INT PRIMARY KEY NOT NULL,"+ 
-		"NAME TEXT NOT NULL, AGE INT NOT NULL)";
-		
+	
+	try {
+		String sql = "SELECT * FROM Contact";
 		ps = con.prepareStatement(sql);
 		rs = ps.executeQuery();	
-	
-} catch(SQLException e) {
-	System.out.println(e.toString());
-}
-	System.out.println("table created");
+		
+		System.out.println("ALL contacts:\n");
+		while(rs.next()) {
+			
+			/*String UUID = rs.getString("UUID");
+			String UserName = rs.getString("UserName");
+			String IPAddress = rs.getString("IPAddress");*/
+				}
+		rs.close();
+		ps.close();				
+	}catch (SQLException e) {
+		System.out.println(e.toString());	
+		item = 1;
+	}	
 }
 
-}*/
-
-public static void CreateTablesIfNewlaunch() throws ClassNotFoundException {
-	Connection con = null;
-	Statement stmt = null;
-	
-	try
+public static int getItem()
+{
+	if (item==0)
 	{
-		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase1.db"); //note if one does not exist a database is created
-		System.out.println("Connected");
-		
-		stmt = con.createStatement();
-		String sql = "CREATE TABLE COMPANY"+"(ID INT PRIMARY KEY NOT NULL,"+ 
-				"NAME TEXT NOT NULL, AGE INT NOT NULL)";
-		
-		stmt.executeUpdate(sql);
-		stmt.close();
-		con.close();
-} catch(SQLException e) {
-	System.out.println(e.toString());
+		System.out.println("Tables exist previous scema used");
+	}
+	else if (item==1)
+	{
+		System.out.println("Tables are not created. Create new tables please");		
+	}	
+	System.out.println("Status: "+item);
+	
+return item;
 }
-	System.out.println("table created");
-		}
-	
-	
+
+
+
+
 
 //create message table
 public static void CreateTableMessage() throws ClassNotFoundException {
@@ -80,7 +84,7 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase1.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -101,7 +105,7 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 } catch(SQLException e) {
 	System.out.println(e.toString());
 }
-	System.out.println("table created");
+	System.out.println("message table created");
 		}
 	
 //make contact table
@@ -112,7 +116,7 @@ public static void CreateTableContact() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase1.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -132,7 +136,7 @@ public static void CreateTableContact() throws ClassNotFoundException {
 } catch(SQLException e) {
 	System.out.println(e.toString());
 }
-	System.out.println("table created");
+	System.out.println("Contact table created");
 		}
 
 

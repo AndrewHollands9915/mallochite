@@ -24,21 +24,15 @@ public class Mallochite
 	public static void main ( String [] args ) throws Exception
 	{
 		
-		//DatabaseCrud.CreateTablesIfNewlaunch();
-		
-		//DatabaseCrud.CreateTableMessage();
-		DatabaseCrud.CreateTableContact();
-		DatabaseCrud.connect(); //connect to the database
-		//DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
-		//DatabaseConnection.readMessagesEveryUser();
-		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
-		//DatabaseConnection.deleteUserDB("67");
-		DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
 	
+		//connect to the database
+		DatabaseCrud.connect(); 
+		DatabaseCrud.readMessagesEveryUser(); //check if tables exist if not create them
+		if (DatabaseCrud.getItem()==1) {
+			DatabaseCrud.CreateTableMessage();
+			DatabaseCrud.CreateTableContact();
+		}
 		
-		//call ui
-		//FrameLoginChat frame = new FrameLoginChat();
-		//frame.setVisible(true);
 		
 		Scanner scanner = new Scanner( System.in );
 		InetAddress inetAddress = InetAddress.getLocalHost();
