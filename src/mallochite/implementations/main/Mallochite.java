@@ -12,17 +12,24 @@ import java.net.Socket;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
 import mallochite.ui.FrameLoginChat;
 import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
+import mallochite.encryption.AESEncryption;
+import mallochite.encryption.RSAEncryption;
+import mallochite.encryption.SecretKeyGenerator;
 
 public class Mallochite 
 {
 	public static void main ( String [] args ) throws Exception
 	{
+		
+		
+		/*
 		DatabaseCrud.connect(); //connect to the database
 		DatabaseCrud.CreateTablesIfNewlaunch();
 		
@@ -31,11 +38,8 @@ public class Mallochite
 		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
 		//DatabaseConnection.deleteUserDB("67");
 		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
-	
-		
-		//call ui
-		//FrameLoginChat frame = new FrameLoginChat();
-		//frame.setVisible(true);
+
+		*/
 		
 		Scanner scanner = new Scanner( System.in );
 		InetAddress inetAddress = InetAddress.getLocalHost();
@@ -47,16 +51,20 @@ public class Mallochite
 			remoteUser = new User();
 			
 			remoteUser.setIP( inetAddress.getHostAddress() );
-			remoteUser.setPort(23457);
+			remoteUser.setPort(32323);
 			remoteUser.setUsername( "user1" );
-			remoteUser.setUUID( "asdf-123" );
+			remoteUser.setUUID( "asdf-321" );
+			remoteUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+			remoteUser.setSecretKey(SecretKeyGenerator.GenerateKey());
 			
 
 		
 		thisUser.setUsername( "user2" );
 		thisUser.setIP( inetAddress.getHostAddress() );
-		thisUser.setPort(12121);
-		thisUser.setUUID( "asdf-321" );
+		thisUser.setPort(23232);
+		thisUser.setUUID( "asdf-123" );
+		thisUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+	
 		
 		thisUser.getUserList().add(remoteUser);
 
