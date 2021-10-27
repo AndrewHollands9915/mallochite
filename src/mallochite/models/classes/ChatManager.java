@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,7 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mallochite.database.DatabaseConnection;
+import mallochite.encryption.EncryptionMain;
 import mallochite.encryption.RSAEncryption;
+import mallochite.encryption.SecretKeyGenerator;
 import mallochite.models.classes.nodes.SubNode;
 import ui.FrameUserChat;
 
@@ -22,6 +25,7 @@ public class ChatManager
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
 	FrameUserChat frameChat = new FrameUserChat();
+
 	
 	public ChatManager( SubNode subNode )
 	{
@@ -36,6 +40,7 @@ public class ChatManager
 		Scanner scanner = new Scanner ( System.in );
 		
 		System.out.println( "What would you like to do?" );
+		System.out.println( "\t 0. send key" );
 		System.out.println( "\t 1. send message" );
 		System.out.println( "\t 2. check messages" );
 		System.out.println( "\t 3. add contact" );
@@ -43,7 +48,30 @@ public class ChatManager
 		
 		String response = scanner.nextLine();
 		
-		if ( response.equals( "1" ) ) 
+		if ( response.equals("0")) {
+			frameChat.setVisible(true);
+			User userToContact = null;
+			System.out.println( "Who would you like to send the key to?" );
+			String userName = this.sc.nextLine();
+			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+			
+			for(User user: userList ){
+				if(user.getUsername().equals( userName )) {
+														
+					userToContact = user;
+					this.sendMessage( userToContact );
+					frameChat.setlblFriendName(userName+"");
+				}
+				else
+				{
+					System.out.println( "user not found" );
+				}
+			}
+
+			
+		}
+		
+		else if ( response.equals( "1" ) ) 
 		{
 			frameChat.setVisible(true);
 			
@@ -112,6 +140,7 @@ public class ChatManager
 	
 	private void sendMessage(User userToContact) throws Exception
 	{
+		
 		messageToSend = "";
 		System.out.println("Enter message to send: ");	
 				
@@ -123,7 +152,7 @@ public class ChatManager
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
 		    	try {
-					messageToSend = RSAEncryption.rsaEncrypt(frameChat.gettxtChatArea()+"");
+					messageToSend =frameChat.gettxtChatArea()+"";
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -140,7 +169,11 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
+				 if(this.subNode.getThisUser().getUserList().get(0).getConversation().isEmpty()) {
+					 this.subNode.makeConnection(userToContact, RSAEncryption.getpublicKey("public.key").toString());
+				 }
+				 
+				 frameChat.setTextArea_1("You: "+ messageToSend);
 				 frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
@@ -168,7 +201,7 @@ public class ChatManager
 		}
 	}
 	
-	public void addContact() //throws Exception 
+	public void addContact() throws Exception //throws Exception 
 	{
 		
 		
@@ -177,9 +210,12 @@ public class ChatManager
 		
 			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
 			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
-		
 			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
 			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
+			contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
+			contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());
+			
+			System.out.println(contact.getSecretKey());
 		
 			/*//System.out.println("Enter the username:");
 			String contactUsername = this.sc.nextLine();
@@ -201,10 +237,10 @@ public class ChatManager
 			//works but its not int sooooooo???
 			System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
 			//add contact to the database
-			DatabaseConnection.UserInsert("86" , 
+			/*DatabaseConnection.UserInsert("86" , 
 					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
 					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
-			
+			*/
 			
 			
 			
