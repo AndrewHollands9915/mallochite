@@ -90,22 +90,28 @@ public class DatabaseConnection
 					
 					}
 					
-				//user update prob dont need
-			/*	public void UserUpdate() {
-					 Scanner scan = new Scanner(System.in);  // Create a Scanner object
+				//user update only updates UserName right now
+				public static void updateUser(String UserName) {
+					 //Scanner scan = new Scanner(System.in);  // Create a Scanner object
 					    System.out.println("Enter UUID: ");
 
-					    String UUID = scan.nextLine();  // Read user input
-					    //userId.close();
+					   Connection con = DatabaseCrud.connect();
+					PreparedStatement ps = null;
+					   
+				try {
+					String sql = "UPDATE Contact set UserName = ? WHERE UUID = ?";
+					ps = con.prepareStatement(sql);
+					//ps.setString(1, "GOD PLEASE WORK PLEASE"); 
+					ps.setString(1, UserName);
+					ps.setString(2, "3"); //ID
+					ps.execute();
+					System.out.println("Data has been updated");
 					
-					UserModel userModel = new UserModel();
-					Contact contact= userModel.find(UUID);
-					contact.setUsername("jose");
-					contact.setIpAddress("jose");				
-					boolean result = userModel.Update(contact);
-					System.out.println(result);
-					scan.close();
-				}*/
+				} catch (SQLException e){
+					System.out.print(e.toString());
+				}
+					
+				}
 				
 				//insert user into database
 				public static void UserInsert(String UUID, String UserName, String IPAddress) {
@@ -131,6 +137,93 @@ public class DatabaseConnection
 				}
 
 
+				public static void updateUserDB(String UUID, String UserName, String IPAddress) {
+					
+			        String sql = "UPDATE Contact SET UserName = ? , "
+			                + "IPAddress = ? "
+			                + "WHERE UUID = ?";
+
+			        try {
+			        	Connection con = DatabaseCrud.connect();
+				            PreparedStatement ps = null;
+			        		ps = con.prepareStatement(sql); 
+
+			            // set the corresponding param
+			            ps.setString(1, UserName);
+			            ps.setString(2, IPAddress);
+			            ps.setString(3, UUID);
+			            // update 
+			            ps.executeUpdate();
+			        } catch (SQLException e) {
+			            System.out.println(e.getMessage());
+			        }
+				}
+				
+				//delete
+				public static void deleteUserDB(String UUID)
+				  {
+					String sqlDelUser = "DELETE FROM Contact where UUID=?;";
+				
+				        try {
+				        	Connection con = DatabaseCrud.connect();
+				            PreparedStatement ps = null;
+				            //con.setAutoCommit(false);
+				            ResultSet rs = null;
+				            System.out.println("Opened database successfully");
+				            
+				            int forKey = 0;
+				            String sql = "SELECT * FROM Contact;" ;
+				            ps = con.prepareStatement(sql);
+					        rs = ps.executeQuery();
+				            System.out.println("ALL contacts:\n");
+				            while(rs.next()) {	                    
+				                    //String uuid = rs.getString("UUID");
+				                    //String UserName = rs.getString("UserName");
+				                    //String IPAddress = rs.getString("IPAddress");
+				                    forKey = rs.getInt("Messages");
+
+				                   // System.out.println("UUID: "+uuid+"\nUserName: "+UserName+"\nIPAddress: "+IPAddress);        
+				                    
+					         }
+				 
+				          ps = con.prepareStatement(sqlDelUser);			         
+				          ps.setString(1, UUID);
+				          ps.executeUpdate();
+				         // con.commit();
+				 
+				          
+				          rs.close();
+				          ps.close();
+				          //con.close();
+				          
+				        
+			                
+			                //for messages
+			                String sqlDelMsg = "DELETE FROM Message WHERE ContactFK ="+ forKey;
+			                ps = con.prepareStatement(sqlDelMsg);
+			                //.setString(1, ContactFK);
+					        ps.executeUpdate();
+					       // con.commit();
+			              
+			                
+			                System.out.println("ALL messages are deleted:\n");
+			                while(rs.next()) {	                    
+			                    int ID = rs.getInt("ID");
+			                    String Text = rs.getString("TEXT");
+			                    String Date = rs.getString("Date");
+			                    String ReadReciept = rs.getString("ReadReciept");
+			                    
+			                    System.out.println("\nID: "+ID+"\nText: "+Text+"\nDate: "+Date+"\nReadReciept: "+ReadReciept);        
+			                    
+			                }
+				        } catch ( Exception e ) {
+				          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				          System.exit(0);
+				        }
+				        System.out.println("Operation done successfully");
+				  }
+				
+				
 }
 
 

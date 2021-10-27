@@ -16,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
+import mallochite.ui.FrameLoginChat;
 import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
 import mallochite.encryption.AESEncryption;
@@ -30,9 +31,14 @@ public class Mallochite
 		
 		/*
 		DatabaseCrud.connect(); //connect to the database
-		//DatabaseConnection.readAllData();
-		DatabaseConnection.readMessagesEveryUser();
+		DatabaseCrud.CreateTablesIfNewlaunch();
+		
+		//DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
+		//DatabaseConnection.readMessagesEveryUser();
+		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
+		//DatabaseConnection.deleteUserDB("67");
 		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
+
 		*/
 		
 		Scanner scanner = new Scanner( System.in );

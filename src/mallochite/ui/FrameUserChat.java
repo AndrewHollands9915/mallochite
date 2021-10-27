@@ -4,20 +4,26 @@
  */
 
 
-package ui;
+package mallochite.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTextArea;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
@@ -28,6 +34,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.CompoundBorder;
+import mallochite.models.*;
+import mallochite.models.classes.ChatManager;
 
 public class FrameUserChat extends JFrame {
 
@@ -35,6 +43,7 @@ public class FrameUserChat extends JFrame {
 	JTextArea txtChatArea;
 	JTextArea textArea_1;
 	JButton btnSendMsg;
+	JButton btnAddNew;
 	JLabel lblFriendName;
 	boolean test = false;
 	/**
@@ -82,10 +91,11 @@ public class FrameUserChat extends JFrame {
 		txtChatArea.setBounds(10, 479, 445, 58);
 		panel.add(txtChatArea);
 		
-		btnSendMsg = new JButton("SEND");
+		btnSendMsg = new JButton();
+		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		btnSendMsg.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		btnSendMsg.setForeground(Color.WHITE);
-		btnSendMsg.setBackground(new Color(0, 100, 0));
+		//btnSendMsg.setForeground(Color.WHITE);
+		btnSendMsg.setBackground(new Color(192, 192, 192));
 		btnSendMsg.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnSendMsg.setBounds(453, 479, 106, 58);
 		panel.add(btnSendMsg);
@@ -96,8 +106,7 @@ public class FrameUserChat extends JFrame {
 			       //FrameAddMember.newAddMemberScreen(null);
 			       test = true;
 			      
-			}
-			
+			}				
 
 		});
 		
@@ -107,13 +116,32 @@ public class FrameUserChat extends JFrame {
 		textArea_1.setBounds(10, 10, 563, 459);
 		panel.add(textArea_1);
 		
-		JButton btnAddNew = new JButton("+");
-		btnAddNew.setToolTipText("Add New Member");
+		
+
+
+
+
+
+		//scroll pane
+		/*JScrollPane scrollFrame = new JScrollPane(textArea_1);
+		textArea_1.setAutoscrolls(true);
+		scrollFrame.setPreferredSize(new Dimension( 800,300));
+		this.add(scrollFrame);*/
+		
+		
+		/*JScrollPane scrollFrame = new JScrollPane(panel);
+		panel.setAutoscrolls(true);
+		scrollFrame.setPreferredSize(new Dimension( 800,300));
+		this.add(scrollFrame);*/
+		
+		///////--------------------------------------------------
+		//JButton btnAddNew = new JButton("+");
+		btnAddNew = new JButton("+");
+		btnAddNew.setToolTipText("Click to add new contact..");
 		btnAddNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-			       FrameAddMember.newAddMemberScreen(null);
-			       
+			       //FrameAddMember.newAddMemberScreen(null);			       
 			      
 			}
 			
@@ -127,6 +155,17 @@ public class FrameUserChat extends JFrame {
 				btnAddNew.setForeground(Color.BLACK);
 			}
 		});
+		
+		
+		
+		//testing add user
+		btnAddNew.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	
+		    	//addContactui();
+		    } 
+		});
+		
 		btnAddNew.setBackground(new Color(60, 179, 113));
 		btnAddNew.setBorder(new TitledBorder(new CompoundBorder(new LineBorder(new Color(171, 173, 179)), new EmptyBorder(2, 2, 2, 2)), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		btnAddNew.addActionListener(new ActionListener() {
@@ -149,7 +188,6 @@ public class FrameUserChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
-					System.exit(0); //close the program
 					 FrameUserChat.this.dispose();
 			}
 			@Override
@@ -177,8 +215,17 @@ public class FrameUserChat extends JFrame {
 	public JButton getBtnSendMsg() {
 		return btnSendMsg;
 	}
+	
+	//retunr
+	public JButton getbtnAddNew() {
+		return btnAddNew;
+	}
 
-
+	//public FrameAddMember getframeAddMember() {
+	//	return FrameAddMember;
+	//}
+	
+	
 	public void setBtnSendMsg(JButton btnSendMsg) {
 		this.btnSendMsg = btnSendMsg;
 	}

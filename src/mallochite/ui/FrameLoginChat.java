@@ -2,7 +2,7 @@
  * Joseph Escober
  */
 
-package ui;
+package mallochite.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -28,17 +28,21 @@ import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.JComboBox;
 
 public class FrameLoginChat extends JFrame {
 	
 	private JPanel contentPane;
-	private JTextField txtUsername;
-	private JPasswordField txtPassword;
+	private JTextField txtUserName, txtIPAddress;
+	private JTextField textField;
+	
+	
+	//private JPasswordField txtPassword;	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -49,7 +53,7 @@ public class FrameLoginChat extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -66,43 +70,43 @@ public class FrameLoginChat extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		panel.setBounds(42, 203, 298, 66);
+		panel.setBounds(42, 228, 298, 59);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		txtUsername = new JTextField();
-		txtUsername.setBorder(null);
-		txtUsername.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtUsername.setText("username");
-		txtUsername.setBounds(10, 10, 278, 46);
-		panel.add(txtUsername);
-		txtUsername.setColumns(10);
+		txtUserName = new JTextField();
+		txtUserName.setBorder(null);
+		txtUserName.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtUserName.setText("UserName");
+		txtUserName.setBounds(10, 10, 278, 39);
+		panel.add(txtUserName);
+		txtUserName.setColumns(10);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(42, 303, 298, 66);
+		panel_1.setBounds(42, 319, 298, 59);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		txtPassword = new JPasswordField();
-		txtPassword.setBorder(null);
-		txtPassword.setFont(new Font("Arial", Font.PLAIN, 20));
-		txtPassword.setText("Password");
-		txtPassword.setBounds(10, 10, 238, 46);
-		panel_1.add(txtPassword);
+		txtIPAddress = new JTextField();
+		txtIPAddress.setBorder(null);
+		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtIPAddress.setText("IPAddress");
+		txtIPAddress.setBounds(10, 10, 238, 46);
+		panel_1.add(txtIPAddress);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/padlock.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		lblNewLabel.setBounds(251, 10, 37, 46);
-		panel_1.add(lblNewLabel);
+		//JLabel lblNewLabel = new JLabel("");
+		//lblNewLabel.setBackground(Color.WHITE);
+		//lblNewLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/padlock.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		//lblNewLabel.setBounds(251, 10, 37, 46);
+		//panel_1.add(lblNewLabel);
 		
 		
 		JPanel pnlBtnLogin = new JPanel();
 		pnlBtnLogin.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		pnlBtnLogin.setBackground(new Color(60, 179, 113));
-		pnlBtnLogin.setBounds(41, 448, 299, 59);
+		pnlBtnLogin.setBounds(91, 495, 201, 59);
 		contentPane.add(pnlBtnLogin);
 		pnlBtnLogin.setLayout(null);
 		
@@ -124,9 +128,9 @@ public class FrameLoginChat extends JFrame {
 				lblConnect.setForeground(Color.BLACK);
 			}
 		});
-		lblConnect.setForeground(Color.BLACK);
-		lblConnect.setFont(new Font("Arial", Font.BOLD, 24));
-		lblConnect.setBounds(101, 10, 111, 39);
+		lblConnect.setForeground(Color.WHITE);
+		lblConnect.setFont(new Font("Arial", Font.BOLD, 18));
+		lblConnect.setBounds(59, 10, 111, 39);
 		pnlBtnLogin.add(lblConnect);
 		
 		JLabel lblNewLabel_2 = new JLabel("allochite");
@@ -170,6 +174,30 @@ public class FrameLoginChat extends JFrame {
 		lblClose.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblClose.setBounds(376, 0, 24, 35);
 		contentPane.add(lblClose);
+		
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setForeground(Color.WHITE);
+		lblLogin.setFont(new Font("Arial", Font.BOLD, 24));
+		lblLogin.setBounds(47, 163, 195, 35);
+		contentPane.add(lblLogin);
+		
+		
 		setLocationRelativeTo(null);
+	}
+	
+	public JTextField getTxtUserName() {
+		return txtUserName;
+	}
+
+	public void setTxtUserName(JTextField txtUserName) {
+		this.txtUserName = txtUserName;
+	}
+
+	public JTextField getTxtIPAddress() {
+		return txtIPAddress;
+	}
+
+	public void setTxtIPAddress(JTextField txtIPAddress) {
+		this.txtIPAddress = txtIPAddress;
 	}
 }

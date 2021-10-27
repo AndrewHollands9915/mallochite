@@ -12,12 +12,17 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import mallochite.database.DatabaseConnection;
 import mallochite.encryption.EncryptionMain;
 import mallochite.encryption.RSAEncryption;
 import mallochite.encryption.SecretKeyGenerator;
 import mallochite.models.classes.nodes.SubNode;
-import ui.FrameUserChat;
+import mallochite.ui.FrameAddMember;
+import mallochite.ui.FrameLoginChat;
+import mallochite.ui.FrameUserChat;
 
 public class ChatManager
 {
@@ -39,6 +44,8 @@ public class ChatManager
 	{
 		Scanner scanner = new Scanner ( System.in );
 		
+		
+		//have ui replace this
 		System.out.println( "What would you like to do?" );
 		System.out.println( "\t 0. send key" );
 		System.out.println( "\t 1. send message" );
@@ -46,9 +53,63 @@ public class ChatManager
 		System.out.println( "\t 3. add contact" );
 		System.out.println( "\t 4. list contacts" );
 		
+		FrameUserChat frame = new FrameUserChat();
+		frame.setVisible(true);
+		
+		FrameAddMember frameAdd = new FrameAddMember();
+		frameAdd.setVisible(true);
+		JButton test = new JButton();
+
+	
+		
+		
+		//send message the + icon
+		JButton btu1 = new JButton();
+		
+		btu1 = frame.getbtnAddNew();
+		btu1.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("please");
+		    	
+		    	displayContactsUI();
+		    	
+		    } 
+		});
+		
+		
+		//add contact form frameAddMember
+				test = frameAdd.getPnlBtnAddNew_1();
+		test.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("please djguiduijoh");
+		    	addContactui();
+		    } 
+		});
+		
+		
+				
+		//the arrow button
+		JButton btuSend = new JButton();
+		btuSend = frame.getBtnSendMsg();
+		btuSend.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("please sfjnfibdsuibesuigds");	    	
+		    	
+		    	try {
+					sendMessageui();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+		    	
+		    } 
+		});
+		
+		
+		
 		String response = scanner.nextLine();
 		
-		if ( response.equals("0")) {
+		if ( response.equals( "1" ) ) 
 			frameChat.setVisible(true);
 			User userToContact = null;
 			System.out.println( "Who would you like to send the key to?" );
@@ -129,6 +190,9 @@ public class ChatManager
 		}
 		else if ( response.equals( "3" ) ) 
 		{
+			
+			
+			
 			this.addContact();
 		}
 		else if ( response.equals( "4" ) )
@@ -186,6 +250,80 @@ public class ChatManager
 		
 	}
 
+	
+	//add ui instead of command line interface-----------------------------------------------------------------------
+	public void addContactui()
+	{
+		this.addContact();
+	}
+	
+	public void sendMessageui() throws Exception
+	{
+		frameChat.setVisible(true);
+		
+		User userToContact = null;
+		System.out.println( "Who would you like to contact?" );
+		String userName = this.sc.nextLine();
+	    
+		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+		
+		for(User user: userList ){
+			if(user.getUsername().equals( userName )) {
+													
+				userToContact = user;
+				this.sendMessage( userToContact );
+				frameChat.setlblFriendName(userName+"");
+			}
+			else
+			{
+				System.out.println( "user not found" );
+			}
+		}
+
+		
+	}
+	
+	public void checkMessagesui()
+	{
+		frameChat.setVisible(true);
+		
+		User userToRead = null;
+		System.out.println( "Whos messages would you like to check?" );
+		String userName = this.sc.nextLine();
+	    
+		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+		
+		for(User user: userList )
+		{
+			if(user.getUsername().equals( userName )) 
+			{		
+				userToRead = user;
+				
+				ArrayList<String> conversation = userToRead.getConversation();
+				
+				for ( String message : conversation )
+				{
+					System.out.println( message );
+					frameChat.setTextArea_1(userName+": "+message);
+					
+				}
+			}
+		}
+	}
+	
+	public void displayContactsUI()
+	{
+		this.displayContacts();
+	}
+	
+	
+	
+	//-----------------------------------------------------------------------^
+	
+	
+	
+	
+	
 
 	public void displayMessages ( User userToDisplayMessages )
 	{
@@ -235,13 +373,13 @@ public class ChatManager
 			//contact.setPort(contactPort);*/
 		
 			//works but its not int sooooooo???
-			System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
+			//System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
 			//add contact to the database
-			/*DatabaseConnection.UserInsert("86" , 
+			/*DatabaseConnection.UserInsert("67" , 
 					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
 					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
-			*/
 			
+			*/
 			
 			
 		
