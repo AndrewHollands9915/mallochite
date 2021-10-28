@@ -112,10 +112,12 @@ public class FrameLoginChat extends JFrame {
 		pnlBtnLogin.setLayout(null);
 		
 		JLabel lblConnect = new JLabel("Connect");
+		
+		
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameLoginChat.this.dispose();			
+				FrameLoginChat.this.dispose();			 
 			       FrameJScrollPaneDemo.newUserChatScreenDemo(null);			
 				
 			}

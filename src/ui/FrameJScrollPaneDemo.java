@@ -13,8 +13,11 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.NumberFormat.Style;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,8 +33,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import mallochite.DatabaseConnection.*;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.JList;
 
 
 public class FrameJScrollPaneDemo extends JFrame {
@@ -42,6 +51,10 @@ public class FrameJScrollPaneDemo extends JFrame {
 	JButton btnSendMsg;
 	JLabel lblFriendName;
 	JScrollPane scrollFrame;
+	
+	DefaultListModel demoList = new DefaultListModel();
+	JList<String> list = new JList<>( demoList );
+	
 	boolean test = false;
 	/**
 	 * Launch the application.
@@ -102,18 +115,9 @@ public class FrameJScrollPaneDemo extends JFrame {
 		scrollUser.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollUser);
 		
-		JTextArea chatDisplay = new JTextArea();
-		chatDisplay.setBackground(new Color(60, 179, 113));
-		
-		//chatDisplay.setBounds(10, 10, 563, 459);
-		chatDisplay.setAutoscrolls(true);
-		chatDisplay.setEditable(false); // set textArea(chatDisplay) non-editable
-		
-		JScrollPane scrollChat = new JScrollPane(chatDisplay);
-		scrollChat.setBounds(225, 50, 550, 450);
-		scrollChat.setPreferredSize(new Dimension(800,300));
-		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollChat);
+		//list = new JList();
+		list.setBounds(10, 50, 200, 450);
+		scrollUser.setColumnHeaderView(list);
 		
 		JTextArea messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
@@ -132,6 +136,8 @@ public class FrameJScrollPaneDemo extends JFrame {
 		btnSendMsg.setBounds(683, 520, 89, 50);
 		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		contentPane.add(btnSendMsg);
+		
+		
 		
 		JButton btnAddNew = new JButton("+");
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -164,10 +170,55 @@ public class FrameJScrollPaneDemo extends JFrame {
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 19));
 		contentPane.add(btnAddNew);
 		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(1, 143, 439, 306);
+		textPane.setBackground(new Color(60, 179, 113));
+		addColoredText(textPane, "Blue Text\n", Color.BLUE);
+		//textPane.setBounds(225, 50, 547, 456);
+		contentPane.add(textPane);
+		
+		JScrollPane scrollChat = new JScrollPane(textPane);
+		scrollChat.setBounds(225, 50, 550, 450);
+		scrollChat.setPreferredSize(new Dimension(800,300));
+		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollChat);
+		
+		JLabel lblNewLabel = new JLabel("Online Users");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(10, 23, 200, 26);
+		contentPane.add(lblNewLabel);
+		
+		btnAddNew.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String message = messageDisplay.getText();
+				textPane.getStyledDocument();
+			}
+		});
+		
 	}
+	
+	 public void addColoredText(JTextPane pane, String text, Color color) {
+	        StyledDocument doc = pane.getStyledDocument();
+
+	        javax.swing.text.Style style = pane.addStyle("Color Style", null);
+	        StyleConstants.setForeground(style, color);
+	        try {
+	            doc.insertString(doc.getLength(), text, style);
+	        } 
+	        catch (BadLocationException e) {
+	            e.printStackTrace();
+	        }           
+	    }
 	
 	public void getOperation()
 	{		
+		
+		 //demoList.addElement("addElements");
+		
+	     
+		 
 		Connection con = ConnectToUsersDB.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -180,11 +231,12 @@ public class FrameJScrollPaneDemo extends JFrame {
 			while(rs.next())
             {           	   
 				String UserName = rs.getString("UserName");
-				userDisplay.append(UserName +"\n");
+				demoList.addElement(UserName);
+				//userDisplay.append(UserName +"\n");
 				
-			
+				
             }
-			
+			 //list = new JList(demoList);
 			 rs.close();
              ps.close();
 			
@@ -198,4 +250,31 @@ public class FrameJScrollPaneDemo extends JFrame {
 		}			
 	}    
 	
+	public void getOnlineUsers(String UserName)
+	{
+		Connection con = ConnectToUsersDB.getConnection();
+        PreparedStatement ps = null;
+        //ResultSet rs = null;
+        try {
+            String query = "SELECT (count(*) > 0) as found FROM Contact WHERE UserName LIKE ?";
+            ps = con.prepareStatement(query);
+            
+            
+            ps.setString(1, UserName);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                
+                if (rs.next()) {
+                    boolean found = rs.getBoolean(1); // "found" column
+                    if (found) {
+                        // You have rows
+                    } else {
+                        // You have no rows
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
 }
