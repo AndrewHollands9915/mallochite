@@ -57,7 +57,7 @@ public class FrameAddMember extends JFrame {
 		contentPane.setBackground(new Color(0, 100, 0));
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(50, 105, 50), new Color(50, 105, 50), null, null));
 		setContentPane(contentPane);
-		setUndecorated(true);
+		///setUndecorated(true);
 		contentPane.setLayout(null);
 		
 		JPanel panel_2 = new JPanel();
@@ -189,8 +189,26 @@ public class FrameAddMember extends JFrame {
 		return lblConnect;
 	}
 	
-	
+	//Get items to create a new user
 	public String getTxtUUID() {
 		return txtUUID.getText();
 	}
+	
+	public String gettxtUserName()
+	{
+		return txtUserName.getText();
+	}
+	
+	public String gettxtIPAddress() {
+		return txtIPAddress.getText();
+	}
+	
+	//clear after pressed
+	public void clearItems()
+	{
+		txtUUID.setText("");
+		txtUserName.setText("");
+		txtIPAddress.setText("");	
+	}
+	
 }

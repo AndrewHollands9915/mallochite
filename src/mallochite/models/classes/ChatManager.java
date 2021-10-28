@@ -76,7 +76,17 @@ public class ChatManager
 				test = frameAdd.getPnlBtnAddNew_1();
 		test.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
-		    	System.out.println("please djguiduijoh");
+		    	System.out.println("Add button selected");
+		    	System.out.println(frameAdd.getTxtUUID());
+		    	System.out.println(frameAdd.gettxtUserName());
+		    	System.out.println(frameAdd.gettxtIPAddress());
+		    	
+		    	/*DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
+		    			frameAdd.gettxtUserName(), 
+		    			frameAdd.gettxtIPAddress()
+						);*/
+		    	
+		    	frameAdd.clearItems();
 		    	addContactui();
 		    } 
 		});
