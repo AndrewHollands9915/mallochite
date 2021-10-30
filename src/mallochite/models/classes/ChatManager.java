@@ -53,9 +53,11 @@ public class ChatManager
 	    frame.getOperation();
 		frame.setVisible(true);
 		
+		
 		FrameAddMember frameAdd = new FrameAddMember();
-		frameAdd.setVisible(true);
+		//frameAdd.setVisible(true);
 		JButton test = new JButton();
+		
 
 	
 		

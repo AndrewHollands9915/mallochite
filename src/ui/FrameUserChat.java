@@ -18,6 +18,8 @@ import java.text.NumberFormat.Style;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -54,7 +57,7 @@ import javax.swing.JList;
 
 public class FrameUserChat extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	JTextArea txtChatArea;
 	JTextArea textArea_2;
 	JButton btnSendMsg;
@@ -64,6 +67,9 @@ public class FrameUserChat extends JFrame {
 	JLabel lblNewLabel_1;
 	JTextPane textPane;
     public SubNode subNode;
+    JTextField message;
+   // JPanel panel;
+	
 	
 	DefaultListModel demoList = new DefaultListModel();
 	JList<String> list = new JList<>( demoList );
@@ -132,21 +138,54 @@ public class FrameUserChat extends JFrame {
 		contentPane.add(scrollUser);
 		list.setBackground(new Color(0, 204, 102));
 		
+		
+		
+		
+		
+		
+		
 		//list = new JList();
 		list.setBounds(10, 50, 200, 450);
 		scrollUser.setColumnHeaderView(list);
 		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setBackground(new Color(88,238,148));
+    	panel.setBounds(225, 50, 550, 450);
+       // contentPane.add(panel);
+        
+        JScrollPane scrollChat = new JScrollPane(panel);
+		scrollChat.setBounds(225, 50, 550, 450);
+		scrollChat.setPreferredSize(new Dimension(800,300));
+		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panel.validate();
+		contentPane.add(scrollChat);
 		
 		
 		
+		
+	
+	   
 		list.addMouseListener(new MouseAdapter(){
+			
 	          @Override
 	          public void mouseClicked(MouseEvent e) {
-	              //System.out.println("Mouse click.");
+	        	
+	        	  panel.removeAll();
+	        	  panel.revalidate();
+	        	  panel.repaint();
 	              int index = list.getSelectedIndex();
-	              //System.out.println("Index Selected: " + index);
+	              
 	              String s = (String)list.getSelectedValue();
 	              lblNewLabel_1.setText(s);
+	              getMessages(s, panel);
+	              
+	              
+	              
+	              
+	      		
+	              
+	             
 	              //sendMessageToUsers(s);
 	              //ChatManager.sendMessage(s);
 	              //System.out.println("Value Selected: " + s.toString());
@@ -205,19 +244,16 @@ public class FrameUserChat extends JFrame {
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 19));
 		contentPane.add(btnAddNew);
 		
-		textPane = new JTextPane();
-		textPane.setForeground(new Color(255, 0, 0));
-		textPane.setBounds(1, 1, 386, 448);
-		textPane.setBackground(new Color(60, 179, 113));
-		addColoredText(textPane, "Blue Text\n", Color.BLUE);
-		//textPane.setBounds(225, 50, 547, 456);
-		contentPane.add(textPane);
+		//textPane = new JTextPane();
+		//textPane.setForeground(new Color(255, 0, 0));
+		//textPane.setBounds(1, 1, 386, 448);
+		//textPane.setBackground(new Color(60, 179, 113));
 		
-		JScrollPane scrollChat = new JScrollPane(textPane);
-		scrollChat.setBounds(225, 50, 550, 450);
-		scrollChat.setPreferredSize(new Dimension(800,300));
-		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollChat);
+		//textPane.setBounds(225, 50, 547, 456);
+		//contentPane.add(textPane);
+		
+		
+		
 		
 		JLabel lblNewLabel = new JLabel("Users List");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -287,7 +323,60 @@ public class FrameUserChat extends JFrame {
 			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
 					JOptionPane.ERROR_MESSAGE);
 		}			
-	}    
+	} 
+	
+	
+	public void getMessages(String userName, JPanel p) {
+		Connection con = ConnectToUsersDB.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        
+        try {
+        	String sql = "SELECT * FROM Message WHERE ContactFK = (SELECT Messages  FROM Contact WHERE UserName = "+ "'" + userName + "'"+")";
+        	
+        	ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+            {           	   
+				String message = rs.getString("text");
+				//addColoredText(this.message, message + "\n", Color.BLUE);
+				
+				this.message = new JTextField();
+	        	  this.message.setPreferredSize(new Dimension(300,25));
+	        	  this.message.setAlignmentX(100);
+	        	  this.message.setMaximumSize( this.message.getPreferredSize() );
+	              this.message.setBackground(new Color(155,247,192));
+	              this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
+	             this. message.validate();
+	             
+				
+				
+				this.message.setText(" " + message);
+				
+				 p.add(this.message);
+	              p.add(Box.createRigidArea(new Dimension(0, 15)));
+	              
+	             
+				
+				//userDisplay.append(UserName +"\n");	
+				
+				
+            }
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+        
+        
+        
+        
+	}
+	
 	
 	public void getOnlineUsers(String UserName)
 	{
