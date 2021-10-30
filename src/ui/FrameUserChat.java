@@ -1,63 +1,99 @@
-/*
- * Joseph Escober
- * FrameUserChat.java
- */
-
-
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JTextArea;
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.border.TitledBorder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.NumberFormat.Style;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+import mallochite.DatabaseConnection.*;
+import mallochite.models.classes.User;
+import mallochite.models.classes.ChatManager;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import mallochite.encryption.RSAEncryption;
+import mallochite.models.classes.nodes.SubNode;
+
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.JList;
+
 
 public class FrameUserChat extends JFrame {
 
 	private JPanel contentPane;
 	JTextArea txtChatArea;
-	JTextArea textArea_1;
+	JTextArea textArea_2;
 	JButton btnSendMsg;
+	JButton btnAddNew;
 	JLabel lblFriendName;
 	JScrollPane scrollFrame;
+	JLabel lblNewLabel_1;
+	JTextPane textPane;
+    public SubNode subNode;
+	
+	DefaultListModel demoList = new DefaultListModel();
+	JList<String> list = new JList<>( demoList );
+	//ChatManager chatman = new ChatManager();
+	
 	boolean test = false;
 	/**
 	 * Launch the application.
 	 */
-	public static void newUserChatScreen(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameUserChat frame = new FrameUserChat();
+	JTextArea userDisplay = new JTextArea();
+	FrameJScrollPaneDemo frame = new FrameJScrollPaneDemo();
+	
+	
+	public static void newUserChatScreenDemo(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
+					FrameJScrollPaneDemo frame = new FrameJScrollPaneDemo();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
+					frame.getOperation();
 					
-				} catch (Exception e) {
+					
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
@@ -68,64 +104,80 @@ public class FrameUserChat extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameUserChat() {
+	public FrameUserChat() 
+	{
 		test = false;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 500, 830, 650);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 100, 0));
-		contentPane.setBorder(new LineBorder(new Color(0, 128, 0), 4));
+		contentPane.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.setBackground(new Color(0, 102, 51));
+		contentPane.setBorder(BorderFactory.createTitledBorder(null, "Chat Area", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("monospaced",Font.BOLD,20), Color.WHITE));
 		setContentPane(contentPane);
-		//setUndecorated(true);
 		contentPane.setLayout(null);
+
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		panel.setBackground(new Color(60, 179, 113));
-		panel.setBounds(207, 43, 583, 557);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		userDisplay.setBackground(new Color(60, 179, 113));
+		userDisplay.setFont(new Font("Serif", Font.BOLD, 18));
+		userDisplay.setLineWrap(true);
+		userDisplay.setWrapStyleWord(true);
+		userDisplay.setForeground(Color.BLUE);
+		userDisplay.setAutoscrolls(true);
+		userDisplay.setEditable(false); // set textArea(userDisplay) non-editable
 		
-		txtChatArea = new JTextArea();
-		txtChatArea.setBorder(new LineBorder(new Color(0, 100, 0), 3));
-		txtChatArea.setBounds(10, 479, 445, 58);
-		panel.add(txtChatArea);
+		JScrollPane scrollUser = new JScrollPane(userDisplay);
+		scrollUser.setBounds(10, 50, 200, 450);
+		scrollUser.setPreferredSize(new Dimension(800,300));
+		scrollUser.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollUser);
+		list.setBackground(new Color(0, 204, 102));
+		
+		//list = new JList();
+		list.setBounds(10, 50, 200, 450);
+		scrollUser.setColumnHeaderView(list);
+		
+		
+		
+		
+		list.addMouseListener(new MouseAdapter(){
+	          @Override
+	          public void mouseClicked(MouseEvent e) {
+	              //System.out.println("Mouse click.");
+	              int index = list.getSelectedIndex();
+	              //System.out.println("Index Selected: " + index);
+	              String s = (String)list.getSelectedValue();
+	              lblNewLabel_1.setText(s);
+	              //sendMessageToUsers(s);
+	              //ChatManager.sendMessage(s);
+	              //System.out.println("Value Selected: " + s.toString());
+	              
+	          }
+	    });
+		
+		JTextArea messageDisplay = new JTextArea();
+		messageDisplay.setText("Type your message here...");
+		messageDisplay.setBackground(new Color(60, 179, 113));
+		messageDisplay.setAutoscrolls(true);
+		//messageDisplay.setBounds(225, 510, 450, 75);
+		//contentPane.add(messageDisplay);
+
+		JScrollPane scrollMessage = new JScrollPane(messageDisplay);
+		scrollMessage.setBounds(225, 520, 450, 50);
+		scrollMessage.setPreferredSize(new Dimension(800,300));
+		scrollMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollMessage);
 		
 		btnSendMsg = new JButton();
+		btnSendMsg.setBounds(683, 520, 89, 50);
 		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-		btnSendMsg.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		//btnSendMsg.setForeground(Color.WHITE);
-		btnSendMsg.setBackground(new Color(192, 192, 192));
-		btnSendMsg.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnSendMsg.setBounds(453, 479, 106, 58);
-		panel.add(btnSendMsg);
-		
-		btnSendMsg.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {				
-			       //FrameAddMember.newAddMemberScreen(null);
-			       test = true;
-			      
-			}				
-
-		});
+		contentPane.add(btnSendMsg);
 		
 		
-		textArea_1 = new JTextArea();
-		scrollFrame = new JScrollPane(textArea_1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		//setLayout(new FlowLayout());
-		//add(scrollFrame);
-		textArea_1.setBackground(new Color(60, 179, 113));
-		textArea_1.setBounds(10, 10, 563, 459);
-		panel.add(scrollFrame);
 		
-		//JScrollPane scrollFrame = new JScrollPane(textArea_1);
-        //textArea_1.setAutoscrolls(true);
-        //scrollFrame.setPreferredSize(new Dimension( 800,300));
-        //scrollFrame.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
-        //this.add(scrollFrame);
+	    btnAddNew = new JButton("+");
+		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnAddNew.setBounds(10, 531, 47, 39);
 		
-		JButton btnAddNew = new JButton("+");
 		btnAddNew.setToolTipText("Click to add new contact..");
 		btnAddNew.addMouseListener(new MouseAdapter() {
 			@Override
@@ -151,47 +203,155 @@ public class FrameUserChat extends JFrame {
 			}
 		});
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 19));
-		btnAddNew.setBounds(10, 559, 38, 31);
 		contentPane.add(btnAddNew);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		textArea.setBackground(new Color(60, 179, 113));
-		textArea.setForeground(Color.YELLOW);
-		textArea.setBounds(10, 43, 187, 427);
-		contentPane.add(textArea);
+		textPane = new JTextPane();
+		textPane.setForeground(new Color(255, 0, 0));
+		textPane.setBounds(1, 1, 386, 448);
+		textPane.setBackground(new Color(60, 179, 113));
+		addColoredText(textPane, "Blue Text\n", Color.BLUE);
+		//textPane.setBounds(225, 50, 547, 456);
+		contentPane.add(textPane);
 		
-		JLabel lblClose = new JLabel("X");
-		lblClose.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
-					 FrameUserChat.this.dispose();
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				lblClose.setForeground(Color.RED);
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				lblClose.setForeground(Color.WHITE);
+		JScrollPane scrollChat = new JScrollPane(textPane);
+		scrollChat.setBounds(225, 50, 550, 450);
+		scrollChat.setPreferredSize(new Dimension(800,300));
+		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollChat);
+		
+		JLabel lblNewLabel = new JLabel("Users List");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(10, 23, 200, 26);
+		contentPane.add(lblNewLabel);
+		
+	    lblNewLabel_1 = new JLabel("");
+	    lblNewLabel_1.setBackground(new Color(0, 204, 102));
+	    lblNewLabel_1.setOpaque(true);
+		lblNewLabel_1.setForeground(new Color(255, 0, 0));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(225, 27, 133, 22);
+		contentPane.add(lblNewLabel_1);
+		
+		btnAddNew.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String message = messageDisplay.getText();
+				textPane.getStyledDocument();
 			}
 		});
-		lblClose.setForeground(Color.WHITE);
-		lblClose.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblClose.setBounds(776, 0, 24, 35);
-		contentPane.add(lblClose);
 		
-	    lblFriendName = new JLabel("Talking with a Friend");
-		lblFriendName.setBounds(210, 3, 556, 31);
-		contentPane.add(lblFriendName);
-		lblFriendName.setForeground(Color.WHITE);
-		lblFriendName.setFont(new Font("Tahoma", Font.BOLD, 16));
 	}
+	
+	 public void addColoredText(JTextPane pane, String text, Color color) {
+	        StyledDocument doc = pane.getStyledDocument();
 
+	        javax.swing.text.Style style = pane.addStyle("Color Style", null);
+	        StyleConstants.setForeground(style, color);
+	        try {
+	            doc.insertString(doc.getLength(), text, style);
+	        } 
+	        catch (BadLocationException e) {
+	            e.printStackTrace();
+	        }           
+	    }
+	
+	public void getOperation()
+	{		
+		  		 
+		Connection con = ConnectToUsersDB.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+		try
+		{
+			String sql = "SELECT UserName from Contact";
+			
+		    ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();			
+			while(rs.next())
+            {           	   
+				String UserName = rs.getString("UserName");
+				demoList.addElement(UserName);
+				//userDisplay.append(UserName +"\n");			
+				
+            }
+			 //list = new JList(demoList);
+			 rs.close();
+             ps.close();
+			
+			JOptionPane.showMessageDialog(null, "Retrieved data succesfully.","Active UserName Retrieved",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch(Exception ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}			
+	}    
+	
+	public void getOnlineUsers(String UserName)
+	{
+		Connection con = ConnectToUsersDB.getConnection();
+        PreparedStatement ps = null;
+        //ResultSet rs = null;
+        try {
+            String query = "SELECT (count(*) > 0) as found FROM Contact WHERE UserName LIKE ?";
+            ps = con.prepareStatement(query);
+            
+            
+            ps.setString(1, UserName);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                
+                if (rs.next()) {
+                    boolean found = rs.getBoolean(1); // "found" column
+                    if (found) {
+                        // You have rows
+                    } else {
+                        // You have no rows
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	/*
+	public void sendMessageToUsers(String username)
+	{
+		
+		User userToContact = null;
+			//System.out.println( "Who would you like to contact?" );
+			//String userName = this.sc.nextLine();
+		    
+			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+			
+			for(User user: userList ){
+				if(user.getUsername().equals(username)) {
+				
+					
+					//frameChat.setTextArea_1();
+					userToContact = user;
+					ChatManager.sendMessageui();
+					//frameChat.setlblFriendName(userName+"");
+				}
+				else
+				{
+					System.out.println( "user not found" );
+				}
+      }
+      
+	}
+	
+	*/
+	
 	public JButton getBtnSendMsg() {
 		return btnSendMsg;
+	}
+	
+	public JButton getbtnAddNew() {
+		return btnAddNew;
 	}
 
 
@@ -199,33 +359,31 @@ public class FrameUserChat extends JFrame {
 		this.btnSendMsg = btnSendMsg;
 	}
 
-
 	public String gettxtChatArea() {
 		return txtChatArea.getText();
-	}
-	
-	
-	public String getTextArea_1() {
-		return textArea_1.getText();
-	}
-	public void setTextArea_1(String imp) {
-		textArea_1.setText(getTextArea_1()+imp+"\n");
-	}
-	
-	
-	public boolean getTest()
-	{
-		return test;
 	}
 	
 	public void settxtChatArea(String imp) {
         txtChatArea.setText(imp);
     }
 	
+	public boolean getTest()
+	{
+		return test;
+	}
+	
+	
+	public String getTextPane() {
+		return textPane.getText();
+	}
+	
+	public void setTextPane(String imp) {
+		textPane.setText(getTextPane()+imp+"\n");
+	}
+	
 	public void setlblFriendName(String imp) {
         lblFriendName.setText("Talking with a Friend "+imp);
     }
 
-
-	
 }
+

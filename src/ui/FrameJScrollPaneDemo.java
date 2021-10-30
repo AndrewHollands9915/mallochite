@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat.Style;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -38,6 +39,14 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import mallochite.DatabaseConnection.*;
+import mallochite.models.classes.User;
+import mallochite.models.classes.ChatManager;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import mallochite.encryption.RSAEncryption;
+import mallochite.models.classes.nodes.SubNode;
+
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
@@ -49,11 +58,16 @@ public class FrameJScrollPaneDemo extends JFrame {
 	JTextArea txtChatArea;
 	JTextArea textArea_2;
 	JButton btnSendMsg;
+	JButton btnAddNew;
 	JLabel lblFriendName;
 	JScrollPane scrollFrame;
+	JLabel lblNewLabel_1;
+	JTextPane textPane;
+    public SubNode subNode;
 	
 	DefaultListModel demoList = new DefaultListModel();
 	JList<String> list = new JList<>( demoList );
+	//ChatManager chatman = new ChatManager();
 	
 	boolean test = false;
 	/**
@@ -114,10 +128,29 @@ public class FrameJScrollPaneDemo extends JFrame {
 		scrollUser.setPreferredSize(new Dimension(800,300));
 		scrollUser.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollUser);
+		list.setBackground(new Color(0, 204, 102));
 		
 		//list = new JList();
 		list.setBounds(10, 50, 200, 450);
 		scrollUser.setColumnHeaderView(list);
+		
+		
+		
+		
+		list.addMouseListener(new MouseAdapter(){
+	          @Override
+	          public void mouseClicked(MouseEvent e) {
+	              //System.out.println("Mouse click.");
+	              int index = list.getSelectedIndex();
+	              //System.out.println("Index Selected: " + index);
+	              String s = (String)list.getSelectedValue();
+	              lblNewLabel_1.setText(s);
+	              //sendMessageToUsers(s);
+	              //ChatManager.sendMessage(s);
+	              //System.out.println("Value Selected: " + s.toString());
+	              
+	          }
+	    });
 		
 		JTextArea messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
@@ -170,8 +203,9 @@ public class FrameJScrollPaneDemo extends JFrame {
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 19));
 		contentPane.add(btnAddNew);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(1, 143, 439, 306);
+		textPane = new JTextPane();
+		textPane.setForeground(new Color(255, 0, 0));
+		textPane.setBounds(1, 1, 386, 448);
 		textPane.setBackground(new Color(60, 179, 113));
 		addColoredText(textPane, "Blue Text\n", Color.BLUE);
 		//textPane.setBounds(225, 50, 547, 456);
@@ -183,12 +217,20 @@ public class FrameJScrollPaneDemo extends JFrame {
 		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollChat);
 		
-		JLabel lblNewLabel = new JLabel("Online Users");
+		JLabel lblNewLabel = new JLabel("Users List");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBounds(10, 23, 200, 26);
 		contentPane.add(lblNewLabel);
+		
+	    lblNewLabel_1 = new JLabel("");
+	    lblNewLabel_1.setBackground(new Color(0, 204, 102));
+	    lblNewLabel_1.setOpaque(true);
+		lblNewLabel_1.setForeground(new Color(255, 0, 0));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(225, 27, 133, 22);
+		contentPane.add(lblNewLabel_1);
 		
 		btnAddNew.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -214,11 +256,7 @@ public class FrameJScrollPaneDemo extends JFrame {
 	
 	public void getOperation()
 	{		
-		
-		 //demoList.addElement("addElements");
-		
-	     
-		 
+		  		 
 		Connection con = ConnectToUsersDB.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -232,8 +270,7 @@ public class FrameJScrollPaneDemo extends JFrame {
             {           	   
 				String UserName = rs.getString("UserName");
 				demoList.addElement(UserName);
-				//userDisplay.append(UserName +"\n");
-				
+				//userDisplay.append(UserName +"\n");			
 				
             }
 			 //list = new JList(demoList);
@@ -277,4 +314,74 @@ public class FrameJScrollPaneDemo extends JFrame {
             e.printStackTrace();
         }
 	}
+	
+	/*
+	public void sendMessageToUsers(String username)
+	{
+		
+		User userToContact = null;
+			//System.out.println( "Who would you like to contact?" );
+			//String userName = this.sc.nextLine();
+		    
+			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+			
+			for(User user: userList ){
+				if(user.getUsername().equals(username)) {
+				
+					
+					//frameChat.setTextArea_1();
+					userToContact = user;
+					ChatManager.sendMessageui();
+					//frameChat.setlblFriendName(userName+"");
+				}
+				else
+				{
+					System.out.println( "user not found" );
+				}
+      }
+      
+	}
+	
+	*/
+	
+	public JButton getBtnSendMsg() {
+		return btnSendMsg;
+	}
+	
+	public JButton getbtnAddNew() {
+		return btnAddNew;
+	}
+
+
+	public void setBtnSendMsg(JButton btnSendMsg) {
+		this.btnSendMsg = btnSendMsg;
+	}
+
+	public String gettxtChatArea() {
+		return txtChatArea.getText();
+	}
+	
+	public void settxtChatArea(String imp) {
+        txtChatArea.setText(imp);
+    }
+	
+	public boolean getTest()
+	{
+		return test;
+	}
+	
+	
+	public String getTextPane() {
+		return textPane.getText();
+	}
+	
+	public void setTextPane(String imp) {
+		textPane.setText(getTextPane()+imp+"\n");
+	}
+	
+	public void setlblFriendName(String imp) {
+        lblFriendName.setText("Talking with a Friend "+imp);
+    }
+
 }
+

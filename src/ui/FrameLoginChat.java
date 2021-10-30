@@ -118,7 +118,7 @@ public class FrameLoginChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrameLoginChat.this.dispose();			 
-			       FrameJScrollPaneDemo.newUserChatScreenDemo(null);			
+			       FrameUserChat.newUserChatScreenDemo(null);			
 				
 			}
 			@Override
