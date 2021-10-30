@@ -50,6 +50,7 @@ public class ChatManager
 		
 		FrameUserChat frame = new FrameUserChat();
 		frame.setVisible(true);
+		frame.getOperation();
 		
 		FrameAddMember frameAdd = new FrameAddMember();
 		frameAdd.setVisible(true);
@@ -91,8 +92,7 @@ public class ChatManager
 		    } 
 		});
 		
-		
-				
+			
 		//the arrow button
 		JButton btuSend = new JButton();
 		btuSend = frame.getBtnSendMsg();
@@ -161,7 +161,7 @@ public class ChatManager
 					for ( String message : conversation )
 					{
 						System.out.println( message );
-						frameChat.setTextArea_1(userName+": "+message);
+						//frameChat.setTextArea_1(userName+": "+message);
 						
 					}
 				}
@@ -216,8 +216,8 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
-				 frameChat.settxtChatArea("");
+				 //frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
+				// frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
 			 }
@@ -283,7 +283,7 @@ public class ChatManager
 				for ( String message : conversation )
 				{
 					System.out.println( message );
-					frameChat.setTextArea_1(userName+": "+message);
+					//frameChat.setTextArea_1(userName+": "+message);
 					
 				}
 			}

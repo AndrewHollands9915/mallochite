@@ -1,9 +1,3 @@
-/*
- * Joseph Escober
- * FrameUserChat.java
- */
-
-
 package mallochite.ui;
 
 import java.awt.Color;
@@ -21,14 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat.Style;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,7 +26,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -50,35 +37,23 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import mallochite.database.*;
-import mallochite.models.classes.User;
-import mallochite.models.classes.ChatManager;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import mallochite.encryption.RSAEncryption;
-import mallochite.models.classes.nodes.SubNode;
+import mallochite.database.DatabaseConnection;
+import mallochite.database.DatabaseConnection.*;
+import mallochite.database.DatabaseCrud;
 
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 
 
-public class FrameUserChat extends JFrame {
+public class FrameJScrollPaneDemo extends JFrame {
 
-	public JPanel contentPane;
+	private JPanel contentPane;
 	JTextArea txtChatArea;
 	JTextArea textArea_2;
 	JButton btnSendMsg;
-	JButton btnAddNew;
 	JLabel lblFriendName;
 	JScrollPane scrollFrame;
-	JLabel lblNewLabel_1;
-	JTextPane textPane;
-    public SubNode subNode;
-    JTextField message;
-   // JPanel panel;
-	
 	
 	DefaultListModel demoList = new DefaultListModel();
 	JList<String> list = new JList<>( demoList );
@@ -88,8 +63,6 @@ public class FrameUserChat extends JFrame {
 	 * Launch the application.
 	 */
 	JTextArea userDisplay = new JTextArea();
-	FrameJScrollPaneDemo frame = new FrameJScrollPaneDemo();
-	
 	
 	public static void newUserChatScreenDemo(String[] args) 
 	{
@@ -118,7 +91,7 @@ public class FrameUserChat extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameUserChat() 
+	public FrameJScrollPaneDemo() 
 	{
 		test = false;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,52 +117,10 @@ public class FrameUserChat extends JFrame {
 		scrollUser.setPreferredSize(new Dimension(800,300));
 		scrollUser.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollUser);
-		list.setBackground(new Color(0, 204, 102));
-		
-		
-		
-		
-		
-		
 		
 		//list = new JList();
 		list.setBounds(10, 50, 200, 450);
 		scrollUser.setColumnHeaderView(list);
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.setBackground(new Color(88,238,148));
-    	panel.setBounds(225, 50, 550, 450);
-       // contentPane.add(panel);
-        
-        JScrollPane scrollChat = new JScrollPane(panel);
-		scrollChat.setBounds(225, 50, 550, 450);
-		scrollChat.setPreferredSize(new Dimension(800,300));
-		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		panel.validate();
-		contentPane.add(scrollChat);
-		
-	   
-		list.addMouseListener(new MouseAdapter(){
-			
-	          @Override
-	          public void mouseClicked(MouseEvent e) {
-	        	
-	        	  panel.removeAll();
-	        	  panel.revalidate();
-	        	  panel.repaint();
-	              int index = list.getSelectedIndex();
-	              
-	              String s = (String)list.getSelectedValue();
-	              lblNewLabel_1.setText(s);
-	              getMessages(s, panel);
-	              	                           
-	              //sendMessageToUsers(s);
-	              //ChatManager.sendMessage(s);
-	              //System.out.println("Value Selected: " + s.toString());
-	              
-	          }
-	    });
 		
 		JTextArea messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
@@ -204,14 +135,14 @@ public class FrameUserChat extends JFrame {
 		scrollMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollMessage);
 		
-		btnSendMsg = new JButton();
+		JButton btnSendMsg = new JButton();
 		btnSendMsg.setBounds(683, 520, 89, 50);
 		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		contentPane.add(btnSendMsg);
 		
 		
 		
-	    btnAddNew = new JButton("+");
+		JButton btnAddNew = new JButton("+");
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnAddNew.setBounds(10, 531, 47, 39);
 		
@@ -241,28 +172,31 @@ public class FrameUserChat extends JFrame {
 		});
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 19));
 		contentPane.add(btnAddNew);
-							
 		
-		JLabel lblNewLabel = new JLabel("Users List");
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(1, 143, 439, 306);
+		textPane.setBackground(new Color(60, 179, 113));
+		addColoredText(textPane, "Blue Text\n", Color.BLUE);
+		//textPane.setBounds(225, 50, 547, 456);
+		contentPane.add(textPane);
+		
+		JScrollPane scrollChat = new JScrollPane(textPane);
+		scrollChat.setBounds(225, 50, 550, 450);
+		scrollChat.setPreferredSize(new Dimension(800,300));
+		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollChat);
+		
+		JLabel lblNewLabel = new JLabel("Online Users");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBounds(10, 23, 200, 26);
 		contentPane.add(lblNewLabel);
 		
-	    lblNewLabel_1 = new JLabel("");
-	    lblNewLabel_1.setBackground(new Color(0, 204, 102));
-	    lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setForeground(new Color(255, 0, 0));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(225, 27, 133, 22);
-		contentPane.add(lblNewLabel_1);
-		
-		//huh
 		btnAddNew.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				String message = messageDisplay.getText();
-				//textPane.getStyledDocument(); idkl what this is
+				textPane.getStyledDocument();
 			}
 		});
 		
@@ -282,8 +216,12 @@ public class FrameUserChat extends JFrame {
 	    }
 	
 	public void getOperation()
-	{			  		 
-		//Connection con = ConnectToUsersDB.getConnection();
+	{		
+		
+		 //demoList.addElement("addElements");
+		
+	     
+		 
 		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -297,7 +235,8 @@ public class FrameUserChat extends JFrame {
             {           	   
 				String UserName = rs.getString("UserName");
 				demoList.addElement(UserName);
-				//userDisplay.append(UserName +"\n");			
+				//userDisplay.append(UserName +"\n");
+				
 				
             }
 			 //list = new JList(demoList);
@@ -312,91 +251,10 @@ public class FrameUserChat extends JFrame {
 			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
 					JOptionPane.ERROR_MESSAGE);
 		}			
-	} 
-	
-	
-	public void getMessages(String userName, JPanel p) {
-		//Connection con = ConnectToUsersDB.getConnection();
-		Connection con = DatabaseCrud.connect();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        
-        boolean test1 = false;
-        try {
-        	String sql = "SELECT * FROM Message WHERE ContactFK = (SELECT Messages  FROM Contact WHERE UserName = "+ "'" + userName + "'"+")";
-        	
-        	ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
-			
-			
-			while(rs.next())
-            {           	   
-				String message = rs.getString("text");
-				//addColoredText(this.message, message + "\n", Color.BLUE);
-				
-				//get the owner of the message. 0 is true for the contact, 1 is us the user
-				int owner = rs.getInt("ContactOwner");
-				
-				//get the date for each message
-				String date = rs.getString("Date");            
-				//System.out.println(date);	      
-				
-				this.message = new JTextField();
-	        	  this.message.setPreferredSize(new Dimension(300,25));
-	        	  //this.message.setAlignmentX(100);
-	        	  
-	        	  //check the value of the owner to display
-	        	  if (owner == 1) //for some reason the values are fliped
-	        		  this.message.setAlignmentX(100); 
-	        	  else if (owner == 0)
-	        		  this.message.setAlignmentX(0);
-	        		   
-	        	  //use date and time values my testing
-	        	  //String sDate1="31-12-1998 10:30:54";  //debug date	        	  	        	
-	        	  Date date1 = null;
-				try {
-					date1 = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss").parse(date);
-					System.out.println(date+"\t"+date1);  
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}  
-	        	    
-	        	
-	        	  
-	        	  
-	        	  
-	        	  this.message.setMaximumSize( this.message.getPreferredSize() );
-	              this.message.setBackground(new Color(155,247,192));
-	              this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
-	             this. message.validate();
-	             
-				
-				//display the message for this one
-				this.message.setText(" " + message+ " date: "+date1);
-				
-				 p.add(this.message);
-	              p.add(Box.createRigidArea(new Dimension(0, 15)));
-	              
-	             
-				
-				//userDisplay.append(UserName +"\n");	
-				
-				
-            }
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-                             
-        
-	}	
+	}    
 	
 	public void getOnlineUsers(String UserName)
 	{
-		//Connection con = ConnectToUsersDB.getConnection();
 		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         //ResultSet rs = null;
@@ -422,44 +280,4 @@ public class FrameUserChat extends JFrame {
             e.printStackTrace();
         }
 	}
-		
-	public JButton getBtnSendMsg() {
-		return btnSendMsg;
-	}
-	
-	public JButton getbtnAddNew() {
-		return btnAddNew;
-	}
-
-
-	public void setBtnSendMsg(JButton btnSendMsg) {
-		this.btnSendMsg = btnSendMsg;
-	}
-
-	public String gettxtChatArea() {
-		return txtChatArea.getText();
-	}
-	
-	public void settxtChatArea(String imp) {
-        txtChatArea.setText(imp);
-    }
-	
-	public boolean getTest()
-	{
-		return test;
-	}
-	
-	
-	public String getTextPane() {
-		return textPane.getText();
-	}
-	
-	public void setTextPane(String imp) {
-		textPane.setText(getTextPane()+imp+"\n");
-	}
-	
-	public void setlblFriendName(String imp) {
-        lblFriendName.setText("Talking with a Friend "+imp);
-    }
-
 }

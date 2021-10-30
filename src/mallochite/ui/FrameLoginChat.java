@@ -42,7 +42,7 @@ public class FrameLoginChat extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -53,7 +53,7 @@ public class FrameLoginChat extends JFrame {
 				}
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * Create the frame.
@@ -111,11 +111,13 @@ public class FrameLoginChat extends JFrame {
 		pnlBtnLogin.setLayout(null);
 		
 		JLabel lblConnect = new JLabel("Connect");
+		
+		
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameLoginChat.this.dispose();			
-			       FrameUserChat.newUserChatScreen(null);			
+				FrameLoginChat.this.dispose();			 
+			       FrameJScrollPaneDemo.newUserChatScreenDemo(null);			
 				
 			}
 			@Override
