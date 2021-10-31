@@ -76,7 +76,8 @@ public class FrameUserChat extends JFrame {
 	JLabel lblNewLabel_1;
 	JTextPane textPane;
     public SubNode subNode;
-    JTextField message;
+    //JTextField message;
+    JTextArea message;
    // JPanel panel;
 	
 	
@@ -330,9 +331,16 @@ public class FrameUserChat extends JFrame {
 			
 			
 			while(rs.next())
-            {           	   
+            {         
+				
+				
+				
+				//get the message content from the database
 				String message = rs.getString("text");
 				//addColoredText(this.message, message + "\n", Color.BLUE);
+				
+				//get the owner of the message Add more code here later for 
+				String ownerName = ""; 
 				
 				//get the owner of the message. 0 is true for the contact, 1 is us the user
 				int owner = rs.getInt("ContactOwner");
@@ -341,16 +349,19 @@ public class FrameUserChat extends JFrame {
 				String date = rs.getString("Date");            
 				//System.out.println(date);	      
 				
-				this.message = new JTextField();
+				//this.message = new JTextField();
+				this.message = new JTextArea(); //changed to area to made size for the 2nd line if needed
 	        	  this.message.setPreferredSize(new Dimension(300,25));
 	        	  //this.message.setAlignmentX(100);
 	        	  
 	        	  //check the value of the owner to display
-	        	  if (owner == 1) //for some reason the values are fliped
-	        		  this.message.setAlignmentX(100); 
-	        	  else if (owner == 0)
+	        	  if (owner == 1){ //for some reason the values are fliped
+	        		  this.message.setAlignmentX(100);
+	        		  ownerName = "Admin";
+	        	  } else if (owner == 0) {
 	        		  this.message.setAlignmentX(0);
-	        		   
+	        		  ownerName = userName;
+	        	  } 
 	        	  //use date and time values my testing
 	        	  //String sDate1="31-12-1998 10:30:54";  //debug date	        	  	        	
 	        	  Date date1 = null;
@@ -369,11 +380,17 @@ public class FrameUserChat extends JFrame {
 	        	  this.message.setMaximumSize( this.message.getPreferredSize() );
 	              this.message.setBackground(new Color(155,247,192));
 	              this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
-	             this. message.validate();
+	             this.message.validate();
 	             
 				
-				//display the message for this one
-				this.message.setText(" " + message+ " date: "+date1);
+				//display the message and contents of the message 
+	             //Right now its really rough. With the length. Maybe space this out	             
+				this.message.setText(ownerName+": " + message+ " date: "+date1);
+				
+				String messageToAppend = ownerName+": " + message+ " date: "+date1;
+				int messageLength = messageToAppend.length();
+				
+				System.out.println("\nLength of message"+messageLength+""); //if its too long make the message 2 lines but do this later!@
 				
 				 p.add(this.message);
 	              p.add(Box.createRigidArea(new Dimension(0, 15)));
