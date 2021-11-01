@@ -16,6 +16,8 @@ import javax.crypto.NoSuchPaddingException;
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
 import mallochite.ui.FrameLoginChat;
+import mallochite.ui.FrameRegistration;
+import mallochite.ui.FrameUserChat;
 import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
 
@@ -23,7 +25,13 @@ public class Mallochite
 {
 	public static void main ( String [] args ) throws Exception
 	{
+		FrameLoginChat frame2 = new FrameLoginChat();
+		frame2.getLogin();
+		frame2.setVisible(true);
 		
+	//	FrameRegistration frame2 = new FrameRegistration();
+		//frame2.setVisible(true);
+		//frame2.getOperation();
 	
 		//connect to the database
 		DatabaseCrud.connect(); 

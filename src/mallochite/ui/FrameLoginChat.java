@@ -25,8 +25,15 @@ import javax.swing.JOptionPane;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import javax.swing.UIManager;
 import javax.swing.border.SoftBevelBorder;
+
+import mallochite.database.DatabaseCrud;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.JComboBox;
 
@@ -117,8 +124,10 @@ public class FrameLoginChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrameLoginChat.this.dispose();			 
-			       FrameJScrollPaneDemo.newUserChatScreenDemo(null);			
+			       //FrameJScrollPaneDemo.newUserChatScreenDemo(null);	
 				
+				System.out.println("clicked");
+				getLogin();
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -202,4 +211,45 @@ public class FrameLoginChat extends JFrame {
 	public void setTxtIPAddress(JTextField txtIPAddress) {
 		this.txtIPAddress = txtIPAddress;
 	}
+	
+	public void getLogin()
+	{			
+		 boolean same = false;
+		Connection con = DatabaseCrud.connect();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+		try
+		{
+			String sql = "SELECT * from Registration";
+			
+		    ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();			
+			while(rs.next())
+            {           	   
+				String UserName = rs.getString("Username");			
+				String Password = rs.getString("Password");	
+				
+				if (txtUserName.getText().equals(UserName) && txtIPAddress.getText().equals(Password))
+				{
+					System.out.println("Sucessfully loged in");
+					same = true;
+				}
+				  System.out.println(UserName+Password);
+            }
+			 rs.close();
+             ps.close();
+			
+           
+             
+			JOptionPane.showMessageDialog(null, "Retrieved login data succesfully.","Active UserName Retrieved",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch(Exception ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}			
+	}   
+	
+	
 }
