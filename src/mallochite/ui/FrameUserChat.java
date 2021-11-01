@@ -351,9 +351,10 @@ public class FrameUserChat extends JFrame {
 				
 				//this.message = new JTextField();
 				this.message = new JTextArea(); //changed to area to made size for the 2nd line if needed
-	        	  this.message.setPreferredSize(new Dimension(300,25));
+	        	  //this.message.setPreferredSize(new Dimension(300,25));
 	        	  //this.message.setAlignmentX(100);
-	        	  
+				this.message.setPreferredSize(new Dimension(300,50));  
+				
 	        	  //check the value of the owner to display
 	        	  if (owner == 1){ //for some reason the values are fliped
 	        		  this.message.setAlignmentX(100);
@@ -377,27 +378,64 @@ public class FrameUserChat extends JFrame {
 	        	  
 	        	  
 	        	  
-	        	  this.message.setMaximumSize( this.message.getPreferredSize() );
-	              this.message.setBackground(new Color(155,247,192));
-	              this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
+	        	 this.message.setMaximumSize( this.message.getPreferredSize() );
+	             this.message.setBackground(new Color(155,247,192));
+	             this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
 	             this.message.validate();
 	             
 				
 				//display the message and contents of the message 
 	             //Right now its really rough. With the length. Maybe space this out	             
-				this.message.setText(ownerName+": " + message+ " date: "+date1);
+				//this.message.setText(ownerName+": " + message+ " date: "+date1);
 				
 				String messageToAppend = ownerName+": " + message+ " date: "+date1;
 				int messageLength = messageToAppend.length();
 				
-				System.out.println("\nLength of message"+messageLength+""); //if its too long make the message 2 lines but do this later!@
+				//Work on this a little bit more but right now the idea is make it longer if needed
+				//max length on a line is 53 before it cuts off I should move this too a loop maybe? 			
+				if (messageLength > 53) //long 2 line message
+				{			
+					messageToAppend = messageToAppend.substring(0, 53)+"\n"+ messageToAppend.substring(53);
+					this.message.setPreferredSize(new Dimension(300,35));
+				}
+				else if (messageLength > 106) //long 3 line message
+				{
+					messageToAppend = messageToAppend.substring(0, 53)+"\n"+messageToAppend.substring(53, 106)+"/n"+messageToAppend.substring(106);
+					this.message.setPreferredSize(new Dimension(300,50));
+				}
+				else if (messageLength < 55) //small 1 line messsage
+				{
+					System.out.println("small message");
+					this.message.setPreferredSize(new Dimension(300,25));
+				}
+				else
+				{
+					this.message.setPreferredSize(new Dimension(300,25));
+				}
+				 
+				
+				//continue loop monday
+			/*	int amount = messageLength / 53; //amount of loop runs
+				//run the loop for amount of times
+				int item = 53;
+				for (int i = 0; i < amount; i++)
+				{
+					System.out.println("\nRun loop");
+					messageToAppend = messageToAppend.substring(0, item)+"\n"+ messageToAppend.substring(item);
+										
+					item+=item;
+				}*/
+				
+				
+				
+				this.message.setText(messageToAppend); //take the final message
+				
+				System.out.println("\nLength of message"+messageLength+""); 
+				
 				
 				 p.add(this.message);
 	              p.add(Box.createRigidArea(new Dimension(0, 15)));
 	              
-	             
-				
-				//userDisplay.append(UserName +"\n");	
 				
 				
             }
