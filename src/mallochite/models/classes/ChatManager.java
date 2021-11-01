@@ -19,6 +19,7 @@ import mallochite.encryption.RSAEncryption;
 import mallochite.models.classes.nodes.SubNode;
 import mallochite.ui.FrameAddMember;
 import mallochite.ui.FrameLoginChat;
+import mallochite.ui.FrameRegistration;
 import mallochite.ui.FrameUserChat;
 
 public class ChatManager
@@ -48,20 +49,64 @@ public class ChatManager
 		System.out.println( "\t 3. add contact" );
 		System.out.println( "\t 4. list contacts" );
 		
+		FrameLoginChat frame2 = new FrameLoginChat();
+		frame2.setVisible(true);	
+		
+		FrameRegistration FrameRegistration = new FrameRegistration();
+		FrameRegistration.setVisible(false); //The register functions are in the method it is created
+		//frame2.getOperation();
+		
+
+		//The chat window itself
 		FrameUserChat frame = new FrameUserChat();
-		frame.setVisible(true);
+		frame.setVisible(false);
 		frame.getOperation();
 		
+		//the add member window to add users
 		FrameAddMember frameAdd = new FrameAddMember();
 		//frameAdd.setVisible(true);
 		JButton test = new JButton();
+		
+		//login method. Check for correct input. If its correct call normal function if not call register
+		JButton btuRegister = new JButton();
+		btuRegister = frame2.getlblRegister();
+		btuRegister.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("Register button selected");
+		    	
+		  
+		    	FrameRegistration.setVisible(true);
+		    	
+		    	frame2.setVisible(false);
+		    } 
+		});
+		
+		//Connect button selected major testing!!!
+		JButton btuRegisterConnect = new JButton();
+		btuRegisterConnect = frame2.getBtnConnect();
+		btuRegisterConnect.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("Register button selecteddskfjndsaijfdsiuodfsjhdf");
+		    	
+		  frame2.getLogin(); //check and validates the login
+		  
+		  if(frame2.continueNow())
+		  {
+			  System.out.println("Continue");
+			  frame.setVisible(true);
+		  }
+		  
+		    } 
+		});
+		
+		
+		
 
 	
 		
 		
 		//send message the + icon
 		JButton btu1 = new JButton();
-		
 		btu1 = frame.getbtnAddNew();
 		btu1.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 

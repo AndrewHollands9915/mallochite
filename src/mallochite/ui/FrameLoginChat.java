@@ -5,10 +5,12 @@
 package mallochite.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.EventQueue;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -42,7 +44,11 @@ public class FrameLoginChat extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUserName, txtIPAddress;
 	private JTextField textField;
+	JButton lblRegister;
+	JButton lblConnect;
 	
+	//check if we continue
+	boolean same = false;
 	
 	//private JPasswordField txtPassword;	
 
@@ -72,7 +78,7 @@ public class FrameLoginChat extends JFrame {
 		contentPane.setBackground(new Color(0, 100, 0));
 		contentPane.setBorder(new LineBorder(new Color(47, 79, 79), 4));
 		setContentPane(contentPane);
-		setUndecorated(true);
+		//setUndecorated(true);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -113,21 +119,21 @@ public class FrameLoginChat extends JFrame {
 		JPanel pnlBtnLogin = new JPanel();
 		pnlBtnLogin.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		pnlBtnLogin.setBackground(new Color(60, 179, 113));
-		pnlBtnLogin.setBounds(91, 495, 201, 59);
+		pnlBtnLogin.setBounds(42, 420, 201, 59);
 		contentPane.add(pnlBtnLogin);
 		pnlBtnLogin.setLayout(null);
 		
-		JLabel lblConnect = new JLabel("Connect");
-		
+		//JLabel lblConnect = new JLabel("Connect");
+	    lblConnect = new JButton("Connect");
 		
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameLoginChat.this.dispose();			 
-			       //FrameJScrollPaneDemo.newUserChatScreenDemo(null);	
+				//FrameLoginChat.this.dispose();			 
+			       //FrameJScrollPaneDemo.newUserChatScreenDemo(null);	//OLD ON CLICK MOVED TO CHAT MANAGER
 				
-				System.out.println("clicked");
-				getLogin();
+				System.out.println("clickdfsdsfed");
+				//getLogin();
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -192,12 +198,35 @@ public class FrameLoginChat extends JFrame {
 		lblLogin.setBounds(47, 163, 195, 35);
 		contentPane.add(lblLogin);
 		
+		JPanel pnlBtnLogin_1 = new JPanel();
+		pnlBtnLogin_1.setLayout(null);
+		pnlBtnLogin_1.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+		pnlBtnLogin_1.setBackground(new Color(60, 179, 113));
+		pnlBtnLogin_1.setBounds(42, 498, 201, 59);
+		contentPane.add(pnlBtnLogin_1);
+		
+	    lblRegister = new JButton("Register");
+		lblRegister.setForeground(Color.WHITE);
+		lblRegister.setFont(new Font("Arial", Font.BOLD, 18));
+		lblRegister.setBounds(59, 10, 111, 39);
+		pnlBtnLogin_1.add(lblRegister);
+		
 		
 		setLocationRelativeTo(null);
 	}
 	
 	public JTextField getTxtUserName() {
 		return txtUserName;
+	}
+	
+	//return the register button so we can give register a function
+	public JButton getlblRegister() {
+		return lblRegister;
+	}
+	
+	//return the connect button to connect
+	public JButton getBtnConnect() {
+		return lblConnect;
 	}
 
 	public void setTxtUserName(JTextField txtUserName) {
@@ -212,9 +241,15 @@ public class FrameLoginChat extends JFrame {
 		this.txtIPAddress = txtIPAddress;
 	}
 	
+	//get the boolean to check if we should open the next chat window
+	public boolean continueNow()
+	{
+		return same;
+	}
+	
 	public void getLogin()
 	{			
-		 boolean same = false;
+		 //boolean same = false;
 		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -233,15 +268,17 @@ public class FrameLoginChat extends JFrame {
 				{
 					System.out.println("Sucessfully loged in");
 					same = true;
-				}
-				  System.out.println(UserName+Password);
+					
+					
+					//good now we can turn it off
+					FrameLoginChat.this.dispose();	
+				}				 
             }
 			 rs.close();
              ps.close();
-			
-           
+			           
              
-			JOptionPane.showMessageDialog(null, "Retrieved login data succesfully.","Active UserName Retrieved",
+			JOptionPane.showMessageDialog(null, "Logged In","Active UserName Retrieved",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 		catch(Exception ex)
@@ -250,6 +287,4 @@ public class FrameLoginChat extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}			
 	}   
-	
-	
 }

@@ -25,11 +25,11 @@ public class Mallochite
 {
 	public static void main ( String [] args ) throws Exception
 	{
-		FrameLoginChat frame2 = new FrameLoginChat();
-		frame2.getLogin();
-		frame2.setVisible(true);
+		//FrameLoginChat frame2 = new FrameLoginChat();
+		//frame2.getLogin();
+		//frame2.setVisible(true);
 		
-	//	FrameRegistration frame2 = new FrameRegistration();
+		//FrameRegistration frame2 = new FrameRegistration();
 		//frame2.setVisible(true);
 		//frame2.getOperation();
 	
