@@ -28,7 +28,6 @@ import javax.swing.border.TitledBorder;
 public class FrameAddMember extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUUID, txtUserName, IPAddress;
-	private JTextField txtIPAddress;
 	JButton pnlBtnAddNew_1;
 	JButton lblConnect;
 	/**
@@ -83,7 +82,7 @@ public class FrameAddMember extends JFrame {
 		JPanel pnlBtnAddNew = new JPanel();
 		pnlBtnAddNew.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		pnlBtnAddNew.setBackground(new Color(60, 179, 113));
-		pnlBtnAddNew.setBounds(65, 471, 116, 53);
+		pnlBtnAddNew.setBounds(65, 370, 116, 53);
 		contentPane.add(pnlBtnAddNew);
 		pnlBtnAddNew.setLayout(null);
 		
@@ -155,26 +154,12 @@ public class FrameAddMember extends JFrame {
 		panel_UserName.add(txtUserName);
 		txtUserName.setColumns(10);
 		
-		JPanel panel_IPAddress = new JPanel();
-		panel_IPAddress.setBorder(new LineBorder(Color.BLACK, 3));
-		panel_IPAddress.setBounds(65, 345, 263, 53);
-		contentPane.add(panel_IPAddress);
-		panel_IPAddress.setLayout(null);
-		
-		txtIPAddress = new JTextField();
-		txtIPAddress.setBorder(null);
-		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtIPAddress.setText("IPAddress");
-		txtIPAddress.setBounds(10, 10, 243, 33);
-		panel_IPAddress.add(txtIPAddress);
-		txtIPAddress.setColumns(10);
-		
 		//test change to button
 	 pnlBtnAddNew_1 = new JButton();
 		pnlBtnAddNew_1.setLayout(null);
 		pnlBtnAddNew_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		pnlBtnAddNew_1.setBackground(new Color(60, 179, 113));
-		pnlBtnAddNew_1.setBounds(220, 471, 109, 53);
+		pnlBtnAddNew_1.setBounds(220, 370, 109, 53);
 		contentPane.add(pnlBtnAddNew_1);
 		
 		JLabel lblConnect_1 = new JLabel("Cancel");
@@ -199,16 +184,13 @@ public class FrameAddMember extends JFrame {
 		return txtUserName.getText();
 	}
 	
-	public String gettxtIPAddress() {
-		return txtIPAddress.getText();
-	}
-	
+
 	//clear after pressed
 	public void clearItems()
 	{
 		txtUUID.setText("");
 		txtUserName.setText("");
-		txtIPAddress.setText("");	
+		//txtIPAddress.setText("");	
 	}
 	
 }

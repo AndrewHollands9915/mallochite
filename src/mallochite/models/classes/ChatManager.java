@@ -53,7 +53,7 @@ public class ChatManager
 		frame.getOperation();
 		
 		FrameAddMember frameAdd = new FrameAddMember();
-		frameAdd.setVisible(true);
+		//frameAdd.setVisible(true);
 		JButton test = new JButton();
 
 	
@@ -66,21 +66,21 @@ public class ChatManager
 		btu1.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please");
-		    	
+		    	frameAdd.setVisible(true);
 		    	displayContactsUI();
 		    	
 		    } 
 		});
 		
 		
-		//add contact form frameAddMember
+		//add contact from frameAddMember
 				test = frameAdd.getPnlBtnAddNew_1();
 		test.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("Add button selected");
 		    	System.out.println(frameAdd.getTxtUUID());
 		    	System.out.println(frameAdd.gettxtUserName());
-		    	System.out.println(frameAdd.gettxtIPAddress());
+		    	//System.out.println(frameAdd.gettxtIPAddress());
 		    	
 		    	/*DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
 		    			frameAdd.gettxtUserName(), 
@@ -89,6 +89,9 @@ public class ChatManager
 		    	
 		    	frameAdd.clearItems();
 		    	addContactui();
+		    	
+		    	//hide after use
+		    	frameAdd.setVisible(false);
 		    } 
 		});
 		
@@ -234,16 +237,19 @@ public class ChatManager
 	public void addContactui()
 	{
 		this.addContact();
+	
 	}
 	
+	//redo
 	public void sendMessageui() throws Exception
 	{
-		frameChat.setVisible(true);
+		//frameChat.setVisible(true);
 		
 		User userToContact = null;
 		System.out.println( "Who would you like to contact?" );
 		String userName = this.sc.nextLine();
 	    
+		
 		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
 		
 		for(User user: userList ){

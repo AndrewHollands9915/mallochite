@@ -194,6 +194,7 @@ public class FrameUserChat extends JFrame {
 		
 		JTextArea messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
+	
 		messageDisplay.setBackground(new Color(60, 179, 113));
 		messageDisplay.setAutoscrolls(true);
 		//messageDisplay.setBounds(225, 510, 450, 75);
@@ -203,6 +204,7 @@ public class FrameUserChat extends JFrame {
 		scrollMessage.setBounds(225, 520, 450, 50);
 		scrollMessage.setPreferredSize(new Dimension(800,300));
 		scrollMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		contentPane.add(scrollMessage);
 		
 		btnSendMsg = new JButton();
@@ -220,7 +222,7 @@ public class FrameUserChat extends JFrame {
 		btnAddNew.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-			       FrameAddMember.newAddMemberScreen(null);			       
+			     //  FrameAddMember.newAddMemberScreen(null);			       
 			      
 			}
 			
@@ -415,7 +417,7 @@ public class FrameUserChat extends JFrame {
 				 
 				
 				//continue loop monday
-			/*	int amount = messageLength / 53; //amount of loop runs
+				int amount = messageLength / 53; //amount of loop runs
 				//run the loop for amount of times
 				int item = 53;
 				for (int i = 0; i < amount; i++)
@@ -424,7 +426,7 @@ public class FrameUserChat extends JFrame {
 					messageToAppend = messageToAppend.substring(0, item)+"\n"+ messageToAppend.substring(item);
 										
 					item+=item;
-				}*/
+				}
 				
 				
 				
