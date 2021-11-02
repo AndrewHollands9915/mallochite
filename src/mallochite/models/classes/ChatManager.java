@@ -144,12 +144,15 @@ public class ChatManager
 		    	System.out.println(frameAdd.getTxtUUID());
 		    	System.out.println(frameAdd.gettxtUserName());
 		    	//System.out.println(frameAdd.gettxtIPAddress());
+		    	String ipAdd = "10.20.300.401"; //use find ip method
 		    	
-		    	/*DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
+		    	//add user to the database
+		    	DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
 		    			frameAdd.gettxtUserName(), 
-		    			frameAdd.gettxtIPAddress()
-						);*/
-		    	
+		    			//frameAdd.gettxtIPAddress()
+		    			ipAdd
+						);
+		    	frame.getOperation();
 		    	frameAdd.clearItems();
 		    	addContactui();
 		    	
