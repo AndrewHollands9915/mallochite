@@ -20,6 +20,7 @@ public class MallochiteMessageManager
 	private final int CONVERSE_PARSE_COUNT = 4;
 	private final int AFFIRM_PARSE_COUNT = 4;
 	private final int DEPART_PARSE_COUNT = 4;
+	private final int QUERY_PARSE_COUNT = 5;
 	
 	
     public MallochiteMessageManager () {};
@@ -67,6 +68,9 @@ public class MallochiteMessageManager
 	    		break;
 	    	case "DEPART":
 	    		parsedMessageHashMap = parseDepart( parsedMessage );
+	    		break;
+	    	case "QUERY":
+	    		parsedMessageHashMap = parseQuery( parsedMessage );
 	    		break;
 	    	default:
 	    		parsedMessageHashMap.put( "method", "INVALID" );
@@ -149,6 +153,9 @@ public class MallochiteMessageManager
     	case "OPEN":
     		response = "OPEN";
     		break;
+    	case "QUERY":
+    		response = "AFFIRM";
+    		response = "NEGATE";
 		default:
 			response = RSAEncryption.encrypt(publicKey, "INVALID").toString();
 			break;
@@ -233,5 +240,26 @@ public class MallochiteMessageManager
     	
     	return parsedMessageHashMap;
     }
+    
+    private HashMap<String , String> parseQuery( String[] parsedMessage )
+    {
+    	HashMap<String , String> parsedMessageHashMap = new HashMap<String , String>();
+    	
+    	if ( parsedMessage.length >= QUERY_PARSE_COUNT )
+    	{
+    		parsedMessageHashMap.put( "method", parsedMessage[0] );
+    		parsedMessageHashMap.put( "UUID", parsedMessage[1] );
+    		parsedMessageHashMap.put( "UUIDToQuery", parsedMessage[2] );
+    		parsedMessageHashMap.put( "ipv4", parsedMessage[3] );
+    		parsedMessageHashMap.put( "port", parsedMessage[4] );
+    	}
+    	else
+    	{
+    		parsedMessageHashMap.put( "method", "INVALID");
+    	}
+    	
+    	return parsedMessageHashMap;
+    }
+    
     
 }

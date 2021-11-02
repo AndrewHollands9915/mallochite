@@ -82,7 +82,12 @@ public class ChatManager
 		test.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please djguiduijoh");
-		    	addContactui();
+		    	try {
+					addContactui();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		    } 
 		});
 		
@@ -109,7 +114,7 @@ public class ChatManager
 		
 		String response = scanner.nextLine();
 		
-		if ( response.equals( "1" ) ) 
+		if ( response.equals( "1" ) ) {
 			frameChat.setVisible(true);
 			User userToContact = null;
 			System.out.println( "Who would you like to send the key to?" );
@@ -190,9 +195,6 @@ public class ChatManager
 		}
 		else if ( response.equals( "3" ) ) 
 		{
-			
-			
-			
 			this.addContact();
 		}
 		else if ( response.equals( "4" ) )
@@ -252,7 +254,7 @@ public class ChatManager
 
 	
 	//add ui instead of command line interface-----------------------------------------------------------------------
-	public void addContactui()
+	public void addContactui() throws Exception
 	{
 		this.addContact();
 	}
@@ -342,16 +344,35 @@ public class ChatManager
 	public void addContact() throws Exception //throws Exception 
 	{
 		
+		User superNode = new User();
+		Scanner scanner = new Scanner ( System.in );
+		// get from database
+		String superNodeIPAddress = ""; // dbManager.getIpAddress
+		String superNodePortNumber = "";
+		
+		System.out.println( "enter UUID to contact" );
+		String contactUUID = this.sc.nextLine();
+		
+		String messageToSend = String.format( "QUERY:%s:%s:%s:%s" , this.subNode.getThisUser().getIP() ,
+				this.subNode.getThisUser().getUUID() , contactUUID , this.subNode.getThisUser().getPort() );
+		// QUERY:UUID:UUIDToQuery:ipv4:port
+		
+		//TODO get from database
+		superNode.setIP( "" );
+		superNode.setPort( 0 );
+		
+		
+		this.subNode.makeConnection( superNode , messageToSend );
 		
 		User contact = new User();
 		
 		
-			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
-			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
-			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
-			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
-			contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
-			contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());
+		contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
+		contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
+		contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
+		contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
+		contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
+		contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());
 			
 			System.out.println(contact.getSecretKey());
 		

@@ -14,8 +14,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+import mallochite.models.abstractClasses.nodes.Node;
 import mallochite.models.classes.*;
 import mallochite.models.classes.nodes.SubNode;
+import mallochite.models.classes.nodes.SuperNode;
 import mallochite.ui.FrameLoginChat;
 import mallochite.database.DatabaseConnection;
 import mallochite.database.DatabaseCrud;
@@ -25,72 +27,100 @@ import mallochite.encryption.SecretKeyGenerator;
 
 public class Mallochite 
 {
+	private static Scanner scanner;
+	private static InetAddress inetAddress;
+	private static User user;
+	private static SubNode subNode;
+	private static SuperNode superNode;
+	private static ChatManager manager;
+	
 	public static void main ( String [] args ) throws Exception
 	{
-		
-		
-		/*
-		DatabaseCrud.connect(); //connect to the database
-		DatabaseCrud.CreateTablesIfNewlaunch();
-		
-		//DatabaseConnection.updateUser("gfjfdfdfdbjhfds");
-		//DatabaseConnection.readMessagesEveryUser();
-		//DatabaseConnection.updateUserDB("1", "vjkdbguijyxznfbhdsf", "gdsjhdfjghbfhs");
-		//DatabaseConnection.deleteUserDB("67");
-		//DatabaseConnection.UserInsert("3", "joe", "30.20.3.432");
-
-		*/
-		
-		Scanner scanner = new Scanner( System.in );
-		InetAddress inetAddress = InetAddress.getLocalHost();
-		SubNode subNode1 = null;
-		User thisUser = new User();
-		User remoteUser = new User();
-		
-				
-			remoteUser = new User();
-			
-			remoteUser.setIP( inetAddress.getHostAddress() );
-			remoteUser.setPort(32323);
-			remoteUser.setUsername( "user1" );
-			remoteUser.setUUID( "asdf-321" );
-			remoteUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
-			remoteUser.setSecretKey(SecretKeyGenerator.GenerateKey());
-			
-
-		
-		thisUser.setUsername( "user2" );
-		thisUser.setIP( inetAddress.getHostAddress() );
-		thisUser.setPort(23232);
-		thisUser.setUUID( "asdf-123" );
-		thisUser.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+		if ( args.length > 0 && args[0].equalsIgnoreCase( "super" ))
+			runAsSuperNode();
+		else
+			runAsSubNode();
+	}   
 	
+	
+	public static void runAsSubNode() throws Exception
+	{
+		scanner = new Scanner( System.in );
+		inetAddress = InetAddress.getLocalHost();
+		user = new User();
+		subNode = new SubNode();
+		manager  = new ChatManager( subNode );
 		
-		thisUser.getUserList().add(remoteUser);
+		
+		//TODO: Get info from database
+		user.setUsername( "user2" );
+		user.setIP( inetAddress.getHostAddress() );
+		user.setPort(23232);
+		user.setUUID( "asdf-123" );
+		user.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+		subNode.setThisUser( user );
 
-		subNode1 = new SubNode( thisUser );
 		
 		try
 		{
 			
-			if (available(subNode1.getThisUser().getPort()))
+			if ( available( subNode.getThisUser().getPort() ) )
 			{
 				System.out.println("is open");
-				subNode1.openServerSocket( subNode1.getThisUser().getPort());
+				subNode.openServerSocket( subNode.getThisUser().getPort() );
+				subNode.start();
 			}
-			else
-			{
-				System.out.println("is in use");
+			else 
+			{ 
+				System.out.println("is in use"); 
 			}
 			
-			
-		
-			
-			subNode1.start();
-			ChatManager manager  = new ChatManager(subNode1);
-			while( subNode1.isListening() )
+			while( subNode.isListening() )
 			{
 				manager.menu();
+			}   
+      
+		} catch( IOException ex )  { ex.printStackTrace(); }
+		finally
+		{
+			if ( subNode.getServerSocket() != null )
+				subNode.closeServerSocket();
+		}
+	}
+	
+	
+	public static void runAsSuperNode() throws Exception
+	{
+		scanner = new Scanner( System.in );
+		inetAddress = InetAddress.getLocalHost();
+		user = new User();
+		superNode = new SuperNode( user );
+		
+		//TODO: Get info from database
+		user.setUsername( "user2" );
+		user.setIP( inetAddress.getHostAddress() );
+		user.setPort(42424);
+		user.setUUID( "asdf-123" );
+		user.setPublicKey( RSAEncryption.getpublicKey("public.key") );
+		superNode.setThisUser( user );
+
+		
+		try
+		{
+			
+			if ( available( superNode.getThisUser().getPort() ) )
+			{
+				superNode.openServerSocket( superNode.getThisUser().getPort() );
+				superNode.start();
+			}
+			else 
+			{ 
+				System.out.println("is in use"); 
+			}
+			
+			while( superNode.isListening() )
+			{
+				//superNode.
 			}   
       
 		}
@@ -101,25 +131,20 @@ public class Mallochite
 		
 		finally
 		{
-			//System.out.println(subNode1.getServerSocket().toString());
-			if ( subNode1.getServerSocket() != null )
-			{
-				
-				subNode1.closeServerSocket();
-				
-			}
+			if ( superNode.getServerSocket() != null )
+				superNode.closeServerSocket();
 		}
-		
-		
-	}   
+	}
 	
 	
-	private static boolean available(int port) {
+	public static boolean available(int port) {
 	    try (Socket ignored = new Socket("localhost", port)) {
 	        return false;
 	    } catch (IOException ignored) {
 	    	return true;
 	    }
 	}
+	
+
 }
 	    
