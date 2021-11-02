@@ -484,6 +484,8 @@ public class FrameUserChat extends JFrame {
 		return btnSendMsg;
 	}
 	
+	
+	
 	public JButton getbtnAddNew() {
 		return btnAddNew;
 	}

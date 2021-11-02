@@ -39,6 +39,7 @@ public class Mallochite
 		if (DatabaseCrud.getItem()==1) {
 			DatabaseCrud.CreateTableMessage();
 			DatabaseCrud.CreateTableContact();
+			DatabaseCrud.CreateTableRegistration();
 		}
 		
 		

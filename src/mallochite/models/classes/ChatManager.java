@@ -56,6 +56,7 @@ public class ChatManager
 		FrameRegistration.setVisible(false); //The register functions are in the method it is created
 		//frame2.getOperation();
 		
+	
 
 		//The chat window itself
 		FrameUserChat frame = new FrameUserChat();
@@ -66,6 +67,22 @@ public class ChatManager
 		FrameAddMember frameAdd = new FrameAddMember();
 		//frameAdd.setVisible(true);
 		JButton test = new JButton();
+		
+		//close the register
+		JButton btuSignup = new JButton();
+		btuSignup = FrameRegistration.getlblConnect();
+		btuSignup.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("signup button selected");
+		    	
+		  
+		    	FrameRegistration.setVisible(false);
+		    	
+		    	
+		    	frame.setVisible(true);
+		    } 
+		});
+		
 		
 		//login method. Check for correct input. If its correct call normal function if not call register
 		JButton btuRegister = new JButton();
@@ -78,6 +95,7 @@ public class ChatManager
 		    	FrameRegistration.setVisible(true);
 		    	
 		    	frame2.setVisible(false);
+		    	//frame.setVisible(true);
 		    } 
 		});
 		
@@ -234,14 +252,13 @@ public class ChatManager
 	}
 	String messageToSend = "";
 	
+	//send message ui
 	private void sendMessage(User userToContact) throws Exception
 	{
 		messageToSend = "";
 		System.out.println("Enter message to send: ");	
 				
 		frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
- 
-		 
 
 			@Override
 		    public void actionPerformed(ActionEvent e) {

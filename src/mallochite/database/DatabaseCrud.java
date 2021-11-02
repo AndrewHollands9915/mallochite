@@ -17,7 +17,7 @@ public static Connection connect() {
 		
 		try {
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		} catch (ClassNotFoundException | SQLException e) {
@@ -84,7 +84,7 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -95,6 +95,8 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 		String sql = "CREATE TABLE Message"+ "(ID INTEGER PRIMARY KEY NOT NULL,"+
 				"TEXT	TEXT NOT NULL,"+
 				"Date	TEXT NOT NULL,"+
+				"Sent	INTEGER NOT NULL,"+
+				"ContactOwner	INTEGER,"+
 				"ReadReciept	TEXT NOT NULL,"+
 				"ContactFK	INTEGER)";
 			
@@ -116,7 +118,7 @@ public static void CreateTableContact() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -139,6 +141,30 @@ public static void CreateTableContact() throws ClassNotFoundException {
 	System.out.println("Contact table created");
 		}
 
+//create registation table
+public static void CreateTableRegistration() throws ClassNotFoundException {
+	Connection con = null;
+	Statement stmt = null;
+	
+	try
+	{
+		Class.forName("org.sqlite.JDBC");
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
+		System.out.println("Connected");
+		
+		stmt = con.createStatement();
 
+		String sql1 = "CREATE TABLE Registration"+"(Username	TEXT NOT NULL,"+
+				"Password	TEXT NOT NULL,"+
+				"PRIMARY KEY(Username))";		
+			
+		stmt.executeUpdate(sql1);
+		stmt.close();
+		con.close();
+} catch(SQLException e) {
+	System.out.println(e.toString());
+}
+	System.out.println("Registration table created");
+		}
 
 }
