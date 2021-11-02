@@ -17,7 +17,7 @@ public static Connection connect() {
 		
 		try {
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		} catch (ClassNotFoundException | SQLException e) {
@@ -84,7 +84,7 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -118,7 +118,7 @@ public static void CreateTableContact() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
@@ -149,7 +149,7 @@ public static void CreateTableRegistration() throws ClassNotFoundException {
 	try
 	{
 		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase98.db"); //note if one does not exist a database is created
+		con = DriverManager.getConnection("jdbc:sqlite:UserDatabase.db"); //note if one does not exist a database is created
 		System.out.println("Connected");
 		
 		stmt = con.createStatement();
