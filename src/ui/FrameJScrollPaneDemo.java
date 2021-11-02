@@ -257,7 +257,7 @@ public class FrameJScrollPaneDemo extends JFrame {
 	public void getOperation()
 	{		
 		  		 
-		Connection con = ConnectToUsersDB.getConnection();
+		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
 		try
@@ -289,7 +289,7 @@ public class FrameJScrollPaneDemo extends JFrame {
 	
 	public void getOnlineUsers(String UserName)
 	{
-		Connection con = ConnectToUsersDB.getConnection();
+		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         //ResultSet rs = null;
         try {

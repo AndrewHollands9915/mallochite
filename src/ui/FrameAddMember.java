@@ -25,15 +25,16 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class FrameAddMember extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUUID, txtUserName, IPAddress;
-	private JTextField txtIPAddress;
-	JButton pnlBtnAddNew_1;
+	JButton pnlBtnCancel;
 	JButton lblConnect;
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -60,42 +61,46 @@ public class FrameAddMember extends JFrame {
 		contentPane.setBackground(new Color(0, 100, 0));
 		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(50, 105, 50), new Color(50, 105, 50), null, null));
 		setContentPane(contentPane);
-		setUndecorated(true);
-		contentPane.setLayout(null);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(new Color(60, 179, 113));
-		panel_2.setBounds(0, 84, 400, 20);
-		contentPane.add(panel_2);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.BLACK, 3));
-		panel.setBounds(65, 164, 264, 53);
-		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		txtUUID = new JTextField();
+		txtUUID.setBounds(10, 10, 244, 33);
 		txtUUID.setBorder(null);
 		txtUUID.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
 		txtUUID.setText("UUID");
-		txtUUID.setBounds(10, 10, 244, 33);
 		panel.add(txtUUID);
 		txtUUID.setColumns(10);
-		
+		/*
 		JPanel pnlBtnAddNew = new JPanel();
-		pnlBtnAddNew.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		pnlBtnAddNew.setBorder(null);
+		//pnlBtnAddNew.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		
 		pnlBtnAddNew.setBackground(new Color(60, 179, 113));
-		pnlBtnAddNew.setBounds(65, 471, 116, 53);
+		pnlBtnAddNew.setBounds(65, 450, 116, 53);
 		contentPane.add(pnlBtnAddNew);
 		pnlBtnAddNew.setLayout(null);
-		
+		*/
+		//change to button-----------------------------------------------------------------
 		lblConnect = new JButton("Add");
+		lblConnect.setOpaque(true);
+		lblConnect.setBorder(null);
+		lblConnect.setBackground(new Color(60, 179, 113));
+		lblConnect.setForeground(Color.WHITE);
+		lblConnect.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblConnect.setLayout(null);
+		
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FrameAddMember.this.dispose();			
-			       FrameUserChat.newUserChatScreenDemo(null);			
+				//FrameAddMember.this.dispose();			
+			       //FrameUserChat.newUserChatScreenDemo(null);			
 				
 			}
 			@Override
@@ -105,20 +110,17 @@ public class FrameAddMember extends JFrame {
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				lblConnect.setForeground(Color.BLACK);
+				lblConnect.setForeground(Color.WHITE);
 			}
 		});
 		
-		lblConnect.setForeground(new Color(255, 255, 255));
-		lblConnect.setFont(new Font("Arial", Font.BOLD, 18));
-		lblConnect.setBounds(43, 10, 52, 33);
-		pnlBtnAddNew.add(lblConnect);
+		
 		
 		JLabel lblAddNewMember = new JLabel("Add New Contact");
 		lblAddNewMember.setForeground(Color.WHITE);
 		lblAddNewMember.setFont(new Font("Arial", Font.BOLD, 30));
-		lblAddNewMember.setBounds(64, 21, 287, 53);
-		contentPane.add(lblAddNewMember);
+		
+		/*
 		
 		JLabel lblClose = new JLabel("X");
 		lblClose.addMouseListener(new MouseAdapter() {
@@ -139,14 +141,10 @@ public class FrameAddMember extends JFrame {
 		});
 		lblClose.setForeground(Color.WHITE);
 		lblClose.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblClose.setBounds(376, 0, 24, 35);
-		contentPane.add(lblClose);
-		
+		*/
 		
 		JPanel panel_UserName = new JPanel();
 		panel_UserName.setBorder(new LineBorder(Color.BLACK, 3));
-		panel_UserName.setBounds(65, 259, 264, 53);
-		contentPane.add(panel_UserName);
 		panel_UserName.setLayout(null);
 		
 		txtUserName = new JTextField();
@@ -157,40 +155,107 @@ public class FrameAddMember extends JFrame {
 		panel_UserName.add(txtUserName);
 		txtUserName.setColumns(10);
 		
-		JPanel panel_IPAddress = new JPanel();
-		panel_IPAddress.setBorder(new LineBorder(Color.BLACK, 3));
-		panel_IPAddress.setBounds(65, 345, 263, 53);
-		contentPane.add(panel_IPAddress);
-		panel_IPAddress.setLayout(null);
+		//test change to button
+	    pnlBtnCancel = new JButton("Cancel");
+	    pnlBtnCancel.setForeground(Color.WHITE);
+	    pnlBtnCancel.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    pnlBtnCancel.setOpaque(true);
+	    pnlBtnCancel.setBorder(null);
+		//pnlBtnCancel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		pnlBtnCancel.setBackground(new Color(60, 179, 113));
+		pnlBtnCancel.setLayout(null);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(64)
+							.addComponent(lblAddNewMember, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 386, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(65)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(65)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblConnect, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+									.addGap(37)
+									.addComponent(pnlBtnCancel, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE))
+								.addComponent(panel_UserName, GroupLayout.PREFERRED_SIZE, 264, GroupLayout.PREFERRED_SIZE))))
+					.addGap(14))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblAddNewMember, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+					.addGap(60)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+					.addGap(42)
+					.addComponent(panel_UserName, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+					.addGap(81)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblConnect, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+						.addComponent(pnlBtnCancel, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+					.addGap(63))
+		);
+		contentPane.setLayout(gl_contentPane);
 		
-		txtIPAddress = new JTextField();
-		txtIPAddress.setBorder(null);
-		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtIPAddress.setText("IPAddress");
-		txtIPAddress.setBounds(10, 10, 243, 33);
-		panel_IPAddress.add(txtIPAddress);
-		txtIPAddress.setColumns(10);
+		pnlBtnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
+					 FrameAddMember.this.dispose();
+			}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				pnlBtnCancel.setForeground(Color.RED);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				pnlBtnCancel.setForeground(Color.WHITE);
+			}
+		});
 		
-	    pnlBtnAddNew_1 = new JButton();
-		pnlBtnAddNew_1.setLayout(null);
-		pnlBtnAddNew_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
-		pnlBtnAddNew_1.setBackground(new Color(60, 179, 113));
-		pnlBtnAddNew_1.setBounds(220, 471, 109, 53);
-		contentPane.add(pnlBtnAddNew_1);
-		
+		/*
 		JLabel lblConnect_1 = new JLabel("Cancel");
 		lblConnect_1.setForeground(Color.WHITE);
 		lblConnect_1.setFont(new Font("Arial", Font.BOLD, 18));
 		lblConnect_1.setBounds(26, 10, 73, 33);
 		pnlBtnAddNew_1.add(lblConnect_1);
+		*/
 	}
+	
 	
 	public JButton getPnlBtnAddNew_1() {
 		return lblConnect;
 	}
 	
-	
+	//Get items to create a new user
 	public String getTxtUUID() {
 		return txtUUID.getText();
 	}
+	
+	public String gettxtUserName()
+	{
+		return txtUserName.getText();
+	}
+	/*
+	public String gettxtIPAddress() {
+		return txtIPAddress.getText();
+	}
+	*/
+	//clear after pressed
+	public void clearItems()
+	{
+		txtUUID.setText("");
+		txtUserName.setText("");
+		//txtIPAddress.setText("");	
+	}
+	
 }

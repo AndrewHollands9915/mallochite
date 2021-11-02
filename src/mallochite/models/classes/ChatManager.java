@@ -28,6 +28,9 @@ public class ChatManager
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
 	FrameUserChat frameChat = new FrameUserChat();
+	FrameLoginChat loginFrame = new FrameLoginChat();
+	//FrameUserChat frame = new FrameUserChat();
+	
 	
 	public ChatManager( SubNode subNode )
 	{
@@ -49,12 +52,18 @@ public class ChatManager
 		System.out.println( "\t 3. add contact" );
 		System.out.println( "\t 4. list contacts" );
 		
-	    FrameUserChat frame = new FrameUserChat();
-	    frame.getOperation();
-		frame.setVisible(true);
+		
+		loginFrame.setVisible(true);
+		//loginFrame.getLogin();
+		
+		
+		  FrameUserChat frame = new FrameUserChat();
+		  frame.setVisible(true);
+		  frame.getOperation();
+		
 		
 		FrameAddMember frameAdd = new FrameAddMember();
-		frameAdd.setVisible(true);
+		//frameAdd.setVisible(true);
 		JButton test = new JButton();
 
 	
@@ -63,11 +72,11 @@ public class ChatManager
 		//send message the + icon
 		JButton btu1 = new JButton();
 		
-		btu1 = frame.getbtnAddNew();
+		btu1 = frameChat.getbtnAddNew();
 		btu1.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please");
-		    	
+		    	frameAdd.setVisible(true);
 		    	displayContactsUI();
 		    	
 		    } 
@@ -78,16 +87,26 @@ public class ChatManager
 				test = frameAdd.getPnlBtnAddNew_1();
 		test.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
-		    	System.out.println("please djguiduijoh");
+		    	System.out.println("Add button selected");
+		    	System.out.println(frameAdd.getTxtUUID());
+		    	System.out.println(frameAdd.gettxtUserName());
+		    	//System.out.println(frameAdd.gettxtIPAddress());
+		    	
+		    	/*DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
+		    			frameAdd.gettxtUserName(), 
+		    			frameAdd.gettxtIPAddress()
+						);*/
+		    	
+		    	
 		    	addContactui();
+		    	frameAdd.clearItems();
 		    } 
 		});
 		
-		
-				
+			
 		//the arrow button
 		JButton btuSend = new JButton();
-		btuSend = frame.getBtnSendMsg();
+		btuSend = frameChat.getBtnSendMsg();
 		btuSend.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please sfjnfibdsuibesuigds");	    	
@@ -153,7 +172,7 @@ public class ChatManager
 					for ( String message : conversation )
 					{
 						System.out.println( message );
-						frameChat.setTextPane(userName+": "+message);
+						//frameChat.setTextArea_1(userName+": "+message);
 						
 					}
 				}
@@ -208,8 +227,8 @@ public class ChatManager
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 frameChat.setTextPane("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
-				 frameChat.settxtChatArea("");
+				 //frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
+				// frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
 			 }
@@ -275,7 +294,7 @@ public class ChatManager
 				for ( String message : conversation )
 				{
 					System.out.println( message );
-					frameChat.setTextPane(userName+": "+message);
+					//frameChat.setTextArea_1(userName+": "+message);
 					
 				}
 			}
