@@ -29,14 +29,12 @@ public class ChatManager
 	private Socket socket;
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
-	FrameUserChat frameChat = new FrameUserChat();
+	//FrameUserChat frameChat = new FrameUserChat();
 
 	
 	public ChatManager( SubNode subNode )
 	{
 		this.subNode = subNode;
-		
-		
 	}
 	
 	
@@ -53,6 +51,8 @@ public class ChatManager
 		System.out.println( "\t 3. add contact" );
 		System.out.println( "\t 4. list contacts" );
 		
+		// UI doesn't work on docker
+		/*
 		FrameUserChat frame = new FrameUserChat();
 		frame.setVisible(true);
 		
@@ -75,6 +75,7 @@ public class ChatManager
 		    	
 		    } 
 		});
+		
 		
 		
 		//add contact form frameAddMember
@@ -110,12 +111,12 @@ public class ChatManager
 		    } 
 		});
 		
-		
+		*/
 		
 		String response = scanner.nextLine();
 		
 		if ( response.equals( "1" ) ) {
-			frameChat.setVisible(true);
+			//frameChat.setVisible(true);
 			User userToContact = null;
 			System.out.println( "Who would you like to send the key to?" );
 			String userName = this.sc.nextLine();
@@ -126,7 +127,7 @@ public class ChatManager
 														
 					userToContact = user;
 					this.sendMessage( userToContact );
-					frameChat.setlblFriendName(userName+"");
+					//frameChat.setlblFriendName(userName+"");
 				}
 				else
 				{
@@ -135,35 +136,10 @@ public class ChatManager
 			}
 
 			
-		}
-		
-		else if ( response.equals( "1" ) ) 
-		{
-			frameChat.setVisible(true);
-			
-			User userToContact = null;
-			System.out.println( "Who would you like to contact?" );
-			String userName = this.sc.nextLine();
-		    
-			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
-			
-			for(User user: userList ){
-				if(user.getUsername().equals( userName )) {
-														
-					userToContact = user;
-					this.sendMessage( userToContact );
-					frameChat.setlblFriendName(userName+"");
-				}
-				else
-				{
-					System.out.println( "user not found" );
-				}
-			}
-
 		}
 		else if ( response.equals( "2" ) ) 
 		{	
-			frameChat.setVisible(true);
+			//frameChat.setVisible(true);
 			
 			User userToRead = null;
 			System.out.println( "Whos messages would you like to check?" );
@@ -182,7 +158,7 @@ public class ChatManager
 					for ( String message : conversation )
 					{
 						System.out.println( message );
-						frameChat.setTextArea_1(userName+": "+message);
+						//frameChat.setTextArea_1(userName+": "+message);
 						
 					}
 				}
@@ -210,23 +186,23 @@ public class ChatManager
 		messageToSend = "";
 		System.out.println("Enter message to send: ");	
 				
-		frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
- 
-		 
-
-			@Override
-		    public void actionPerformed(ActionEvent e) {
-		        //your actions
-		    	try {
-					messageToSend =frameChat.gettxtChatArea()+"";
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}		
-		    	System.out.println("workd");
-		    	
-		    }
-		}));
+		//frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
+// 
+//		 
+//
+//			@Override
+//		    public void actionPerformed(ActionEvent e) {
+//		        //your actions
+//		    	try {
+//					//messageToSend =frameChat.gettxtChatArea()+"";
+//				} catch (Exception e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}		
+//		    	System.out.println("workd");
+//		    	
+//		    }
+//		}));
 			
 		
 		while (true) {
@@ -239,8 +215,8 @@ public class ChatManager
 					 this.subNode.makeConnection(userToContact, RSAEncryption.getpublicKey("public.key").toString());
 				 }
 				 
-				 frameChat.setTextArea_1("You: "+ messageToSend);
-				 frameChat.settxtChatArea("");
+//				 frameChat.setTextArea_1("You: "+ messageToSend);
+//				 frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
 			 }
@@ -261,7 +237,7 @@ public class ChatManager
 	
 	public void sendMessageui() throws Exception
 	{
-		frameChat.setVisible(true);
+		//frameChat.setVisible(true);
 		
 		User userToContact = null;
 		System.out.println( "Who would you like to contact?" );
@@ -274,7 +250,7 @@ public class ChatManager
 													
 				userToContact = user;
 				this.sendMessage( userToContact );
-				frameChat.setlblFriendName(userName+"");
+				//frameChat.setlblFriendName(userName+"");
 			}
 			else
 			{
@@ -287,7 +263,7 @@ public class ChatManager
 	
 	public void checkMessagesui()
 	{
-		frameChat.setVisible(true);
+		//frameChat.setVisible(true);
 		
 		User userToRead = null;
 		System.out.println( "Whos messages would you like to check?" );
@@ -306,7 +282,7 @@ public class ChatManager
 				for ( String message : conversation )
 				{
 					System.out.println( message );
-					frameChat.setTextArea_1(userName+": "+message);
+					//frameChat.setTextArea_1(userName+": "+message);
 					
 				}
 			}
