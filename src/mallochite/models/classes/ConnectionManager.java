@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+import mallochite.database.DatabaseConnection;
+
 public class ConnectionManager extends Thread {
 	private Socket metaSocket; // responsible for listening for incoming connections
 	private MallochiteMessageManager mallochiteMessageManager = new MallochiteMessageManager();
@@ -50,17 +52,24 @@ public class ConnectionManager extends Thread {
 				// move into method to clean up code?
 				if (messageIn != null && messageIn != "") {
 					// validate message
-
+					
 					HashMap<String, String> parsedData = mallochiteMessageManager.parseDataFromHeader(messageIn);
 					// check method
 					if ( respondToQuery( parsedData ) != null )
 					{
 						messageOut = respondToQuery( parsedData );
 					}
-					else
+					else //move method for adding database here
 					{
 						thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
+						
+						System.out.println("---------------------"+parsedData.get("UUID"));
+						System.out.println("---------------------"+parsedData.get("message"));
+						
+						//add database add
+						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 3, 1);
+						
 					}
 
 
@@ -73,8 +82,13 @@ public class ConnectionManager extends Thread {
 
 				messageIn = in.readLine();
 
-				if (messageIn != null)
-						System.out.println(messageIn);
+				//this is where the output is displayed
+				if (messageIn != null) {
+						System.out.println("found it"+messageIn);
+						
+						//System.out.println("found it---------------------------");
+				
+				}
 			}
 		}
 

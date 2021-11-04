@@ -194,6 +194,7 @@ public class MallochiteMessageManager
     		parsedMessageHashMap.put( "method", parsedMessage[0] );
     		parsedMessageHashMap.put( "UUID", parsedMessage[2] );
     		parsedMessageHashMap.put( "ipv4", parsedMessage[1] );
+    		parsedMessageHashMap.put( "message", parsedMessage[3] );
     	}
     	else
     	{
