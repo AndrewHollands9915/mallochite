@@ -175,22 +175,36 @@ public class ChatManager
 		    } 
 		});
 		
-		userlist = frame.getUserList1();
+		userlist = frame.getUserList1(); //jlist onclick.....................................................
+		
+		
+		
         userlist.addMouseListener(new MouseAdapter(){
               @Override
               public void mouseClicked(MouseEvent e) {
 
                   user1 = frame.getUserList();
                   System.out.println("User:" +user1);
-              
+           
+                  
+                  
+                  
+                  
                   try {
-					addContactui(user1);
+					addContactui(user1); //add to connect list
+					
+					
+					sendMessageui(user1);	
+					
+					
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-              }
+                            
+              }                            
+                        
         });
 			
 		//the arrow button
@@ -198,19 +212,17 @@ public class ChatManager
 		btuSend = frame.getBtnSendMsg();
 		btuSend.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
-		    	System.out.println("please sfjnfibdsuibesuigds");	    	
-		    	
+		    	System.out.println("please sfjnfibdsuibesuigds");	    			    	
 		    	try {
-					sendMessageui();
+					//sendMessageui();
+					
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} 
-		    	
+				} 		    	
 		    } 
 		});
-		
-		 
 		
 		
 		
@@ -286,7 +298,7 @@ public class ChatManager
 	
 	String messageToSend = "";
 	
-	//send message ui
+	//send message ui----------------------------------------------------------------------------------------------------------------------------------------------
 	private void sendMessage(User userToContact) throws Exception
 	{
 		String messageToSend = "";
@@ -302,7 +314,31 @@ public class ChatManager
 			 }
 		}	
 	}
+	
 
+		
+	//redo
+	public void sendMessageui(String userIn) throws Exception
+	{
+		User userToContact = null;
+		System.out.println( "Who would you like to send the message" );
+		String userName = userIn;
+		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
+		
+		for(User user: userList ){
+			if(user.getUsername().equals( userName )) {
+													
+				userToContact = user;
+				this.sendMessage( userToContact );
+				//frameChat.setlblFriendName(userName+"");
+			}
+			else
+			{
+				System.out.println( "user not found" );
+			}
+		}
+		
+	}
 	
 	//add ui instead of command line interface-----------------------------------------------------------------------
 	public void addContactui(String contact) throws Exception
@@ -311,33 +347,6 @@ public class ChatManager
 	
 	}
 	
-	//redo
-	public void sendMessageui() throws Exception
-	{
-		//frameChat.setVisible(true);
-		
-		User userToContact = null;
-		System.out.println( "Who would you like to contact?" );
-		String userName = this.sc.nextLine();
-	    
-		
-		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
-		
-		for(User user: userList ){
-			if(user.getUsername().equals( userName )) {
-													
-				userToContact = user;
-				this.sendMessage( userToContact );
-				frameChat.setlblFriendName(userName+"");
-			}
-			else
-			{
-				System.out.println( "user not found" );
-			}
-		}
-
-		
-	}
 	
 	public void checkMessagesui()
 	{
@@ -394,7 +403,7 @@ public class ChatManager
 			System.out.println(user.getUsername());
 		}
 	}
-	
+	//
 	public void addContact(String UserName) throws Exception //throws Exception 
 	{
 		inetAddress = InetAddress.getLocalHost();
@@ -404,7 +413,7 @@ public class ChatManager
 				contact.setUsername( UserName );
 				contact.setIP( inetAddress.getHostAddress() );
 				contact.setPort(22222);
-				contact.setUUID( "asdf-123" );
+				contact.setUUID( "asdf-123" ); //get form database
 				contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
 		/*User contact = new User();
