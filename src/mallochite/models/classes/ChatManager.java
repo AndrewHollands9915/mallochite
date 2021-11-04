@@ -178,14 +178,14 @@ public class ChatManager
 			this.displayContacts();
 		}
 	}
-	String messageToSend = "";
+
 	
 	private void sendMessage(User userToContact) throws Exception
 	{
+		String messageToSend = "";
 		Scanner scanner = new Scanner( System.in );
-		messageToSend = "";
 		System.out.println("Enter message to send: ");
-		messageToSend = scanner.nextLine();
+		
 				
 		//frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
 // 
@@ -207,7 +207,7 @@ public class ChatManager
 			
 		
 		while (true) {
-			
+			messageToSend = scanner.nextLine();
 			 if (messageToSend.length() > 0)
 			 {
 //				 if(this.subNode.getThisUser().getUserList().get(0).getConversation().isEmpty()) {
