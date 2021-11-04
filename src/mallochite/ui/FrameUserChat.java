@@ -75,7 +75,7 @@ public class FrameUserChat extends JFrame {
     //JTextField message;
     JTextArea message;
    // JPanel panel;
-	
+    JTextArea messageDisplay;
 	
 	DefaultListModel demoList = new DefaultListModel();
 	JList<String> list = new JList<>( demoList );
@@ -202,8 +202,8 @@ public class FrameUserChat extends JFrame {
 	              
 	          }
 	    });
-		
-		JTextArea messageDisplay = new JTextArea();
+		//JTextArea messageDisplay = new JTextArea();
+	    messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
 	
 		messageDisplay.setBackground(new Color(60, 179, 113));
@@ -464,6 +464,11 @@ public class FrameUserChat extends JFrame {
         }
 	}
 		
+	public JTextArea getmessageDisplay()
+	{
+		return messageDisplay;
+	}
+	
 	public JButton getBtnSendMsg() {
 		return btnSendMsg;
 	}

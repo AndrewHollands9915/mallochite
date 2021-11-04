@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import mallochite.database.DatabaseConnection;
 import mallochite.encryption.RSAEncryption;
@@ -39,6 +40,7 @@ public class ChatManager
 	DefaultListModel demoList = new DefaultListModel();
     JList<String> userlist = new JList<>( demoList );
     String user1;
+    FrameUserChat frame ;
 	public ChatManager( SubNode subNode )
 	{
 		this.subNode = subNode;
@@ -71,7 +73,7 @@ public class ChatManager
 	
 
 		//The chat window itself
-		FrameUserChat frame = new FrameUserChat();
+		 frame = new FrameUserChat();
 		frame.setVisible(false);
 		frame.getOperation();
 		
@@ -210,7 +212,7 @@ public class ChatManager
 		//the arrow button
 		JButton btuSend = new JButton();
 		btuSend = frame.getBtnSendMsg();
-		btuSend.addActionListener(new ActionListener() { 
+		/*btuSend.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please sfjnfibdsuibesuigds");	    			    	
 		    	try {
@@ -222,7 +224,7 @@ public class ChatManager
 					e1.printStackTrace();
 				} 		    	
 		    } 
-		});
+		});*/
 		
 		
 		
@@ -297,22 +299,41 @@ public class ChatManager
 	}
 	
 	String messageToSend = "";
+	boolean send = false;
 	
 	//send message ui----------------------------------------------------------------------------------------------------------------------------------------------
 	private void sendMessage(User userToContact) throws Exception
 	{
-		String messageToSend = "";
-		Scanner scanner = new Scanner( System.in );
-		System.out.println("Enter message to send: ");
-							
-		while (true) {
-			messageToSend = scanner.nextLine();
-			 if (messageToSend.length() > 0)
-			 {
-				 this.subNode.makeConnection(userToContact, messageToSend);
-				 break;
-			 }
-		}	
+		JButton btuSend = new JButton();
+		btuSend = frame.getBtnSendMsg();
+		btuSend.addActionListener(new ActionListener() { 
+		    public void actionPerformed(ActionEvent e) { 
+		    	System.out.println("arrow selected");	    			    	
+		    	
+					//sendMessageui();
+		    	JTextArea j1 = new JTextArea();
+		    	
+		    	 j1 = frame.getmessageDisplay();
+		    	 messageToSend = j1.getText();
+				send= true;
+				//messageToSend = frame.getMe
+		    		
+				try {
+					sendPls(userToContact);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    } 
+		});
+		System.out.println("Enter message to send: ");							
+	}
+	
+	private void sendPls(User userToContact) throws Exception{
+		
+		 System.out.println("Being sent: "+messageToSend);	
+		 this.subNode.makeConnection(userToContact, messageToSend);
+		
 	}
 	
 
