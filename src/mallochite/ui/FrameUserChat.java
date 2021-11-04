@@ -76,6 +76,7 @@ public class FrameUserChat extends JFrame {
     JTextArea message;
    // JPanel panel;
     JTextArea messageDisplay;
+    JPanel panel;
 	
 	DefaultListModel demoList = new DefaultListModel();
 	JList<String> list = new JList<>( demoList );
@@ -164,7 +165,8 @@ public class FrameUserChat extends JFrame {
 		userDisplay.add(list);
 		
 		
-		JPanel panel = new JPanel();
+		//JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.setBackground(new Color(88,238,148));
     	panel.setBounds(225, 50, 550, 450);
@@ -226,12 +228,20 @@ public class FrameUserChat extends JFrame {
 				
 		contentPane.add(scrollMessage);
 		
+		//
+		
 		btnSendMsg = new JButton();
 		btnSendMsg.setBounds(683, 520, 89, 50);
 		btnSendMsg.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/res/arrow.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 		contentPane.add(btnSendMsg);
-		
-		
+		btnSendMsg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				  String s = (String)list.getSelectedValue();
+				getMessages(s, panel);		       
+			      
+			}
+		});
 		
 	    btnAddNew = new JButton("+");
 		btnAddNew.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -330,8 +340,8 @@ public class FrameUserChat extends JFrame {
 			 rs.close();
              ps.close();
 			
-			JOptionPane.showMessageDialog(null, "Retrieved data succesfully.","Active UserName Retrieved",
-					JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Retrieved data succesfully.","Active UserName Retrieved",
+				//	JOptionPane.INFORMATION_MESSAGE);
 		}
 		catch(Exception ex)
 		{
@@ -422,7 +432,7 @@ public class FrameUserChat extends JFrame {
 				 p.add(this.message);
 	             p.add(Box.createRigidArea(new Dimension(0, 15)));
 	              
-				
+			
 				
             }
 			
@@ -521,7 +531,10 @@ public class FrameUserChat extends JFrame {
 
     }
 
-
+public void updateList(){ //update the list i hope
+	  String s = (String)list.getSelectedValue(); // a bit buggy with showing the messages fix later-------------------------------------------------------------
+		getMessages(s, panel);	
+}
 
     public String getUserList() {
         return lblNewLabel_1.getText() ;

@@ -133,6 +133,32 @@ public class DatabaseConnection
 		            } 		            
 				}
 
+				//insert message into database
+				public static void messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
+					
+					String sql = "INSERT INTO Message(text, Date, Sent, ReadReciept, ContactFK, ContactOwner) VALUES(?,?,?,?,?,?)";				
+		            
+		            try {
+		            	Connection con = DatabaseCrud.connect();
+			            PreparedStatement ps = null;		         
+		                
+		                ps = con.prepareStatement(sql);		  
+		                          
+		                    ps.setString(1, text);
+		                    ps.setString(2, Date);
+		                    ps.setInt(3, sent);
+		                    ps.setInt(4, ReadReciept);
+		                    ps.setInt(5, ContactFK);
+		                    ps.setInt(6, ContactOwner);
+		                   
+		                    ps.executeUpdate();  
+		                
+		                    System.out.println("User data are successfully saved!:\n");	                                          
+		                
+		            }catch (SQLException e) {
+		                System.out.println(e.toString());
+		            } 		            
+				}
 
 				public static void updateUserDB(String UUID, String UserName, String IPAddress) {
 					

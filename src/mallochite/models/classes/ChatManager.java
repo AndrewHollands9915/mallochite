@@ -73,7 +73,7 @@ public class ChatManager
 	
 
 		//The chat window itself
-		 frame = new FrameUserChat();
+		frame = new FrameUserChat();
 		frame.setVisible(false);
 		frame.getOperation();
 		
@@ -210,8 +210,8 @@ public class ChatManager
         });
 			
 		//the arrow button
-		JButton btuSend = new JButton();
-		btuSend = frame.getBtnSendMsg();
+		//JButton btuSend = new JButton();
+		//btuSend = frame.getBtnSendMsg();
 		/*btuSend.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
 		    	System.out.println("please sfjnfibdsuibesuigds");	    			    	
@@ -324,6 +324,12 @@ public class ChatManager
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
+				//add to the database when send	
+				//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
+				DatabaseConnection.messageInsert(messageToSend, "09-30-2021 10:30:54", 1, 1, 3, 0);
+				frame.updateList();
+				
 		    } 
 		});
 		System.out.println("Enter message to send: ");							
