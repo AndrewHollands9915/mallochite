@@ -28,6 +28,7 @@ public class ConnectionManager extends Thread {
 
 	@Override
 	public void run() {
+		
 		BufferedReader in = null;
 		PrintWriter out = null;
 		String localIpAddress = thisUser.getIP();
@@ -35,43 +36,45 @@ public class ConnectionManager extends Thread {
 		boolean listening = true;
 
 		try {
-			if (debugging) {
-				System.out.println("Received a message");
-			}
 
 			// must initialize in and out within a try catch in case of IOException
-			in = new BufferedReader(new InputStreamReader(this.metaSocket.getInputStream()));
-			out = new PrintWriter(this.metaSocket.getOutputStream());
+			in = new BufferedReader( new InputStreamReader(this.metaSocket.getInputStream()) );
+			out = new PrintWriter( this.metaSocket.getOutputStream() );
 			String messageIn = "";
 			String messageOut = "";
 			String terminatingString = "RECEIVED";
 
-			while (listening) {
+			while (listening) 
+			{
 
 				// move into method to clean up code?
 				if (messageIn != null && messageIn != "") {
 					// validate message
 
 					HashMap<String, String> parsedData = mallochiteMessageManager.parseDataFromHeader(messageIn);
-					thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
+					// check method
+					if ( respondToQuery( parsedData ) != null )
+					{
+						messageOut = respondToQuery( parsedData );
+					}
+					else
+					{
+						thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
+						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
+					}
 
-					messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
 
 					out.println(messageOut);
 					out.flush();
 				}
 
-				if (messageOut != null && messageOut.contains(terminatingString)) {
+				if ( messageOut != null && messageOut.contains(terminatingString) )
 					listening = false;
-				}
 
 				messageIn = in.readLine();
 
-				if (messageIn != null) {
-					if (debugging) {
+				if (messageIn != null)
 						System.out.println(messageIn);
-					}
-				}
 			}
 		}
 
@@ -94,6 +97,28 @@ public class ConnectionManager extends Thread {
 				System.out.println("Connection closed");
 			}
 		}
+	}
+	
+	// gets the parsed data of the message. Checks the method and responds with affirm or deny if it is QUERY header.
+	// Will respond with null if not a QUERY header
+	public String respondToQuery ( HashMap<String, String> parsedData )
+	{		
+		if ( !parsedData.get( "method" ).equals( "QUERY" ) )
+			return null;
+		
+		boolean userInList = false;
+		
+		for ( User user : this.thisUser.getUserList() )
+		{
+			if ( user.getUUID().equals( parsedData.get("UUIDToQuery") ))
+				userInList = true;
+		}
+		
+		if ( userInList )
+			return "AFFIRM";
+		else
+			return "NEGATE";
+		
 	}
 
 	/*

@@ -45,6 +45,12 @@ public abstract class Node extends Thread
     	this.hostIpAddress = thisUser.getIP();
     	this.listening = true;
     }
+    
+	public Node()  
+	{ 
+    	this.connectionManager = new ConnectionManager();
+    	this.listening = true;
+	}
 	
     
     public void openServerSocket ( int portNumberToUse ) throws IOException
@@ -92,8 +98,7 @@ public abstract class Node extends Thread
 		catch (IOException e) { e.printStackTrace(); } 
     }
 	
-	/* 
-	 */
+    
 	@Override
 	public void run ()
 	{
@@ -115,11 +120,7 @@ public abstract class Node extends Thread
         	}
         }
         catch ( IOException | NoSuchAlgorithmException ex ) { }
-        
-        finally 
-        { 
-        	this.interrupt(); 
-        }
+        finally  {  this.interrupt();  }
 	}
 
 	public String getHostIpAddress()
@@ -160,6 +161,7 @@ public abstract class Node extends Thread
 	public void setThisUser(User user)
 	{
 		this.thisUser = user;
+    	this.hostIpAddress = user.getIP();
 	}
 	
 	public ConnectionManager getConnectionManager ()

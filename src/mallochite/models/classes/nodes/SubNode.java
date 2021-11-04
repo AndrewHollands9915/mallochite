@@ -11,4 +11,10 @@ public class SubNode extends Node
 	{
 		super ( thisUser );
 	}
+	
+	public SubNode () throws NoSuchAlgorithmException
+	{
+		super ();
+	}
 }
+

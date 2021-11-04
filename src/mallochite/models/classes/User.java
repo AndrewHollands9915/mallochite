@@ -1,7 +1,14 @@
 package mallochite.models.classes;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Hashtable;
+
+import javax.crypto.SecretKey;
+
+import mallochite.encryption.AESEncryption;
+import mallochite.encryption.SecretKeyGenerator;
 
 public class User 
 {
@@ -13,6 +20,9 @@ public class User
 	private String AddressBook;
 	private String DuressPassword;
 	private String username;
+	private PublicKey publicKey;
+	private String secretKey;
+	
 	int port;
 	private ArrayList<String> conversation;
 	Hashtable<String , ArrayList<String> > conversations = new Hashtable<String , ArrayList<String> >();
@@ -62,7 +72,7 @@ public class User
 	{
 		ArrayList<String> currentConversation = this.conversations.get( uuid );
 		
-		currentConversation.add( message );
+		//currentConversation.add( message );
 	}
 	
 	
@@ -145,4 +155,22 @@ public class User
 	{
 		this.username = username;
 	}
+	
+	public void setPublicKey(PublicKey key) {
+		publicKey = key;
+	}
+	
+	public PublicKey getPublicKey() {
+		return publicKey;
+	}
+	
+	public void setSecretKey(String key) throws NoSuchAlgorithmException {
+		secretKey = key;
+	}
+	
+	public String getSecretKey() {
+		return secretKey;
+	}
+	
 }
+

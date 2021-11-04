@@ -2,6 +2,8 @@ package mallochite.models.classes;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -11,7 +13,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import mallochite.database.DatabaseConnection;
@@ -21,6 +25,7 @@ import mallochite.ui.FrameAddMember;
 import mallochite.ui.FrameLoginChat;
 import mallochite.ui.FrameRegistration;
 import mallochite.ui.FrameUserChat;
+import java.net.InetAddress;
 
 public class ChatManager
 {
@@ -28,7 +33,12 @@ public class ChatManager
 	private SubNode subNode;
 	private Scanner sc = new Scanner(System.in);
 	FrameUserChat frameChat = new FrameUserChat();
+	private static InetAddress inetAddress;
 	
+	
+	DefaultListModel demoList = new DefaultListModel();
+    JList<String> userlist = new JList<>( demoList );
+    String user1;
 	public ChatManager( SubNode subNode )
 	{
 		this.subNode = subNode;
@@ -44,10 +54,12 @@ public class ChatManager
 		
 		//have ui replace this
 		System.out.println( "What would you like to do?" );
+		System.out.println( "\t 0. send key" );
 		System.out.println( "\t 1. send message" );
 		System.out.println( "\t 2. check messages" );
 		System.out.println( "\t 3. add contact" );
 		System.out.println( "\t 4. list contacts" );
+		
 		
 		FrameLoginChat frame2 = new FrameLoginChat();
 		frame2.setVisible(true);	
@@ -136,7 +148,7 @@ public class ChatManager
 		});
 		
 		
-		//add contact from frameAddMember
+		//add contact from frameAddMember //add user button
 				test = frameAdd.getPnlBtnAddNew_1();
 		test.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
@@ -156,13 +168,30 @@ public class ChatManager
 		    	frameAdd.clearItems();
 		    	
 		    	
-		    	addContactui();
+		    	//addContactui(); //----------------------------------------------------------------------------------------------------------
 		    	
 		    	//hide after use
 		    	frameAdd.setVisible(false);
 		    } 
 		});
 		
+		userlist = frame.getUserList1();
+        userlist.addMouseListener(new MouseAdapter(){
+              @Override
+              public void mouseClicked(MouseEvent e) {
+
+                  user1 = frame.getUserList();
+                  System.out.println("User:" +user1);
+              
+                  try {
+					addContactui(user1);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+              }
+        });
 			
 		//the arrow button
 		JButton btuSend = new JButton();
@@ -181,20 +210,19 @@ public class ChatManager
 		    } 
 		});
 		
+		 
 		
 		
+		
+		//wow the old ver. Still working in my heart
 		String response = scanner.nextLine();
 		
 		
-		//move to methods?
-		if ( response.equals( "1" ) ) 
-		{
-			frameChat.setVisible(true);
-			
+		if ( response.equals( "1" ) ) {
+			//frameChat.setVisible(true);
 			User userToContact = null;
-			System.out.println( "Who would you like to contact?" );
+			System.out.println( "Who would you like to send the message" );
 			String userName = this.sc.nextLine();
-		    
 			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
 			
 			for(User user: userList ){
@@ -202,7 +230,7 @@ public class ChatManager
 														
 					userToContact = user;
 					this.sendMessage( userToContact );
-					frameChat.setlblFriendName(userName+"");
+					//frameChat.setlblFriendName(userName+"");
 				}
 				else
 				{
@@ -210,10 +238,11 @@ public class ChatManager
 				}
 			}
 
+			
 		}
 		else if ( response.equals( "2" ) ) 
 		{	
-			frameChat.setVisible(true);
+			//frameChat.setVisible(true);
 			
 			User userToRead = null;
 			System.out.println( "Whos messages would you like to check?" );
@@ -245,65 +274,40 @@ public class ChatManager
 		}
 		else if ( response.equals( "3" ) ) 
 		{
-			
-			
-			
-			this.addContact();
+			this.addContact("why");
+			this.addContact("whwhyy");
+		
 		}
 		else if ( response.equals( "4" ) )
 		{
 			this.displayContacts();
 		}
 	}
+	
 	String messageToSend = "";
 	
 	//send message ui
 	private void sendMessage(User userToContact) throws Exception
 	{
-		messageToSend = "";
-		System.out.println("Enter message to send: ");	
-				
-		frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
-
-			@Override
-		    public void actionPerformed(ActionEvent e) {
-		        //your actions
-		    	try {
-					messageToSend = RSAEncryption.rsaEncrypt(frameChat.gettxtChatArea()+"");
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}		
-		    	System.out.println("workd");
-		    	
-		    }
-		}));
-			
-		
+		String messageToSend = "";
+		Scanner scanner = new Scanner( System.in );
+		System.out.println("Enter message to send: ");
+							
 		while (true) {
-			//messageToSend = "";
-			System.out.print("WHY IS THIS HERE"); //IF NOT HERE IT BREAK
-			
+			messageToSend = scanner.nextLine();
 			 if (messageToSend.length() > 0)
 			 {
-				 //frameChat.setTextArea_1("You: "+ RSAEncryption.rsaDecrypt(messageToSend));
-				// frameChat.settxtChatArea("");
 				 this.subNode.makeConnection(userToContact, messageToSend);
 				 break;
 			 }
-		}
-		
-		
-	
-		
-		
+		}	
 	}
 
 	
 	//add ui instead of command line interface-----------------------------------------------------------------------
-	public void addContactui()
+	public void addContactui(String contact) throws Exception
 	{
-		this.addContact();
+		this.addContact(contact);
 	
 	}
 	
@@ -391,53 +395,34 @@ public class ChatManager
 		}
 	}
 	
-	public void addContact() //throws Exception 
+	public void addContact(String UserName) throws Exception //throws Exception 
 	{
+		inetAddress = InetAddress.getLocalHost();
 		
+		// contact
+				User contact = new User();
+				contact.setUsername( UserName );
+				contact.setIP( inetAddress.getHostAddress() );
+				contact.setPort(22222);
+				contact.setUUID( "asdf-123" );
+				contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
-		User contact = new User();
-		
-		
-			contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
-			contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
-		
-			contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
-			contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
-		
-			/*//System.out.println("Enter the username:");
-			String contactUsername = this.sc.nextLine();
+		/*User contact = new User();
+		contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
+		contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
+		contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
+		contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
+		contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
+		contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());*/
 			
-			//System.out.println("Enter the IP address: ");
-			String contactIP = this.sc.nextLine();
-			
-			//System.out.println("Enter the UUID ");
-			String contactUUID = this.sc.nextLine();
-			
-			//System.out.println("Enter the port:  ");
-			int contactPort = this.sc.nextInt();
-
-			contact.setUsername(contactUsername);
-			contact.setIP(contactIP);
-			contact.setUUID(contactUUID);
-			//contact.setPort(contactPort);*/
-		
-			//works but its not int sooooooo???
-			//System.out.println(this.subNode.getThisUser().getUserList().get( 0 ).getUUID());
-			//add contact to the database
-			/*DatabaseConnection.UserInsert("67" , 
-					this.subNode.getThisUser().getUserList().get( 0 ).getUsername()+"", 
-					this.subNode.getThisUser().getUserList().get( 0 ).getIP()+"");
-			
-			*/
-			
-			
+				
 		
 		this.subNode.getThisUser().addUser( contact );
 		this.subNode.getThisUser().addConversation( contact );
 		
-		//Exception e = new Exception();
-		//throw e;
 		
+		
+			
 	}
 }
 

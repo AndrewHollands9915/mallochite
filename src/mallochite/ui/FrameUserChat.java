@@ -192,7 +192,8 @@ public class FrameUserChat extends JFrame {
 	        	  panel.validate();
 	        	  panel.repaint();
 	              
-	              lblNewLabel_1.setText("Talking to " + s);
+	             // lblNewLabel_1.setText("Talking to " + s);
+	        	  lblNewLabel_1.setText(s);
 	              getMessages(s, panel);
 	              	                           
 	              //sendMessageToUsers(s);
@@ -304,13 +305,14 @@ public class FrameUserChat extends JFrame {
 	    }
 	
 	public void getOperation()
-	{			  	
-		
-		demoList = null;
+	{			  		 
 		//Connection con = ConnectToUsersDB.getConnection();
 		Connection con = DatabaseCrud.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
+        demoList.clear(); //clear the list so it does not repeat
+        
 		try
 		{
 			String sql = "SELECT UserName from Contact";
@@ -391,7 +393,7 @@ public class FrameUserChat extends JFrame {
 	        	  Date date1 = null;
 				try {
 					date1 = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss").parse(date);
-					System.out.println(date+"\t"+date1);  
+					//System.out.println(date+"\t"+date1);  
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -508,13 +510,27 @@ public class FrameUserChat extends JFrame {
 		  a.setText("");
 	        	  
 	}
+	public JList getUserList1()
+    {
+        return list;
+
+    }
+
+
+
+    public String getUserList() {
+        return lblNewLabel_1.getText() ;
+
+    }
 	
-	public void placeHolder1() 
+	//return the jlist
+	public JList getJlist()
 	{
 		
 		
-		 // a.setText("");
-	        	  
+		return list;
+		
 	}
+	
 
 }
