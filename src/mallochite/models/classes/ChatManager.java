@@ -118,7 +118,7 @@ public class ChatManager
 		if ( response.equals( "1" ) ) {
 			//frameChat.setVisible(true);
 			User userToContact = null;
-			System.out.println( "Who would you like to send the key to?" );
+			System.out.println( "Who would you like to send the message" );
 			String userName = this.sc.nextLine();
 			ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
 			
@@ -182,9 +182,10 @@ public class ChatManager
 	
 	private void sendMessage(User userToContact) throws Exception
 	{
-		
+		Scanner scanner = new Scanner( System.in );
 		messageToSend = "";
-		System.out.println("Enter message to send: ");	
+		System.out.println("Enter message to send: ");
+		messageToSend = scanner.nextLine();
 				
 		//frameChat.getBtnSendMsg().addActionListener((new ActionListener() {
 // 
@@ -206,14 +207,12 @@ public class ChatManager
 			
 		
 		while (true) {
-			//messageToSend = "";
-			System.out.print("WHY IS THIS HERE"); //IF NOT HERE IT BREAK
 			
 			 if (messageToSend.length() > 0)
 			 {
-				 if(this.subNode.getThisUser().getUserList().get(0).getConversation().isEmpty()) {
-					 this.subNode.makeConnection(userToContact, RSAEncryption.getpublicKey("public.key").toString());
-				 }
+//				 if(this.subNode.getThisUser().getUserList().get(0).getConversation().isEmpty()) {
+//					 this.subNode.makeConnection(userToContact, RSAEncryption.getpublicKey("public.key").toString());
+//				 }
 				 
 //				 frameChat.setTextArea_1("You: "+ messageToSend);
 //				 frameChat.settxtChatArea("");
@@ -320,37 +319,41 @@ public class ChatManager
 	public void addContact() throws Exception //throws Exception 
 	{
 		
-		User superNode = new User();
-		Scanner scanner = new Scanner ( System.in );
-		// get from database
-		String superNodeIPAddress = ""; // dbManager.getIpAddress
-		String superNodePortNumber = "";
-		
-		System.out.println( "enter UUID to contact" );
-		String contactUUID = this.sc.nextLine();
-		
-		String messageToSend = String.format( "QUERY:%s:%s:%s:%s" , this.subNode.getThisUser().getIP() ,
-				this.subNode.getThisUser().getUUID() , contactUUID , this.subNode.getThisUser().getPort() );
-		// QUERY:UUID:UUIDToQuery:ipv4:port
-		
-		//TODO get from database
-		superNode.setIP( "" );
-		superNode.setPort( 0 );
-		
-		
-		this.subNode.makeConnection( superNode , messageToSend );
+//		User newUser = new User();
+//		Scanner scanner = new Scanner ( System.in );
+//		
+//		newUser.setIP( "192.168.2.243" );
+//		newUser.setPort( 42424 );
+//		
+//		// get from database
+//		String superNodeIPAddress = ""; // dbManager.getIpAddress
+//		String superNodePortNumber = "";
+//		
+//		System.out.println( "enter UUID to contact" );
+//		String contactUUID = this.sc.nextLine();
+//		
+//		String messageToSend = String.format( "QUERY:%s:%s:%s:%s" , this.subNode.getThisUser().getIP() ,
+//				this.subNode.getThisUser().getUUID() , contactUUID , this.subNode.getThisUser().getPort() );
+//		// QUERY:UUID:UUIDToQuery:ipv4:port
+//		
+//		//TODO get from database
+//		
+//		
+//		this.subNode.makeConnection( superNode , messageToSend );
 		
 		User contact = new User();
-		
-		
 		contact.setUsername( this.subNode.getThisUser().getUserList().get( 0 ).getUsername() );
 		contact.setIP( this.subNode.getThisUser().getUserList().get( 0 ).getIP() );
 		contact.setUUID( this.subNode.getThisUser().getUserList().get( 0 ).getUUID() );
 		contact.setPort( this.subNode.getThisUser().getUserList().get( 0 ).getPort() );
 		contact.setPublicKey(this.subNode.getThisUser().getUserList().get(0).getPublicKey());
 		contact.setSecretKey(this.subNode.getThisUser().getUserList().get(0).getSecretKey());
+		
+		this.subNode.getThisUser().addUser( contact );
+		this.subNode.getThisUser().addConversation( contact );
 			
-			System.out.println(contact.getSecretKey());
+			//System.out.println(contact.getSecretKey());
+
 		
 			/*//System.out.println("Enter the username:");
 			String contactUsername = this.sc.nextLine();
@@ -380,8 +383,7 @@ public class ChatManager
 			
 			
 		
-		this.subNode.getThisUser().addUser( contact );
-		this.subNode.getThisUser().addConversation( contact );
+
 		
 		//Exception e = new Exception();
 		//throw e;

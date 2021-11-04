@@ -52,12 +52,21 @@ public class Mallochite
 		manager  = new ChatManager( subNode );
 		
 		
+		// contact
+		User contact = new User();
+		contact.setUsername( "user1" );
+		contact.setIP( inetAddress.getHostAddress() );
+		contact.setPort(22222);
+		contact.setUUID( "asdf-123" );
+		contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		//TODO: Get info from database
 		user.setUsername( "user2" );
 		user.setIP( inetAddress.getHostAddress() );
-		user.setPort(23232);
-		user.setUUID( "asdf-123" );
+		user.setPort(33333);
+		user.setUUID( "qwer-321" );
 		user.setPublicKey(RSAEncryption.getpublicKey("public.key"));
+		
+		user.getUserList().add( contact );
 		subNode.setThisUser( user );
 
 		

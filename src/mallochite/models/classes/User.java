@@ -72,7 +72,7 @@ public class User
 	{
 		ArrayList<String> currentConversation = this.conversations.get( uuid );
 		
-		currentConversation.add( message );
+		//currentConversation.add( message );
 	}
 	
 	
