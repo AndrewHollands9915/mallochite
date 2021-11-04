@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import mallochite.database.DatabaseConnection;
+import mallochite.ui.FrameUserChat;
 
 public class ConnectionManager extends Thread {
 	private Socket metaSocket; // responsible for listening for incoming connections
@@ -68,7 +69,11 @@ public class ConnectionManager extends Thread {
 						System.out.println("---------------------"+parsedData.get("message"));
 						
 						//add database add
-						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 3, 1);
+						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 3, 0);
+						
+						FrameUserChat frameChat = new FrameUserChat();
+						//frameChat.getMessages(parsedData.get("UUID"), frameChat.contentPane.);
+						
 						
 					}
 
