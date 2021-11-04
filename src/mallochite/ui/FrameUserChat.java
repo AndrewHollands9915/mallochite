@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -25,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -88,7 +90,7 @@ public class FrameUserChat extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	JTextArea userDisplay = new JTextArea();
+	JPanel userDisplay = new JPanel();
 	FrameJScrollPaneDemo frame = new FrameJScrollPaneDemo();
 	
 	
@@ -102,6 +104,7 @@ public class FrameUserChat extends JFrame {
 				{
 					FrameJScrollPaneDemo frame = new FrameJScrollPaneDemo();
 					frame.setLocationRelativeTo(null);
+				
 					frame.setVisible(true);
 					frame.getOperation();
 					
@@ -123,29 +126,36 @@ public class FrameUserChat extends JFrame {
 	{
 		test = false;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Image icon = Toolkit.getDefaultToolkit().getImage("src/res/image2.jpg");
+		setIconImage(icon);
+		setTitle("Mallochite");    
 		setBounds(500, 500, 830, 650);
 		contentPane = new JPanel();
 		contentPane.setFont(new Font("Tahoma", Font.BOLD, 14));
 		contentPane.setBackground(new Color(0, 102, 51));
-		contentPane.setBorder(BorderFactory.createTitledBorder(null, "Chat Area", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("monospaced",Font.BOLD,20), Color.WHITE));
+		contentPane.setBorder(BorderFactory.createTitledBorder(null, "Mallochite", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("monospaced",Font.BOLD,20), Color.WHITE));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+	
+		
+		
 
 		
 		userDisplay.setBackground(new Color(60, 179, 113));
 		userDisplay.setFont(new Font("Serif", Font.BOLD, 18));
-		userDisplay.setLineWrap(true);
-		userDisplay.setWrapStyleWord(true);
+		//userDisplay.setLineWrap(true);
+		//userDisplay.setWrapStyleWord(true);
 		userDisplay.setForeground(Color.BLUE);
 		userDisplay.setAutoscrolls(true);
-		userDisplay.setEditable(false); // set textArea(userDisplay) non-editable
+		
+		//userDisplay.setEditable(false); // set textArea(userDisplay) non-editable
 		
 		JScrollPane scrollUser = new JScrollPane(userDisplay);
 		scrollUser.setBounds(10, 50, 200, 450);
 		scrollUser.setPreferredSize(new Dimension(800,300));
 		scrollUser.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollUser);
-		list.setBackground(new Color(0, 204, 102));
+		list.setBackground(new Color(60, 179, 113));
 		
 		
 		
@@ -154,8 +164,11 @@ public class FrameUserChat extends JFrame {
 		
 		
 		//list = new JList();
-		list.setBounds(10, 50, 200, 450);
+		//list.setBounds(10, 50, 200, 450);
+		list.setFixedCellWidth(170);
 		scrollUser.setColumnHeaderView(list);
+		userDisplay.add(list);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -166,7 +179,7 @@ public class FrameUserChat extends JFrame {
         JScrollPane scrollChat = new JScrollPane(panel);
 		scrollChat.setBounds(225, 50, 550, 450);
 		scrollChat.setPreferredSize(new Dimension(800,300));
-		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		panel.validate();
 		contentPane.add(scrollChat);
 		
@@ -176,13 +189,16 @@ public class FrameUserChat extends JFrame {
 	          @Override
 	          public void mouseClicked(MouseEvent e) {
 	        	
-	        	  panel.removeAll();
-	        	  panel.revalidate();
-	        	  panel.repaint();
-	              int index = list.getSelectedIndex();
+	        	 
+	              
 	              
 	              String s = (String)list.getSelectedValue();
-	              lblNewLabel_1.setText(s);
+	              
+	              panel.removeAll();
+	        	  panel.validate();
+	        	  panel.repaint();
+	              
+	              lblNewLabel_1.setText("Talking to " + s);
 	              getMessages(s, panel);
 	              	                           
 	              //sendMessageToUsers(s);
@@ -199,12 +215,20 @@ public class FrameUserChat extends JFrame {
 		messageDisplay.setAutoscrolls(true);
 		//messageDisplay.setBounds(225, 510, 450, 75);
 		//contentPane.add(messageDisplay);
+		messageDisplay.addMouseListener(new MouseAdapter(){
+	          @Override
+	          public void mouseClicked(MouseEvent e) {
+	        	 placeHolder(messageDisplay, "Type your message here...");
+	          }
+	          });
+		
+		
 
 		JScrollPane scrollMessage = new JScrollPane(messageDisplay);
 		scrollMessage.setBounds(225, 520, 450, 50);
 		scrollMessage.setPreferredSize(new Dimension(800,300));
-		scrollMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
+		scrollMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+				
 		contentPane.add(scrollMessage);
 		
 		btnSendMsg = new JButton();
@@ -246,7 +270,7 @@ public class FrameUserChat extends JFrame {
 		contentPane.add(btnAddNew);
 							
 		
-		JLabel lblNewLabel = new JLabel("Users List");
+		JLabel lblNewLabel = new JLabel("Contacts");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -256,9 +280,10 @@ public class FrameUserChat extends JFrame {
 	    lblNewLabel_1 = new JLabel("");
 	    lblNewLabel_1.setBackground(new Color(0, 204, 102));
 	    lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setForeground(new Color(255, 0, 0));
+		lblNewLabel_1.setForeground(new Color(16, 105, 40 ));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(225, 27, 133, 22);
+		lblNewLabel_1.setBounds(225, 27, 550, 22);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel_1);
 		
 		//huh
@@ -355,7 +380,7 @@ public class FrameUserChat extends JFrame {
 				this.message = new JTextArea(); //changed to area to made size for the 2nd line if needed
 	        	  //this.message.setPreferredSize(new Dimension(300,25));
 	        	  //this.message.setAlignmentX(100);
-				this.message.setPreferredSize(new Dimension(300,50));  
+				//this.message.setPreferredSize(new Dimension(250,10));  
 				
 	        	  //check the value of the owner to display
 	        	  if (owner == 1){ //for some reason the values are fliped
@@ -376,67 +401,28 @@ public class FrameUserChat extends JFrame {
 					e.printStackTrace();
 				}  
 	        	    
-	        	
-	        	  
-	        	  
-	        	  
-	        	 this.message.setMaximumSize( this.message.getPreferredSize() );
+	        	 
+	        	 
 	             this.message.setBackground(new Color(155,247,192));
 	             this.message.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
-	             this.message.validate();
+	             this.message.setWrapStyleWord(true);
+	             this.message.setLineWrap(true);
+	  
 	             
 				
 				//display the message and contents of the message 
 	             //Right now its really rough. With the length. Maybe space this out	             
 				//this.message.setText(ownerName+": " + message+ " date: "+date1);
 				
-				String messageToAppend = ownerName+": " + message+ " date: "+date1;
+				String messageToAppend = ownerName+": " + message+ " \n                   "+date1;
 				int messageLength = messageToAppend.length();
 				
-				//Work on this a little bit more but right now the idea is make it longer if needed
-				//max length on a line is 53 before it cuts off I should move this too a loop maybe? 			
-				if (messageLength > 53) //long 2 line message
-				{			
-					messageToAppend = messageToAppend.substring(0, 53)+"\n"+ messageToAppend.substring(53);
-					this.message.setPreferredSize(new Dimension(300,35));
-				}
-				else if (messageLength > 106) //long 3 line message
-				{
-					messageToAppend = messageToAppend.substring(0, 53)+"\n"+messageToAppend.substring(53, 106)+"/n"+messageToAppend.substring(106);
-					this.message.setPreferredSize(new Dimension(300,50));
-				}
-				else if (messageLength < 55) //small 1 line messsage
-				{
-					System.out.println("small message");
-					this.message.setPreferredSize(new Dimension(300,25));
-				}
-				else
-				{
-					this.message.setPreferredSize(new Dimension(300,25));
-				}
-				 
-				
-				//continue loop monday
-				int amount = messageLength / 53; //amount of loop runs
-				//run the loop for amount of times
-				int item = 53;
-				for (int i = 0; i < amount; i++)
-				{
-					System.out.println("\nRun loop");
-					messageToAppend = messageToAppend.substring(0, item)+"\n"+ messageToAppend.substring(item);
-										
-					item+=item;
-				}
-				
-				
-				
 				this.message.setText(messageToAppend); //take the final message
-				
-				System.out.println("\nLength of message"+messageLength+""); 
-				
+				this.message.setMaximumSize(new Dimension(250,(20 * (this.message.getLineCount()+1))));  
+				this.message.setEditable(false);
 				
 				 p.add(this.message);
-	              p.add(Box.createRigidArea(new Dimension(0, 15)));
+	             p.add(Box.createRigidArea(new Dimension(0, 15)));
 	              
 				
 				
@@ -518,5 +504,14 @@ public class FrameUserChat extends JFrame {
 	public void setlblFriendName(String imp) {
         lblFriendName.setText("Talking with a Friend "+imp);
     }
+	
+	public void placeHolder(JTextArea a, String text) 
+	{
+		
+		if(a.getText().equals(text))
+		  a.setText("");
+	        	  
+	}
+	
 
 }
