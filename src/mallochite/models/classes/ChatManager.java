@@ -328,7 +328,7 @@ public class ChatManager
 				//add to the database when send	
 				//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
 				DatabaseConnection.messageInsert(messageToSend, "09-30-2021 10:30:54", 1, 1, 3, 0);
-				frame.updateList();
+				frame.updateList(); //buggy sometimes shows messages from other users!
 				
 		    } 
 		});

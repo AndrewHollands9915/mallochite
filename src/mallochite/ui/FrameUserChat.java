@@ -238,7 +238,7 @@ public class FrameUserChat extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				  String s = (String)list.getSelectedValue();
-				getMessages(s, panel);		       
+				//getMessages(s, panel);		       
 			      
 			}
 		});
