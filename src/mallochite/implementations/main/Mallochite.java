@@ -71,13 +71,13 @@ public class Mallochite
 		contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
 		
-		User contact1 = new User();
+	/*	User contact1 = new User();
 		contact.setUsername( "user3" );
 		contact.setIP( inetAddress.getHostAddress() );
 		contact.setPort(22223);
 		contact.setUUID( "asdf-123" );
 		contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
-		
+		*/
 		//TODO: Get info from database
 		user.setUsername( "user2" );
 		user.setIP( inetAddress.getHostAddress() );
@@ -86,8 +86,8 @@ public class Mallochite
 		user.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
 		user.getUserList().add( contact );
-		//user.getUserList().add( contact1 );
 		subNode.setThisUser( user );
+
 
 		
 		try

@@ -95,10 +95,10 @@ public static void CreateTableMessage() throws ClassNotFoundException {
 		String sql = "CREATE TABLE Message"+ "(ID INTEGER PRIMARY KEY NOT NULL,"+
 				"TEXT	TEXT NOT NULL,"+
 				"Date	TEXT NOT NULL,"+
-				"Sent	INTEGER NOT NULL,"+
-				"ContactOwner	INTEGER,"+
-				"ReadReciept	TEXT NOT NULL,"+
-				"ContactFK	INTEGER)";
+				"Sent	INTEGER NOT NULL,"+	
+				"ReadReciept	INTEGER NOT NULL,"+
+				"ContactFK	INTEGER,"+
+				"ContactOwner	INTEGER)";
 			
 			
 		stmt.executeUpdate(sql);
@@ -128,9 +128,10 @@ public static void CreateTableContact() throws ClassNotFoundException {
 		String sql1 = "CREATE TABLE Contact"+"(UUID	TEXT NOT NULL,"+
 				"UserName TEXT NOT NULL,"+
 				"IPAddress	TEXT NOT NULL,"+
-				"Messages	TEXT,"+
-				"PRIMARY KEY(UUID),"+
-				"FOREIGN KEY(Messages)"+ "REFERENCES Message(ID))";
+				"Messages	INTEGER,"+
+				"FOREIGN KEY(Messages)"+ "REFERENCES Message(ID)"+
+				"PRIMARY KEY(UUID))"
+				;
 			
 		stmt.executeUpdate(sql1);
 		stmt.close();

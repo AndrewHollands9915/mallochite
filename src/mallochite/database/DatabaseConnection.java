@@ -111,9 +111,9 @@ public class DatabaseConnection
 				}
 				
 				//insert user into database
-				public static void UserInsert(String UUID, String UserName, String IPAddress) {
+				public static void UserInsert(String UUID, String UserName, String IPAddress, int Messages) {
 					
-					String sql = "INSERT INTO Contact(UUID, UserName, IPAddress) VALUES(?,?,?)";				
+					String sql = "INSERT INTO Contact(UUID, UserName, IPAddress, Messages) VALUES(?,?,?,?)";				
 		            
 		            try {
 		            	Connection con = DatabaseCrud.connect();
@@ -124,6 +124,7 @@ public class DatabaseConnection
 		                    ps.setString(1, UUID);
 		                    ps.setString(2, UserName);
 		                    ps.setString(3, IPAddress);
+		                    ps.setInt(4, Messages);
 		                    ps.executeUpdate();  
 		                
 		                    System.out.println("User data are successfully saved!:\n");	                                          

@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -160,11 +162,12 @@ public class ChatManager
 		    	//System.out.println(frameAdd.gettxtIPAddress());
 		    	String ipAdd = "10.20.300.412"; //use find ip method
 		    	
+		    	
 		    	//add user to the database
 		    	DatabaseConnection.UserInsert(frameAdd.getTxtUUID(), 
 		    			frameAdd.gettxtUserName(), 
 		    			//frameAdd.gettxtIPAddress()
-		    			ipAdd
+		    			ipAdd, 1
 						);
 		    	frame.getOperation();
 		    	frameAdd.clearItems();
@@ -195,9 +198,9 @@ public class ChatManager
                   try {
 					addContactui(user1); //add to connect list
 					
-					
+					//here					
 					sendMessageui(user1);	
-					
+					//sendMessageui("user1");	
 					
 					
 				} catch (Exception e1) {
@@ -209,24 +212,6 @@ public class ChatManager
                         
         });
 			
-		//the arrow button
-		//JButton btuSend = new JButton();
-		//btuSend = frame.getBtnSendMsg();
-		/*btuSend.addActionListener(new ActionListener() { 
-		    public void actionPerformed(ActionEvent e) { 
-		    	System.out.println("please sfjnfibdsuibesuigds");	    			    	
-		    	try {
-					//sendMessageui();
-					
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} 		    	
-		    } 
-		});*/
-		
-		
 		
 		//wow the old ver. Still working in my heart
 		String response = scanner.nextLine();
@@ -325,9 +310,16 @@ public class ChatManager
 					e1.printStackTrace();
 				}
 				
+				
+				 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");  //change format?
+				   LocalDateTime now = LocalDateTime.now();  
+				   System.out.println(dtf.format(now));  
+				   
+				   String CurrentDate = dtf.format(now);
 				//add to the database when send	
 				//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
-				DatabaseConnection.messageInsert(messageToSend, "09-30-2021 10:30:54", 1, 1, 3, 1);
+				//DatabaseConnection.messageInsert(messageToSend, "09-30-2021 10:30:54", 1, 1, 3, 1);
+				   DatabaseConnection.messageInsert(messageToSend, CurrentDate, 1, 1, 1, 1);
 				frame.updateList(); //buggy sometimes shows messages from other users!
 				//add time here
 		    } 
@@ -439,8 +431,8 @@ public class ChatManager
 				User contact = new User();
 				contact.setUsername( UserName );
 				contact.setIP( inetAddress.getHostAddress() );
-				contact.setPort(22222);
-				contact.setUUID( "asdf-123" ); //get form database
+				contact.setPort(22222);  
+				contact.setUUID( "asdf-123" ); //get form database \ 
 				contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
 		/*User contact = new User();

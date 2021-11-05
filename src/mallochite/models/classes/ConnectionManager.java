@@ -69,9 +69,9 @@ public class ConnectionManager extends Thread {
 						System.out.println("---------------------"+parsedData.get("message"));
 						
 						//add database add
-						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 3, 0);
+						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 1);
 						
-						FrameUserChat frameChat = new FrameUserChat();
+					//	FrameUserChat frameChat = new FrameUserChat();
 						//frameChat.getMessages(parsedData.get("UUID"), frameChat.contentPane.);
 						
 						
