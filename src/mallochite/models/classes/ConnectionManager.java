@@ -71,6 +71,9 @@ public class ConnectionManager extends Thread {
 						//add database add
 						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 1);
 						
+					//	 FrameUserChat frame = ChatManager.returnFrame();
+						 
+					//	 frame.getOperation();
 					//	FrameUserChat frameChat = new FrameUserChat();
 						//frameChat.getMessages(parsedData.get("UUID"), frameChat.contentPane.);
 						
@@ -92,7 +95,7 @@ public class ConnectionManager extends Thread {
 						System.out.println("found it"+messageIn);
 						
 						//System.out.println("found it---------------------------");
-				
+						
 				}
 			}
 		}
@@ -114,6 +117,7 @@ public class ConnectionManager extends Thread {
 
 			if (debugging) {
 				System.out.println("Connection closed");
+				
 			}
 		}
 	}

@@ -86,6 +86,32 @@ public class DatabaseConnection
 						
 					
 					}
+				
+				public static int getWhatever(String UUID) {
+					Connection con = DatabaseCrud.connect();
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					int Messages = 0;
+						try {		
+						//for messages
+						//String sql = "SELECT * FROM Message WHERE ContactFK ="+ forKey; 
+							//String sql = "SELECT Messages FROM Contact WHERE UserName = Tanya"; 
+							String sql = "SELECT Messages FROM Contact WHERE UUID ="+UUID; 
+						ps = con.prepareStatement(sql);
+						rs = ps.executeQuery();
+						
+						System.out.println("ALL messages:\n");
+						while(rs.next()) {
+							
+							Messages = rs.getInt("Messages");									
+
+							System.out.println("\nMessages: "+Messages);									
+						}													 
+						} catch(SQLException e) {
+							System.out.println(e.toString());
+						}
+						return Messages;//return								
+					}
 					
 				//user update only updates UserName right now
 				public static void updateUser(String UserName) {

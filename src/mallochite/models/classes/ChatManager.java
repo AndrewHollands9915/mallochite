@@ -282,6 +282,18 @@ public class ChatManager
 			this.displayContacts();
 		}
 	}
+	//-------------------------------=========================
+	public FrameUserChat returnFrame() {
+		
+		return frame;
+	}
+	
+	
+public static void refreshFrame() {
+		
+	
+	}
+	
 	
 	String messageToSend = "";
 	boolean send = false;
@@ -320,6 +332,8 @@ public class ChatManager
 				//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
 				//DatabaseConnection.messageInsert(messageToSend, "09-30-2021 10:30:54", 1, 1, 3, 1);
 				   DatabaseConnection.messageInsert(messageToSend, CurrentDate, 1, 1, 1, 1);
+				   
+				   
 				frame.updateList(); //buggy sometimes shows messages from other users!
 				//add time here
 		    } 

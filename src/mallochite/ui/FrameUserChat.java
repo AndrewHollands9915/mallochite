@@ -533,7 +533,12 @@ public class FrameUserChat extends JFrame {
 
 public void updateList(){ //update the list i hope
 	  String s = (String)list.getSelectedValue(); // a bit buggy with showing the messages fix later-------------------------------------------------------------
-		getMessages(s, panel);	
+		
+	  panel.removeAll();
+	  getMessages(s, panel);
+	  panel.validate();
+      panel.repaint();
+      messageDisplay.setText("");
 }
 
     public String getUserList() {

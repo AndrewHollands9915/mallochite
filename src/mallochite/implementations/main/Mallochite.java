@@ -36,6 +36,7 @@ public class Mallochite
 	public static void main ( String [] args ) throws Exception
 	{
 	
+		
 		//connect to the database
 		DatabaseCrud.connect(); 
 		DatabaseCrud.readMessagesEveryUser(); //check if tables exist if not create them
@@ -44,6 +45,9 @@ public class Mallochite
 			DatabaseCrud.CreateTableContact();
 			DatabaseCrud.CreateTableRegistration();
 		}
+		
+		//DatabaseConnection.getWhatever("2");
+		
 		
 		if ( args.length > 0 && args[0].equalsIgnoreCase( "super" ))
 			runAsSuperNode();
@@ -79,10 +83,10 @@ public class Mallochite
 		contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		*/
 		//TODO: Get info from database
-		user.setUsername( "user2" );
+		user.setUsername( "user2" ); 
 		user.setIP( inetAddress.getHostAddress() );
-		user.setPort(33333);
-		user.setUUID( "qwer-321" );
+		user.setPort(33333); 
+		user.setUUID( "qwer-321" ); 
 		user.setPublicKey(RSAEncryption.getpublicKey("public.key"));
 		
 		user.getUserList().add( contact );

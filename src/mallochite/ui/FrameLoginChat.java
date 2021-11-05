@@ -105,7 +105,7 @@ public class FrameLoginChat extends JFrame {
 		txtIPAddress = new JTextField();
 		txtIPAddress.setBorder(null);
 		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtIPAddress.setText("IPAddress");
+		txtIPAddress.setText("Password");
 		txtIPAddress.setBounds(10, 10, 238, 46);
 		panel_1.add(txtIPAddress);
 		
