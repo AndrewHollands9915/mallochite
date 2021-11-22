@@ -1,57 +1,36 @@
-/*
- * Joseph Escober
- */
-
 package mallochite.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.EventQueue;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import javax.swing.UIManager;
-import javax.swing.border.SoftBevelBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import mallochite.database.DatabaseCrud;
 
-import javax.swing.border.BevelBorder;
-import javax.swing.JComboBox;
+public class FrameRegistration extends JFrame {
 
-public class FrameLoginChat extends JFrame {
-	
 	private JPanel contentPane;
-	private JTextField txtUserName, txtIPAddress;
+	private JTextField txtUserName, txtIPPassword;
 	private JTextField textField;
-	JButton lblRegister;
 	JButton lblConnect;
-	
-	//check if we continue
-	boolean same = false;
-	
-	//private JPasswordField txtPassword;	
-
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +38,7 @@ public class FrameLoginChat extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameLoginChat frame = new FrameLoginChat();
+					FrameRegistration frame = new FrameRegistration();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +50,14 @@ public class FrameLoginChat extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameLoginChat() {
+	public FrameRegistration() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 526, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 300, 400, 600);
 		contentPane = new JPanel();
@@ -102,12 +88,12 @@ public class FrameLoginChat extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		txtIPAddress = new JTextField();
-		txtIPAddress.setBorder(null);
-		txtIPAddress.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		txtIPAddress.setText("IPAddress");
-		txtIPAddress.setBounds(10, 10, 238, 46);
-		panel_1.add(txtIPAddress);
+		txtIPPassword = new JTextField();
+		txtIPPassword.setBorder(null);
+		txtIPPassword.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
+		txtIPPassword.setText("Password");
+		txtIPPassword.setBounds(10, 10, 238, 46);
+		panel_1.add(txtIPPassword);
 		
 		//JLabel lblNewLabel = new JLabel("");
 		//lblNewLabel.setBackground(Color.WHITE);
@@ -119,21 +105,24 @@ public class FrameLoginChat extends JFrame {
 		JPanel pnlBtnLogin = new JPanel();
 		pnlBtnLogin.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		pnlBtnLogin.setBackground(new Color(60, 179, 113));
-		pnlBtnLogin.setBounds(42, 420, 201, 59);
+		pnlBtnLogin.setBounds(91, 495, 201, 59);
 		contentPane.add(pnlBtnLogin);
 		pnlBtnLogin.setLayout(null);
 		
-		//JLabel lblConnect = new JLabel("Connect");
-	    lblConnect = new JButton("Connect");
+		//change toa  button??
+		//JLabel lblConnect = new JLabel("Sign up");
+		lblConnect = new JButton("Sign up");
 		
 		lblConnect.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//FrameLoginChat.this.dispose();			 
-			       //FrameJScrollPaneDemo.newUserChatScreenDemo(null);	//OLD ON CLICK MOVED TO CHAT MANAGER
+			    //   FrameJScrollPaneDemo.newUserChatScreenDemo(null);			
+				System.out.println("sign up selected");
 				
-				System.out.println("clickdfsdsfed");
-				//getLogin();
+				//call registration method add the user into the database
+				//RegisterUserInsert("no", "please");
+				RegisterUserInsert(getTxtUserName(), getTxtPassword());
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -172,8 +161,8 @@ public class FrameLoginChat extends JFrame {
 		lblClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
-					 FrameLoginChat.this.dispose();
+				//if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "confirmation", JOptionPane.YES_NO_OPTION) == 0)
+					// FrameLoginChat.this.dispose();
 			}
 			
 			@Override
@@ -192,99 +181,61 @@ public class FrameLoginChat extends JFrame {
 		lblClose.setBounds(376, 0, 24, 35);
 		contentPane.add(lblClose);
 		
-		JLabel lblLogin = new JLabel("Login");
+		JLabel lblLogin = new JLabel("Register");
 		lblLogin.setForeground(Color.WHITE);
 		lblLogin.setFont(new Font("Arial", Font.BOLD, 24));
 		lblLogin.setBounds(47, 163, 195, 35);
 		contentPane.add(lblLogin);
 		
-		JPanel pnlBtnLogin_1 = new JPanel();
-		pnlBtnLogin_1.setLayout(null);
-		pnlBtnLogin_1.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		pnlBtnLogin_1.setBackground(new Color(60, 179, 113));
-		pnlBtnLogin_1.setBounds(42, 498, 201, 59);
-		contentPane.add(pnlBtnLogin_1);
-		
-	    lblRegister = new JButton("Register");
-		lblRegister.setForeground(Color.WHITE);
-		lblRegister.setFont(new Font("Arial", Font.BOLD, 18));
-		lblRegister.setBounds(59, 10, 111, 39);
-		pnlBtnLogin_1.add(lblRegister);
-		
 		
 		setLocationRelativeTo(null);
+		
+		
 	}
 	
-	public JTextField getTxtUserName() {
-		return txtUserName;
+	//get the items
+	public String getTxtUserName() {
+		return txtUserName.getText();
 	}
-	
-	//return the register button so we can give register a function
-	public JButton getlblRegister() {
-		return lblRegister;
+
+	public String getTxtPassword() {
+		return txtIPPassword.getText();
 	}
-	
-	//return the connect button to connect
-	public JButton getBtnConnect() {
+
+	//what connect please retuinr the button!
+	public JButton getlblConnect() {
 		return lblConnect;
 	}
-
-	public void setTxtUserName(JTextField txtUserName) {
-		this.txtUserName = txtUserName;
-	}
-
-	public JTextField getTxtIPAddress() {
+	
+	/*public JTextField getTxtIPAddress() {
 		return txtIPAddress;
 	}
 
 	public void setTxtIPAddress(JTextField txtIPAddress) {
 		this.txtIPAddress = txtIPAddress;
-	}
+	}*/
 	
-	//get the boolean to check if we should open the next chat window
-	public boolean continueNow()
-	{
-		return same;
-	}
-	
-	public void getLogin()
+	//insert the given register into the database
+	public void RegisterUserInsert(String Username, String Password)
 	{			
-		 //boolean same = false;
-		Connection con = DatabaseCrud.connect();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-		try
-		{
-			String sql = "SELECT * from Registration";
-			
-		    ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();			
-			while(rs.next())
-            {           	   
-				String UserName = rs.getString("Username");			
-				String Password = rs.getString("Password");	
-				
-				if (txtUserName.getText().equals(UserName) && txtIPAddress.getText().equals(Password))
-				{
-					System.out.println("Sucessfully loged in");
-					same = true;
-					JOptionPane.showMessageDialog(null, "Logged In","Active UserName Retrieved",
-							JOptionPane.INFORMATION_MESSAGE);
 					
-					//good now we can turn it off
-					FrameLoginChat.this.dispose();	
-				}				 
-            }
-			 rs.close();
-             ps.close();
-			           
-             
-		
+			String sql = "INSERT INTO Registration(Username, Password) VALUES(?,?)";				
+            
+            try {
+            	Connection con = DatabaseCrud.connect();
+	            PreparedStatement ps = null;		         
+                
+                ps = con.prepareStatement(sql);		  
+                          
+                    ps.setString(1, Username);
+                    ps.setString(2, Password);        
+                    ps.executeUpdate();  
+                
+                    System.out.println("User registration was successfully saved! xdxdxdxdxdxd:\n");	                                          
+                
+            }catch (SQLException e) {
+                System.out.println(e.toString());
+            } 		            
 		}
-		catch(Exception ex)
-		{
-			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
-					JOptionPane.ERROR_MESSAGE);
-		}			
-	}   //ff
+
 }

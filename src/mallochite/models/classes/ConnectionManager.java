@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+import mallochite.database.DatabaseConnection;
+
 public class ConnectionManager extends Thread {
 	private Socket metaSocket; // responsible for listening for incoming connections
 	private MallochiteMessageManager mallochiteMessageManager = new MallochiteMessageManager();
@@ -60,6 +62,7 @@ public class ConnectionManager extends Thread {
 					else
 					{
 						thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
+						DatabaseConnection.messageInsert(messageIn, "09-30-2021 10:30:54", 1, 1, 1, 2);
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
 					}
 

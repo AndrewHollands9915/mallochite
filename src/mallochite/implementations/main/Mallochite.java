@@ -6,6 +6,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Scanner;
 import java.net.Socket;
 
@@ -36,6 +39,16 @@ public class Mallochite
 	
 	public static void main ( String [] args ) throws Exception
 	{
+		
+		  DatabaseCrud.connect(); 
+	        DatabaseCrud.readMessagesEveryUser(); //check if tables exist if not create them
+	        if (DatabaseCrud.getItem()==1) {
+	            DatabaseCrud.CreateTableMessage();
+	            DatabaseCrud.CreateTableContact();
+	            DatabaseCrud.CreateTableRegistration();
+	        }
+		
+		
 		if ( args.length > 0 && args[0].equalsIgnoreCase( "super" ))
 			runAsSuperNode();
 		else
@@ -52,22 +65,44 @@ public class Mallochite
 		manager  = new ChatManager( subNode );
 		
 		
-		// contact
-		User contact = new User();
-		contact.setUsername( "user1" );
-		contact.setIP( inetAddress.getHostAddress() );
-		contact.setPort(22222);
-		contact.setUUID( "asdf-123" );
-		contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
-		//TODO: Get info from database
+		Connection con = DatabaseCrud.connect();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM Contact";
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();	
+		
+		
+		
 		user.setUsername( "user2" );
 		user.setIP( inetAddress.getHostAddress() );
-		user.setPort(33333);
+		user.setPort(42424);
 		user.setUUID( "qwer-321" );
-		user.setPublicKey(RSAEncryption.getpublicKey("public.key"));
-		
-		user.getUserList().add( contact );
 		subNode.setThisUser( user );
+		
+		/*
+		User contact1 = new User();
+		contact1.setUsername( "user1" );
+		contact1.setIP("192.168.2.140");
+		contact1.setPort(42424);
+		contact1.setUUID( "asdf-123" );
+		user.getUserList().add( contact1 );
+		*/
+		while(rs.next()) {
+			User contact = new User();
+			contact.setUsername( rs.getString("UserName") );
+			contact.setIP( rs.getString("IPAddress") );
+			contact.setPort(rs.getInt("Port"));
+			contact.setUUID( rs.getString("UserName"));
+			user.getUserList().add( contact );
+		}
+		
+		
+		
+		
+		
+		
+		
 
 		
 		try
@@ -84,10 +119,10 @@ public class Mallochite
 				System.out.println("is in use"); 
 			}
 			
-			while( subNode.isListening() )
-			{
+			while(subNode.isListening()) {
 				manager.menu();
-			}   
+			}
+			   
       
 		} catch( IOException ex )  { ex.printStackTrace(); }
 		finally
@@ -152,6 +187,10 @@ public class Mallochite
 	    } catch (IOException ignored) {
 	    	return true;
 	    }
+	}
+	
+	public void loadUsers(User user) {
+		
 	}
 	
 
