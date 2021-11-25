@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import mallochite.database.DatabaseConnection;
+import mallochite.encryption.AESEncryption;
 
 public class ConnectionManager extends Thread {
 	private Socket metaSocket; // responsible for listening for incoming connections
@@ -63,8 +64,8 @@ public class ConnectionManager extends Thread {
 					{
 						//thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
 						
-						//DatabaseConnection.messageInsert(messageIn, "09-30-2021 10:30:54", 1, 1, 1, 2);
-						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
+						DatabaseConnection.messageInsert(messageIn, "09-30-2021 10:30:54", 1, 1, 1, 0);
+						//DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
 						
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
 					}
@@ -77,7 +78,7 @@ public class ConnectionManager extends Thread {
 				if ( messageOut != null && messageOut.contains(terminatingString) )
 					listening = false;
 
-				messageIn = in.readLine();
+				messageIn = AESEncryption.decrypt(in.readLine(), "YouGay");
 
 				if (messageIn != null)
 						System.out.println(messageIn);

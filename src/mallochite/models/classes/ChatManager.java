@@ -2,8 +2,11 @@ package mallochite.models.classes;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -13,7 +16,8 @@ import java.net.Socket;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import mallochite.database.DatabaseConnection;
+import mallochite.encryption.AESEncryption;
 import mallochite.encryption.EncryptionMain;
 import mallochite.encryption.RSAEncryption;
 import mallochite.encryption.SecretKeyGenerator;
@@ -50,6 +55,7 @@ public class ChatManager
     FrameUserChat frame ;
     User contact;
     JTextArea message;
+    String secret = "YouGay";
     
     
 
@@ -117,6 +123,9 @@ public class ChatManager
 		
 		
 		
+		
+		
+		
 		//login method. Check for correct input. If its correct call normal function if not call register
 		JButton btuRegister = new JButton();
 		btuRegister = frame2.getlblRegister();
@@ -132,6 +141,9 @@ public class ChatManager
 		    } 
 		});
 		
+		
+	
+
 		
 		
 		
@@ -155,12 +167,15 @@ public class ChatManager
 		});
 		
 		
+		
+		
+		
 		JButton sendMessage = new JButton();
 		sendMessage = frame.getBtnSendMsg();
 		sendMessage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) { 
 				try {
-					if(frame.getmessageDisplay().getText()!= "") {
+					if(!frame.getmessageDisplay().getText().isEmpty()) {
 					sendMessageui(frame.getUserList(),frame.getmessageDisplay().getText() );
 					
 					//add to the database when send	
@@ -171,6 +186,9 @@ public class ChatManager
 					//add time here
 					
 					
+					}
+					else {
+						frame.updateList(); 
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -387,7 +405,7 @@ public class ChatManager
 			if(user.getUsername().equals( userIn )) {
 													
 				userToContact = user;
-				this.subNode.makeConnection(userToContact, messageToSend);
+				this.subNode.makeConnection(userToContact, AESEncryption.encrypt(messageToSend, "YouGay"));
 				
 				//frameChat.setlblFriendName(userName+"");
 			}
@@ -504,6 +522,9 @@ public class ChatManager
 		return messageFrame;
 		
 	}
+
+
+	
 	
 	
 	

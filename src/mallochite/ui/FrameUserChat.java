@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -178,6 +180,21 @@ public class FrameUserChat extends JFrame {
 		panel.validate();
 		contentPane.add(scrollChat);
 		
+		
+		
+		TimerTask task = new TimerTask() {
+			  @Override
+			  public void run() {
+				  panel.removeAll();
+		             getMessages(list.getSelectedValue(), panel);
+		        	 panel.repaint();
+		        	 panel.revalidate();
+			  }
+			};
+
+			Timer timer = new Timer();
+			timer.schedule(task, 0l, 1000l); //call the run() method at 1 second intervals
+		
 	   
 		list.addMouseListener(new MouseAdapter(){
 			
@@ -188,14 +205,16 @@ public class FrameUserChat extends JFrame {
 	              
 	              
 	              String s = (String)list.getSelectedValue();
+	             
+	              lblNewLabel_1.setText(s);
 	              
-	              panel.removeAll();
-	        	  panel.validate();
-	        	  panel.repaint();
 	              
+	             panel.removeAll();
+	             getMessages(s, panel);
+	        	 panel.repaint();
+	        	 panel.revalidate();
 	             // lblNewLabel_1.setText("Talking to " + s);
-	        	  lblNewLabel_1.setText(s);
-	              getMessages(s, panel);
+	        	  
 	              	                           
 	              //sendMessageToUsers(s);
 	              //ChatManager.sendMessage(s);
@@ -203,6 +222,13 @@ public class FrameUserChat extends JFrame {
 	              
 	          }
 	    });
+		
+		
+		
+
+		
+		
+		
 		//JTextArea messageDisplay = new JTextArea();
 	    messageDisplay = new JTextArea();
 		messageDisplay.setText("Type your message here...");
@@ -239,8 +265,7 @@ public class FrameUserChat extends JFrame {
 				
 				  String s = (String)list.getSelectedValue();
 				  getMessages(s, panel);
-				  updateList();
-				//getMessages(s, panel);		       
+				  		       
 			      
 			}
 		});
