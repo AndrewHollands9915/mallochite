@@ -61,10 +61,10 @@ public class ConnectionManager extends Thread {
 					}
 					else
 					{
-						thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
+						//thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
 						
 						//DatabaseConnection.messageInsert(messageIn, "09-30-2021 10:30:54", 1, 1, 1, 2);
-						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 2);
+						DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
 						
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
 					}

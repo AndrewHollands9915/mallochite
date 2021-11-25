@@ -462,7 +462,7 @@ public class ChatManager
 		// contact
 			    contact = new User();
 				contact.setUsername( UserName );
-				contact.setIP( "192.168.2.140" );
+				contact.setIP( "99.245.150.106" );
 				contact.setPort(42424);
 				contact.setUUID( UserName ); //get form database
 				//contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));
