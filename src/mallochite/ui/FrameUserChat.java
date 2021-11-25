@@ -199,7 +199,7 @@ public class FrameUserChat extends JFrame {
 	              	                           
 	              //sendMessageToUsers(s);
 	              //ChatManager.sendMessage(s);
-	              //System.out.println("Value Selected: " + s.toString());
+	              System.out.println("On clicked here!!!!");
 	              
 	          }
 	    });
@@ -381,7 +381,7 @@ public class FrameUserChat extends JFrame {
 				
 				//get the owner of the message. 0 is true for the contact, 1 is us the user
 				int owner = rs.getInt("ContactOwner");
-				
+				System.out.println(owner);
 				//get the date for each message
 				String date = rs.getString("Date");            
 				//System.out.println(date);	      
@@ -396,10 +396,13 @@ public class FrameUserChat extends JFrame {
 	        	  if (owner == 1){ //for some reason the values are fliped
 	        		  this.message.setAlignmentX(100);
 	        		  ownerName = "Admin";
+	        		  //ownerName = ;
 	        	  } else if (owner == 0) {
 	        		  this.message.setAlignmentX(0);
 	        		  ownerName = userName;
-	        	  } 
+	        	  }
+	        	  
+	        	  //this.message.setAlignmentX(200);
 	        	  //use date and time values my testing
 	        	  //String sDate1="31-12-1998 10:30:54";  //debug date	        	  	        	
 	        	  Date date1 = null;
@@ -424,8 +427,11 @@ public class FrameUserChat extends JFrame {
 	             //Right now its really rough. With the length. Maybe space this out	             
 				//this.message.setText(ownerName+": " + message+ " date: "+date1);
 				
+	             
 				String messageToAppend = ownerName+": " + message+ " \n                   "+date1;
 				int messageLength = messageToAppend.length();
+				
+				System.out.println(messageToAppend);
 				
 				this.message.setText(messageToAppend); //take the final message
 				this.message.setMaximumSize(new Dimension(250,(20 * (this.message.getLineCount()+1))));  
@@ -535,7 +541,7 @@ public class FrameUserChat extends JFrame {
 
 public void updateList(){ //update the list i hope
 	  String s = (String)list.getSelectedValue(); // a bit buggy with showing the messages fix later-------------------------------------------------------------
-		getMessages(s, panel);	
+	getMessages(s, panel);	
 }
 
     public String getUserList() {
