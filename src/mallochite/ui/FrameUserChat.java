@@ -420,7 +420,7 @@ public class FrameUserChat extends JFrame {
 	        	  //check the value of the owner to display
 	        	  if (owner == 1){ //for some reason the values are fliped
 	        		  this.message.setAlignmentX(100);
-	        		  ownerName = "Admin";
+	        		  ownerName = "Bob";
 	        		  //ownerName = ;
 	        	  } else if (owner == 0) {
 	        		  this.message.setAlignmentX(0);

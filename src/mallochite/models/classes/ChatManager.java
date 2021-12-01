@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
@@ -178,9 +180,15 @@ public class ChatManager
 					if(!frame.getmessageDisplay().getText().isEmpty()) {
 					sendMessageui(frame.getUserList(),frame.getmessageDisplay().getText() );
 					
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");  //change format?
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println(dtf.format(now));
+
+                    String CurrentDate = dtf.format(now);
+					
 					//add to the database when send	
 					//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
-					DatabaseConnection.messageInsert(frame.getmessageDisplay().getText() , "09-30-2021 10:30:54", 1, 1, 1, 1);
+					DatabaseConnection.messageInsert(frame.getmessageDisplay().getText() , CurrentDate, 1, 1, 1, 1);
 					frame.updateList(); //buggy sometimes shows messages from other users!
 					frame.getmessageDisplay().setText("");
 					//add time here
@@ -480,7 +488,7 @@ public class ChatManager
 		// contact
 			    contact = new User();
 				contact.setUsername( UserName );
-				contact.setIP( "99.245.150.106" );
+				contact.setIP( "70.50.67.117" );
 				contact.setPort(42424);
 				contact.setUUID( UserName ); //get form database
 				//contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));

@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import mallochite.database.DatabaseConnection;
@@ -64,7 +66,14 @@ public class ConnectionManager extends Thread {
 					{
 						//thisUser.addMessageToConversation(parsedData.get("UUID"), messageIn);
 						
-						DatabaseConnection.messageInsert(messageIn, "09-30-2021 10:30:54", 1, 1, 1, 0);
+						
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");  //change format?
+	                    LocalDateTime now = LocalDateTime.now();
+	                    System.out.println(dtf.format(now));
+
+	                    String CurrentDate = dtf.format(now);
+						
+						DatabaseConnection.messageInsert(messageIn, CurrentDate, 1, 1, 1, 0);
 						//DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
 						
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
