@@ -111,9 +111,9 @@ public class DatabaseConnection
 			}
 			
 			//insert user into database
-			public static void UserInsert(String UUID, String UserName, String IPAddress, int Port) {
+			public static void UserInsert(String UUID, String UserName, String IPAddress, int Port, int Messages) {
 				
-				String sql = "INSERT INTO Contact(UUID, UserName, IPAddress, Port) VALUES(?,?,?,?)";				
+				String sql = "INSERT INTO Contact(UUID, UserName, IPAddress, Messages, Port) VALUES(?,?,?,?,?); COMMIT;";				
 	            
 	            try {
 	            	Connection con = DatabaseCrud.connect();
@@ -124,16 +124,86 @@ public class DatabaseConnection
 	                    ps.setString(1, UUID);
 	                    ps.setString(2, UserName);
 	                    ps.setString(3, IPAddress);
-	                    ps.setInt(4,Port);
+	                    ps.setInt(4,Messages);
+	                    ps.setInt(5, Port);
 	                    ps.executeUpdate();  
 	                
 	                    System.out.println("User data are successfully saved!:\n");	                                          
-	                
+	                con.close();
 	            }catch (SQLException e) {
 	                System.out.println(e.toString());
 	            } 		            
 			}
+			
+			public static int contactCount(){
+				int count = 0;
+				
+String sql = "SELECT * FROM Contact \n"
+		+ "ORDER BY UUID DESC LIMIT 1; COMMIT;  ";				
+	            
+	            try {
+	            	Connection con = DatabaseCrud.connect();
+		            PreparedStatement ps = null;
+		            ResultSet rs = null;
+	                
+	                ps = con.prepareStatement(sql);		  
+	                rs = ps.executeQuery();  
+	                count = rs.getInt("Messages");
+	             	con.close();                                         
+	                
+	            }catch (SQLException e) {
+	                System.out.println(e.toString());
+	            } 
+	            return count; 
+			}
 
+			public static String getUserName(){
+				String username = "";
+				
+String sql = "SELECT Username FROM Registration; COMMIT;  ";				
+	            
+	            try {
+	            	Connection con = DatabaseCrud.connect();
+		            PreparedStatement ps = null;
+		            ResultSet rs = null;
+	                
+	                ps = con.prepareStatement(sql);		  
+	                rs = ps.executeQuery();  
+	                username = rs.getString("Username");
+	             	con.close();                                         
+	                
+	            }catch (SQLException e) {
+	                System.out.println(e.toString());
+	            } 
+	            return username; 
+			}
+			
+			
+			public static int getMessagesRecipient(String userName){
+				int id = 3;
+				
+String sql = "SELECT * FROM Contact WHERE UserName = Windows; Commit;" ;				
+	            
+	            try {
+	            	Connection con = DatabaseCrud.connect();
+		            PreparedStatement ps = null;
+		            ResultSet rs = null;
+	                
+	                ps = con.prepareStatement(sql);		  
+	                rs = ps.executeQuery();  
+	                System.out.println(rs.getInt("Messages"));
+	                System.out.println(userName);
+	             	con.close();                                         
+	                
+	            }catch (SQLException e) {
+	                System.out.println(e.toString());
+	            } 
+	            return id; 
+			}
+			
+			
+			
+			
 			//insert message into database
 			public static void messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
 				
@@ -155,7 +225,7 @@ public class DatabaseConnection
 	                    ps.executeUpdate();  
 	                
 	                    System.out.println("User data are successfully saved!:\n");	                                          
-	                
+	                con.close();
 	            }catch (SQLException e) {
 	                System.out.println(e.toString());
 	            } 		            

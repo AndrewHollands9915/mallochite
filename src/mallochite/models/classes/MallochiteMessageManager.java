@@ -119,11 +119,11 @@ public class MallochiteMessageManager
 		return response;
 	}
 	
-	public String formatMessageToSend ( String uuid , String ipAddress , String messageToSend ) throws Exception
+	public static String formatMessageToSend ( String uuid , String messageToSend ) throws Exception
 	{
 		String messageToSendFormated;
 		
-		messageToSendFormated = String.format( /*"%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress ,*/ messageToSend);
+		messageToSendFormated = String.format( /*"%s:%s:%s:%s" , "MESSAGE" , uuid , ipAddress ,*/ "%s:%s", uuid, messageToSend);
 		
 		return messageToSendFormated;
 	}

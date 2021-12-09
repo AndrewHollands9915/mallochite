@@ -58,6 +58,7 @@ public class ChatManager
     User contact;
     JTextArea message;
     String secret = "YouGay";
+    int messages;
     
     
 
@@ -214,10 +215,11 @@ public class ChatManager
 		btu1 = frame.getbtnAddNew();
 		btu1.addActionListener(new ActionListener() { 
 		    public void actionPerformed(ActionEvent e) { 
-		    	System.out.println("please");
+		    	messages = DatabaseConnection.contactCount();
+		    	System.out.println(messages);
 		    	frameAdd.setVisible(true);
 		    	displayContactsUI();
-		    	
+		       
 		    } 
 		});
 		
@@ -243,7 +245,8 @@ public class ChatManager
 		    			frameAdd.gettxtUserName(), 
 		    			//frameAdd.gettxtIPAddress()
 		    			contact.getIP(),
-		    			contact.getPort()
+		    			contact.getPort(),
+		    			messages+1
 						);
 		    	frame.getOperation();
 		    	frameAdd.clearItems();
@@ -384,7 +387,7 @@ public class ChatManager
 				 
 //				 frameChat.setTextArea_1("You: "+ messageToSend);
 //				 frameChat.settxtChatArea("");
-				 this.subNode.makeConnection(userToContact, messageToSend);
+				 this.subNode.makeConnection(userToContact, "Gay");
 				 break;
 			 }
 		}
@@ -408,12 +411,12 @@ public class ChatManager
 		//System.out.println( "Who would you like to send the message" );
 		
 		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
-		
+		messageToSend = MallochiteMessageManager.formatMessageToSend(DatabaseConnection.getUserName(), messageToSend);
 		for(User user: userList ){
 			if(user.getUsername().equals( userIn )) {
 													
 				userToContact = user;
-				this.subNode.makeConnection(userToContact, AESEncryption.encrypt(messageToSend, "YouGay"));
+				this.subNode.makeConnection(userToContact, messageToSend);
 				
 				//frameChat.setlblFriendName(userName+"");
 			}
@@ -488,7 +491,7 @@ public class ChatManager
 		// contact
 			    contact = new User();
 				contact.setUsername( UserName );
-				contact.setIP( "70.50.67.117" );
+				contact.setIP( "192.168.2.140" );
 				contact.setPort(42424);
 				contact.setUUID( UserName ); //get form database
 				//contact.setPublicKey(RSAEncryption.getpublicKey("public.key"));

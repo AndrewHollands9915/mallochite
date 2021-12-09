@@ -181,7 +181,7 @@ public class FrameUserChat extends JFrame {
 		contentPane.add(scrollChat);
 		
 		
-		
+		/*
 		TimerTask task = new TimerTask() {
 			  @Override
 			  public void run() {
@@ -193,8 +193,8 @@ public class FrameUserChat extends JFrame {
 			};
 
 			Timer timer = new Timer();
-			timer.schedule(task, 0l, 1000l); //call the run() method at 1 second intervals
-		
+			timer.schedule(task, 0l, 5000l); //call the run() method at 1 second intervals
+		*/
 	   
 		list.addMouseListener(new MouseAdapter(){
 			
@@ -386,7 +386,7 @@ public class FrameUserChat extends JFrame {
         
         boolean test1 = false;
         try {
-        	String sql = "SELECT * FROM Message WHERE ContactFK = (SELECT Messages  FROM Contact WHERE UserName = "+ "'" + userName + "'"+")";
+        	String sql = "SELECT * FROM Message WHERE ContactFK = (SELECT Messages  FROM Contact WHERE UserName = "+ "'" + userName + "'"+"); COMMIT;";
         	
         	ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -420,7 +420,7 @@ public class FrameUserChat extends JFrame {
 	        	  //check the value of the owner to display
 	        	  if (owner == 1){ //for some reason the values are fliped
 	        		  this.message.setAlignmentX(100);
-	        		  ownerName = "Bob";
+	        		  ownerName = DatabaseConnection.getUserName();
 	        		  //ownerName = ;
 	        	  } else if (owner == 0) {
 	        		  this.message.setAlignmentX(0);

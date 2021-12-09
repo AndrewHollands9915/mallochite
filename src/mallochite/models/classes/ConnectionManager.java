@@ -72,8 +72,12 @@ public class ConnectionManager extends Thread {
 	                    System.out.println(dtf.format(now));
 
 	                    String CurrentDate = dtf.format(now);
-						
-						DatabaseConnection.messageInsert(messageIn, CurrentDate, 1, 1, 1, 0);
+						String[] messageData = splitMessage(messageIn);
+						String userName = messageData[0];
+						messageIn = messageData[1];
+						System.out.println("here" + messageData[0] + messageData[1]);
+						int id = DatabaseConnection.getMessagesRecipient(userName);
+						DatabaseConnection.messageInsert(messageIn, CurrentDate, 1, 1, id, 0);
 						//DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
 						
 						messageOut = mallochiteMessageManager.messageRecievedReply(thisUserUuid, localIpAddress);
@@ -87,7 +91,7 @@ public class ConnectionManager extends Thread {
 				if ( messageOut != null && messageOut.contains(terminatingString) )
 					listening = false;
 
-				messageIn = AESEncryption.decrypt(in.readLine(), "YouGay");
+				messageIn = in.readLine();
 
 				if (messageIn != null)
 						System.out.println(messageIn);
@@ -155,8 +159,7 @@ public class ConnectionManager extends Thread {
 
 		try {
 
-			String messageToSendFormated = mallochiteMessageManager.formatMessageToSend(this.thisUser.getIP(),
-					this.thisUser.getUUID(), messageToSend);
+			String messageToSendFormated = messageToSend;
 
 			out.println(messageToSendFormated);
 			out.flush();
@@ -207,6 +210,11 @@ public class ConnectionManager extends Thread {
 
 	public void setThisUser(User thisUser) {
 		this.thisUser = thisUser;
+	}
+	
+	public String[] splitMessage(String message) {
+		String[] tokens = message.split(":"); 
+		return tokens;
 	}
 
 }
