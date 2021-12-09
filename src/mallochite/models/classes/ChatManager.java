@@ -189,7 +189,8 @@ public class ChatManager
 					
 					//add to the database when send	
 					//messageInsert(String text, String Date, int sent, int ReadReciept, int ContactFK, int ContactOwner) {
-					DatabaseConnection.messageInsert(frame.getmessageDisplay().getText() , CurrentDate, 1, 1, 1, 1);
+                    int id = DatabaseConnection.getMessagesRecipient(frame.getUserList());
+					DatabaseConnection.messageInsert(frame.getmessageDisplay().getText() , CurrentDate, 1, 1, id, 1);
 					frame.updateList(); //buggy sometimes shows messages from other users!
 					frame.getmessageDisplay().setText("");
 					//add time here
@@ -412,6 +413,8 @@ public class ChatManager
 		
 		ArrayList<User> userList = (ArrayList<User>) this.subNode.getThisUser().getUserList();
 		messageToSend = MallochiteMessageManager.formatMessageToSend(DatabaseConnection.getUserName(), messageToSend);
+		messageToSend = AESEncryption.encrypt(messageToSend, "SecretKey");
+	    
 		for(User user: userList ){
 			if(user.getUsername().equals( userIn )) {
 													

@@ -181,7 +181,7 @@ public class FrameUserChat extends JFrame {
 		contentPane.add(scrollChat);
 		
 		
-		/*
+		
 		TimerTask task = new TimerTask() {
 			  @Override
 			  public void run() {
@@ -194,7 +194,7 @@ public class FrameUserChat extends JFrame {
 
 			Timer timer = new Timer();
 			timer.schedule(task, 0l, 5000l); //call the run() method at 1 second intervals
-		*/
+		
 	   
 		list.addMouseListener(new MouseAdapter(){
 			

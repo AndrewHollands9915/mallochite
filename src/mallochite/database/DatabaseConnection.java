@@ -138,8 +138,7 @@ public class DatabaseConnection
 			public static int contactCount(){
 				int count = 0;
 				
-String sql = "SELECT * FROM Contact \n"
-		+ "ORDER BY UUID DESC LIMIT 1; COMMIT;  ";				
+String sql = "SELECT * FROM Contact ORDER BY UUID DESC LIMIT 1; COMMIT;  ";				
 	            
 	            try {
 	            	Connection con = DatabaseCrud.connect();
@@ -180,9 +179,9 @@ String sql = "SELECT Username FROM Registration; COMMIT;  ";
 			
 			
 			public static int getMessagesRecipient(String userName){
-				int id = 3;
+				int id = 0;
 				
-String sql = "SELECT * FROM Contact WHERE UserName = Windows; Commit;" ;				
+String sql = "SELECT * FROM Contact WHERE UserName =" +"'"+userName +"'"+";" + "Commit;" ;				
 	            
 	            try {
 	            	Connection con = DatabaseCrud.connect();
@@ -193,6 +192,7 @@ String sql = "SELECT * FROM Contact WHERE UserName = Windows; Commit;" ;
 	                rs = ps.executeQuery();  
 	                System.out.println(rs.getInt("Messages"));
 	                System.out.println(userName);
+	                id= rs.getInt("Messages");
 	             	con.close();                                         
 	                
 	            }catch (SQLException e) {

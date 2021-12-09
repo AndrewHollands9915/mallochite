@@ -55,6 +55,7 @@ public class ConnectionManager extends Thread {
 				// move into method to clean up code?
 				if (messageIn != null && messageIn != "") {
 					// validate message
+					messageIn = AESEncryption.decrypt(messageIn, "SecretKey");
 
 					HashMap<String, String> parsedData = mallochiteMessageManager.parseDataFromHeader(messageIn);
 					// check method
@@ -70,12 +71,12 @@ public class ConnectionManager extends Thread {
 						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");  //change format?
 	                    LocalDateTime now = LocalDateTime.now();
 	                    System.out.println(dtf.format(now));
-
+	                    
 	                    String CurrentDate = dtf.format(now);
 						String[] messageData = splitMessage(messageIn);
 						String userName = messageData[0];
 						messageIn = messageData[1];
-						System.out.println("here" + messageData[0] + messageData[1]);
+						System.out.println(messageIn);
 						int id = DatabaseConnection.getMessagesRecipient(userName);
 						DatabaseConnection.messageInsert(messageIn, CurrentDate, 1, 1, id, 0);
 						//DatabaseConnection.messageInsert(parsedData.get("message"), "09-30-2021 10:30:54", 1, 1, 1, 0);
